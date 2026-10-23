@@ -27,7 +27,10 @@ def transcrever(video, modelo="small", idioma="pt", destino=None):
 
     destino = Path(destino) if destino else caminho_transcricao(video)
     print(f"Carregando modelo Whisper '{modelo}' (a primeira vez faz o download)...")
-    whisper = WhisperModel(modelo, device="auto", compute_type="int8", download_root=str(PASTA_MODELOS))
+    # Se o modelo já foi baixado, não tenta acessar a internet (permite rodar offline).
+    ja_baixado = any(PASTA_MODELOS.glob(f"models--*--faster-whisper-{modelo}/snapshots/*/model.bin"))
+    whisper = WhisperModel(modelo, device="auto", compute_type="int8", download_root=str(PASTA_MODELOS),
+                           local_files_only=ja_baixado)
     print(f"Transcrevendo {video} ...")
     segmentos_iter, info = whisper.transcribe(
         str(video), language=idioma, word_timestamps=True, vad_filter=True, beam_size=5
