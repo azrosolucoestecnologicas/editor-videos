@@ -3,6 +3,9 @@
 import json
 from pathlib import Path
 
+# Modelos ficam dentro do projeto: baixados uma vez, funcionam offline em qualquer ambiente.
+PASTA_MODELOS = Path(__file__).resolve().parent.parent / "modelos"
+
 
 def caminho_transcricao(video):
     video = Path(video)
@@ -24,7 +27,7 @@ def transcrever(video, modelo="small", idioma="pt", destino=None):
 
     destino = Path(destino) if destino else caminho_transcricao(video)
     print(f"Carregando modelo Whisper '{modelo}' (a primeira vez faz o download)...")
-    whisper = WhisperModel(modelo, device="auto", compute_type="int8")
+    whisper = WhisperModel(modelo, device="auto", compute_type="int8", download_root=str(PASTA_MODELOS))
     print(f"Transcrevendo {video} ...")
     segmentos_iter, info = whisper.transcribe(
         str(video), language=idioma, word_timestamps=True, vad_filter=True, beam_size=5

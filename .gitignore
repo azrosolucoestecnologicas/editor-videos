@@ -5,3 +5,4 @@ entrada/*
 !entrada/.gitkeep
 saida/*
 !saida/.gitkeep
+modelos/

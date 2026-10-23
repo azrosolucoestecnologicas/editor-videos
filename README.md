@@ -65,7 +65,7 @@ python editar.py renderizar roteiros/meu_reels.yaml
 Opções úteis:
 
 - `--inicio 0:10 --fim 0:20` renderiza só um trecho.
-- `python editar.py transcrever video.mp4 --modelo medium` usa um modelo mais preciso (o `small` é o padrão; `medium` e `large-v3` acertam mais, mas são mais lentos). Na primeira vez o modelo é baixado da internet.
+- `python editar.py transcrever video.mp4 --modelo medium` usa um modelo mais preciso (o `small` é o padrão; `medium` e `large-v3` acertam mais, mas são mais lentos). Na primeira vez o modelo é baixado da internet para a pasta `modelos/` do projeto; depois disso funciona offline (inclusive no Cowork).
 - Se a transcrição errar uma palavra, corrija direto no arquivo `entrada/<video>.transcricao.json` ou use `legendas.substituicoes` no roteiro.
 
 ---
