@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.venv/
+entrada/*
+!entrada/.gitkeep
+saida/*
+!saida/.gitkeep
