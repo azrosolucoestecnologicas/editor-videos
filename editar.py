@@ -17,7 +17,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent
 sys.path.insert(0, str(RAIZ))
 
-from editor import cortes, render, transcricao  # noqa: E402
+from editor import cortes, plano as mod_plano, render, transcricao  # noqa: E402
 from editor.animacoes import REGISTRO  # noqa: E402
 from editor.roteiro import Roteiro, ler_tempo  # noqa: E402
 
@@ -103,6 +103,74 @@ def cmd_quadro(args):
     render.exportar_quadro(roteiro, tempo, destino, previa=args.previa)
 
 
+def _relatorio(achados):
+    """Imprime os achados da validação e devolve quantos erros havia."""
+    erros = [m for n, m in achados if n == "erro"]
+    avisos = [m for n, m in achados if n == "aviso"]
+    for m in erros:
+        print(f"  ERRO   {m}")
+    for m in avisos:
+        print(f"  aviso  {m}")
+    if not achados:
+        print("  Plano válido: nenhum erro, nenhum aviso.")
+    else:
+        print(f"\n  {len(erros)} erro(s), {len(avisos)} aviso(s).")
+    return len(erros)
+
+
+def cmd_plano(args):
+    video = Path(args.video)
+    arq_trans = transcricao.caminho_transcricao(video)
+    if not arq_trans.exists():
+        raise SystemExit(
+            f"Transcrição não encontrada: {arq_trans}\n"
+            f'Rode antes: python editar.py cortar "{video}"'
+        )
+    dados = transcricao.carregar(arq_trans)
+
+    destino_plano, destino_legendas = mod_plano.caminhos(video)
+    if args.saida:
+        destino_plano = Path(args.saida)
+
+    anterior = None if args.refazer else mod_plano.carregar(destino_plano)
+    novo = mod_plano.esqueleto(dados, video, assinatura=args.assinatura)
+    mesclado = mod_plano.mesclar(anterior, novo, refazer=args.refazer_cena or ())
+    final = mod_plano.resolver_gatilhos(mesclado, dados)
+    legendas = mod_plano.legendas_do_plano(dados)
+
+    mod_plano.salvar(final, destino_plano)
+    mod_plano.salvar(legendas, destino_legendas)
+
+    preservadas = sum(1 for c in final["cenas"] if c.get("editado"))
+    pendentes = sum(1 for c in final["cenas"] if c.get("tipo") is None)
+    print(f"Plano: {destino_plano}")
+    print(f"Legendas: {destino_legendas} ({len(legendas)} bloco(s))")
+    print(
+        f"{len(final['cenas'])} cena(s): {preservadas} preservada(s) da sua edição, "
+        f"{pendentes} ainda sem tipo."
+    )
+    print("\nValidação:")
+    _relatorio(mod_plano.validar(final, dados, legendas))
+
+
+def cmd_validar_plano(args):
+    alvo = Path(args.plano)
+    if alvo.suffix.lower() in {".mp4", ".mov", ".mkv", ".webm"}:
+        alvo, _ = mod_plano.caminhos(alvo)
+    dados_plano = mod_plano.carregar(alvo)
+    if dados_plano is None:
+        raise SystemExit(f"Plano não encontrado: {alvo}")
+
+    video = RAIZ / dados_plano["video"]
+    dados = transcricao.carregar(transcricao.caminho_transcricao(video))
+    _, arq_legendas = mod_plano.caminhos(video)
+    legendas = mod_plano.carregar(arq_legendas)
+
+    print(f"{alvo} ({len(dados_plano.get('cenas') or [])} cena(s))")
+    if _relatorio(mod_plano.validar(dados_plano, dados, legendas)):
+        raise SystemExit(1)
+
+
 def cmd_renderizar(args):
     roteiro = Roteiro(args.roteiro)
     render.renderizar(roteiro, previa=args.previa, inicio=ler_tempo(args.inicio), fim=ler_tempo(args.fim),
@@ -143,6 +211,20 @@ def main():
     p.add_argument("--saida")
     p.add_argument("--previa", action="store_true")
     p.set_defaults(func=cmd_quadro)
+
+    p = sub.add_parser("plano", help="gera/atualiza o scene_plan.json do vídeo cortado")
+    p.add_argument("video", help="o vídeo JÁ CORTADO (entrada/..._cortado.mp4)")
+    p.add_argument("--assinatura", default="", help="nome exibido no canto do painel")
+    p.add_argument("--saida", help="caminho do scene_plan.json")
+    p.add_argument("--refazer", action="store_true",
+                   help="descarta as edições à mão e recalcula tudo")
+    p.add_argument("--refazer-cena", action="append", metavar="ID",
+                   help="devolve só esta cena ao planejador (pode repetir)")
+    p.set_defaults(func=cmd_plano)
+
+    p = sub.add_parser("validar-plano", help="confere o plano contra as regras das skills")
+    p.add_argument("plano", help="o scene_plan.json ou o vídeo cortado")
+    p.set_defaults(func=cmd_validar_plano)
 
     p = sub.add_parser("renderizar", help="gera o vídeo editado")
     p.add_argument("roteiro")

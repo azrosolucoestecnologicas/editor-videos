@@ -1,0 +1,229 @@
+{
+  "versao": 1,
+  "video": "entrada/Black Friday/ROTEIRO 4 - EDITADO_cortado.mp4",
+  "duracao": 47.067,
+  "fps": 30,
+  "assinatura": "Thiago Azeredo",
+  "enquadramento": {
+    "foco_rosto": 0.36,
+    "zoom": 1.0,
+    "origem": "padrao"
+  },
+  "cenas": [
+    {
+      "id": "c01",
+      "inicio": 0.0,
+      "fim": 5.16,
+      "palavra_gatilho": "Todo",
+      "ocorrencia": 1,
+      "tipo": "icone_destaque",
+      "conteudo": {
+        "icone": "file-warning",
+        "texto": "Jurisprudência inventada"
+      },
+      "editado": true,
+      "_fala": "Todo mês aparece notícia de advogado que juntou jurisprudência inventada pela IA.",
+      "_hash": "38e2463b5c72",
+      "_em": 0.0
+    },
+    {
+      "id": "c02",
+      "inicio": 5.16,
+      "fim": 8.527,
+      "palavra_gatilho": "O",
+      "ocorrencia": 1,
+      "tipo": "comparacao",
+      "conteudo": {
+        "esquerda": {
+          "titulo": "Usar IA",
+          "linhas": [
+            "não é o problema"
+          ]
+        },
+        "direita": {
+          "titulo": "Usar sem método",
+          "linhas": [
+            "é o problema"
+          ]
+        }
+      },
+      "editado": true,
+      "_fala": "O problema não é usar IA, é usar sem método.",
+      "_hash": "976a0b2e981e",
+      "_em": 5.16
+    },
+    {
+      "id": "c03",
+      "inicio": 8.527,
+      "fim": 14.447,
+      "palavra_gatilho": "No",
+      "ocorrencia": 1,
+      "tipo": "lista",
+      "conteudo": {
+        "titulo": "MBA de IA no Direito",
+        "itens": [
+          {
+            "texto": "Engenharia de prompt",
+            "palavra_gatilho": "engenharia",
+            "_em": 10.587
+          },
+          {
+            "texto": "Boas práticas",
+            "palavra_gatilho": "boas",
+            "_em": 12.327
+          }
+        ]
+      },
+      "editado": true,
+      "_fala": "No MBA de IA no Direito você aprende a engenharia de prompt e as boas práticas contra alucinação",
+      "_hash": "e121a5db33cb",
+      "_em": 8.527
+    },
+    {
+      "id": "c04",
+      "inicio": 14.447,
+      "fim": 18.873,
+      "palavra_gatilho": "para",
+      "ocorrencia": 1,
+      "tipo": "fluxo",
+      "conteudo": {
+        "etapas": [
+          {
+            "rotulo": "Prompt",
+            "palavra_gatilho": "produzir",
+            "_em": 14.987
+          },
+          {
+            "rotulo": "Peça",
+            "palavra_gatilho": "peça",
+            "_em": 15.567
+          },
+          {
+            "rotulo": "Conferência",
+            "palavra_gatilho": "conferir",
+            "_em": 17.187
+          }
+        ]
+      },
+      "editado": true,
+      "_fala": "para produzir peça com velocidade e conferir o que está assinado.",
+      "_hash": "a2cfb5d1a5bf",
+      "_em": 14.447
+    },
+    {
+      "id": "c05",
+      "inicio": 18.873,
+      "fim": 24.553,
+      "palavra_gatilho": "Formação",
+      "ocorrencia": 1,
+      "tipo": "numero",
+      "conteudo": {
+        "valor": "360",
+        "rotulo": "horas reconhecidas pelo MEC",
+        "palavra_gatilho": "360",
+        "_em": 19.493
+      },
+      "editado": true,
+      "_fala": "Formação de 360 horas reconhecida pelo MEC 100% prática.",
+      "_hash": "d7c538b0e926",
+      "_em": 18.873
+    },
+    {
+      "id": "c06",
+      "inicio": 24.553,
+      "fim": 29.613,
+      "palavra_gatilho": "Ela",
+      "ocorrencia": 1,
+      "tipo": "card_conceito",
+      "conteudo": {
+        "termo": "Black Friday Vitalícia",
+        "definicao": "uma condição que não se repete"
+      },
+      "editado": true,
+      "_fala": "Ela vai ter uma condição que não se repete. A dupla Black Friday Vitalícia.",
+      "_hash": "335dca1461c1",
+      "_em": 24.553
+    },
+    {
+      "id": "c07",
+      "inicio": 29.613,
+      "fim": 34.667,
+      "palavra_gatilho": "Você",
+      "ocorrencia": 2,
+      "tipo": "lista",
+      "conteudo": {
+        "titulo": "Você leva",
+        "itens": [
+          {
+            "texto": "MBA de IA no Direito",
+            "palavra_gatilho": "leva",
+            "_em": 29.853
+          },
+          {
+            "texto": "IA para Negócios",
+            "palavra_gatilho": "ganha",
+            "_em": 31.327
+          },
+          {
+            "texto": "Acesso vitalício",
+            "palavra_gatilho": "vitalício",
+            "_em": 33.227
+          }
+        ]
+      },
+      "editado": true,
+      "_fala": "Você leva o MBA de IA no Direito, ganha o IA para Negócios e tem acesso vitalício aos dois.",
+      "_hash": "f84dc499b22f",
+      "_em": 29.613
+    },
+    {
+      "id": "c08",
+      "inicio": 34.667,
+      "fim": 40.527,
+      "palavra_gatilho": "Nesta",
+      "ocorrencia": 1,
+      "tipo": "numero",
+      "conteudo": {
+        "valor": "11",
+        "rotulo": "de novembro, ao vivo",
+        "palavra_gatilho": "11",
+        "_em": 35.767
+      },
+      "editado": true,
+      "_fala": "Nesta quarta-feira, 11 de novembro, iremos fazer ao vivo uma oferta única e exclusiva da dupla",
+      "_hash": "3bcd6341595c",
+      "_em": 34.667
+    },
+    {
+      "id": "c09",
+      "inicio": 40.527,
+      "fim": 45.38,
+      "palavra_gatilho": "Black Friday Vitalícia",
+      "ocorrencia": 2,
+      "tipo": "icone_destaque",
+      "conteudo": {
+        "icone": "message-circle",
+        "texto": "Só no grupo"
+      },
+      "editado": true,
+      "_fala": "Black Friday Vitalícia do MBA de IA no Direito. Só para quem estiver no grupo de WhatsApp.",
+      "_hash": "e33fad4d96bb",
+      "_em": 40.527
+    },
+    {
+      "id": "c10",
+      "inicio": 45.38,
+      "fim": 47.067,
+      "palavra_gatilho": "Toque",
+      "ocorrencia": 1,
+      "tipo": "sintese",
+      "conteudo": {
+        "frase": "Use IA com método"
+      },
+      "editado": true,
+      "_fala": "Toque no botão e entre.",
+      "_hash": "0b378cc952a3",
+      "_em": 45.38
+    }
+  ]
+}

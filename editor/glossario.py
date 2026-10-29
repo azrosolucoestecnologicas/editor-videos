@@ -63,10 +63,11 @@ class Glossario:
         while i < len(palavras):
             consumidas, texto = self._expressao(tokens, i)
             if consumidas:
+                ultima = palavras[i + consumidas - 1]
                 saida.append({
-                    "palavra": texto,
+                    "palavra": texto + _pontuacao(ultima["palavra"]),
                     "inicio": palavras[i]["inicio"],
-                    "fim": palavras[i + consumidas - 1]["fim"],
+                    "fim": ultima["fim"],
                 })
                 i += consumidas
                 continue
@@ -98,9 +99,13 @@ class Glossario:
         correta = self.palavras.get(token)
         if correta is None:
             return original["palavra"]
-        # "rag." precisa virar "RAG.", não "RAG".
-        sufixo = PONTUACAO_FINAL.search(original["palavra"].strip())
-        return correta + (sufixo.group(0) if sufixo else "")
+        return correta + _pontuacao(original["palavra"])
+
+
+def _pontuacao(palavra):
+    """Pontuação grudada no fim da palavra: "rag." precisa virar "RAG.", não "RAG"."""
+    achado = PONTUACAO_FINAL.search(str(palavra).strip())
+    return achado.group(0) if achado else ""
 
 
 def carregar(caminho=None):

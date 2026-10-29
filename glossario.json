@@ -19,6 +19,10 @@
     "clt": "CLT",
     "oab": "OAB",
     "prompti": "prompt",
+    "prompet": "prompt",
+    "mac": "MEC",
+    "mec": "MEC",
+    "whatsapp": "WhatsApp",
     "prompits": "prompts",
     "promptis": "prompts",
     "llm": "LLM",
@@ -47,7 +51,14 @@
     { "de": "trt 3", "para": "TRT-3" },
     { "de": "trt tres", "para": "TRT-3" },
     { "de": "inteligencia artificial", "para": "inteligência artificial" },
-    { "de": "black friday", "para": "Black Friday" }
+    { "de": "black friday", "para": "Black Friday" },
+
+    { "_nota": "Erros do reel Black Friday: o Whisper ouviu \"IA no\" como \"ano\".", "de": "mba de ano direito", "para": "MBA de IA no Direito" },
+    { "de": "ano direito", "para": "IA no Direito" },
+    { "de": "ia para negocios", "para": "IA para Negócios" },
+    { "de": "black friday vitalicia", "para": "Black Friday Vitalícia" },
+    { "de": "quarta feira", "para": "quarta-feira" },
+    { "de": "100 %", "para": "100%" }
   ],
 
   "_nota_muletas": "Palavras de preenchimento removidas da LEGENDA (continuam no audio). `nao_remover_antes_de` evita apagar o uso legitimo da palavra: em \"tipo de contrato\", `tipo` fica.",
