@@ -8,3 +8,6 @@ saida/*
 modelos/
 output/*
 !output/.gitkeep
+
+# Gerado por exemplos/tipos_de_cena.py
+planos/catalogo_de_cenas.props.json
