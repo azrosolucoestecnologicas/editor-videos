@@ -10,7 +10,7 @@ import { useCurrentFrame, useVideoConfig } from "remotion";
 import { ATRASO_ITEM_FRAMES, entrada } from "../motion";
 import { cores, espaco, raios, tipografia } from "../theme";
 import type { Cena } from "../tipos";
-import { AreaCena, atrasoDe } from "./base";
+import { AreaCena, atrasoDe, Card, LARGURA_UTIL } from "./base";
 
 export const Lista: React.FC<{
   cena: Extract<Cena, { tipo: "lista" }>;
@@ -27,7 +27,7 @@ export const Lista: React.FC<{
   }));
 
   // O marcador em cobre acompanha o último item que entrou: assim só existe
-  // um elemento cobre na tela a cada instante.
+  // um elemento cobre preenchido na tela a cada instante.
   const ativo = itens.reduce(
     (melhor, item, i) => (frame >= item.atraso ? i : melhor),
     -1,
@@ -35,19 +35,22 @@ export const Lista: React.FC<{
 
   return (
     <AreaCena duracaoFrames={duracaoFrames}>
-      {cena.conteudo.titulo ? (
-        <div
-          style={{
-            color: cores.creme60,
-            ...tipografia.rotulo,
-            ...entrada(frame, fps, 0),
-          }}
-        >
-          {cena.conteudo.titulo}
-        </div>
-      ) : null}
+      <Card
+        brilho={cena.brilho}
+        style={{
+          width: LARGURA_UTIL,
+          padding: espaco.distante,
+          display: "flex",
+          flexDirection: "column",
+          gap: espaco.proximo,
+        }}
+      >
+        {cena.conteudo.titulo ? (
+          <div style={{ color: cores.creme60, ...tipografia.rotulo }}>
+            {cena.conteudo.titulo}
+          </div>
+        ) : null}
 
-      <div style={{ display: "flex", flexDirection: "column", gap: espaco.proximo }}>
         {itens.map((item, i) => (
           <div
             key={item.texto}
@@ -63,14 +66,14 @@ export const Lista: React.FC<{
                 width: 16,
                 height: 16,
                 borderRadius: raios.pilula,
-                backgroundColor: i === ativo ? cores.cobre : cores.navySoft,
+                backgroundColor: i === ativo ? cores.cobre : cores.creme60,
                 flexShrink: 0,
               }}
             />
             <div style={{ color: cores.creme, ...tipografia.item }}>{item.texto}</div>
           </div>
         ))}
-      </div>
+      </Card>
     </AreaCena>
   );
 };

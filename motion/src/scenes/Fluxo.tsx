@@ -4,21 +4,24 @@
  * Ordem da skill `reels-movimento`: caixa, depois a seta desenhando, depois a
  * próxima caixa. Até 3 etapas o fluxo é horizontal; de 4 em diante ele empilha,
  * senão as caixas ficam estreitas demais para o rótulo.
+ *
+ * Todas as caixas levam o fio metálico — ele é material, não sinal. O cobre
+ * preenchido da cena é o rótulo da última caixa: é onde o fluxo chega.
  */
 
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 
-import { ATRASO_ITEM_FRAMES, desenho, duracoes, entrada } from "../motion";
-import { cores, raios, sombras, tipografia } from "../theme";
+import { ATRASO_ITEM_FRAMES, desenho, duracoes } from "../motion";
+import { cores, tipografia } from "../theme";
 import type { Cena } from "../tipos";
-import { AreaCena, atrasoDe, LARGURA_UTIL } from "./base";
+import { AreaCena, atrasoDe, Card, LARGURA_UTIL } from "./base";
 
 const SETA_HORIZONTAL = 72;
 const SETA_VERTICAL = 44;
 /** Empilhado, a caixa não precisa da largura toda: o rótulo é curto. */
 const FRACAO_VERTICAL = 0.72;
 /** A seta começa a ser desenhada quando a caixa anterior terminou de entrar. */
-const ATRASO_SETA = 8;
+const ATRASO_SETA = 10;
 
 const Seta: React.FC<{ atrasoFrames: number; vertical: boolean }> = ({
   atrasoFrames,
@@ -71,13 +74,14 @@ export const Fluxo: React.FC<{
   cena: Extract<Cena, { tipo: "fluxo" }>;
   duracaoFrames: number;
 }> = ({ cena, duracaoFrames }) => {
-  const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   const etapas = cena.conteudo.etapas;
   const vertical = etapas.length > 3;
   const atrasos = etapas.map((etapa, i) =>
-    etapa._em != null ? atrasoDe(etapa._em, cena.inicio, fps) : ATRASO_ITEM_FRAMES * 2 * i,
+    etapa._em != null
+      ? atrasoDe(etapa._em, cena.inicio, fps)
+      : ATRASO_ITEM_FRAMES * 2 * i,
   );
 
   const larguraCaixa = vertical
@@ -94,37 +98,41 @@ export const Fluxo: React.FC<{
           justifyContent: "center",
         }}
       >
-        {etapas.map((etapa, i) => (
-          <span key={etapa.rotulo} style={{ display: "contents" }}>
-            {i > 0 ? (
-              <Seta atrasoFrames={atrasos[i - 1] + ATRASO_SETA} vertical={vertical} />
-            ) : null}
-            <div
-              style={{
-                width: larguraCaixa,
-                minHeight: vertical ? undefined : 150,
-                padding: vertical ? 16 : 20,
-                borderRadius: raios.card,
-                backgroundColor: cores.navySoft,
-                boxShadow: sombras.card,
-                // Só a última caixa leva cobre: é onde o fluxo chega.
-                border:
-                  i === etapas.length - 1
-                    ? `3px solid ${cores.cobre}`
-                    : "3px solid transparent",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                textAlign: "center",
-                color: cores.creme,
-                ...tipografia.rotuloCaixa,
-                ...entrada(frame, fps, atrasos[i]),
-              }}
-            >
-              {etapa.rotulo}
-            </div>
-          </span>
-        ))}
+        {etapas.map((etapa, i) => {
+          const ultima = i === etapas.length - 1;
+          return (
+            <span key={etapa.rotulo} style={{ display: "contents" }}>
+              {i > 0 ? (
+                <Seta
+                  atrasoFrames={atrasos[i - 1] + ATRASO_SETA}
+                  vertical={vertical}
+                />
+              ) : null}
+              <Card
+                atrasoFrames={atrasos[i]}
+                brilho={ultima && cena.brilho}
+                style={{
+                  width: larguraCaixa,
+                  minHeight: vertical ? undefined : 150,
+                  padding: vertical ? 16 : 20,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div
+                  style={{
+                    textAlign: "center",
+                    color: ultima ? cores.cobre : cores.creme,
+                    ...tipografia.rotuloCaixa,
+                  }}
+                >
+                  {etapa.rotulo}
+                </div>
+              </Card>
+            </span>
+          );
+        })}
       </div>
     </AreaCena>
   );

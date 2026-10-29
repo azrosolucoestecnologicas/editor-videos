@@ -51,6 +51,10 @@ LINHA_MAX_CARACTERES = 28
 BLOCO_MAX_LINHAS = 2
 BLOCO_DURACAO_MINIMA = 0.6
 PAUSA_QUEBRA = 0.45
+# Cotas da skill: a quarta pílula tira o peso das outras três, e se todo card
+# brilha, nenhum brilha.
+MAXIMAS_POR_REEL = 3
+CENAS_COM_BRILHO = 2
 
 FIM_DE_FRASE = re.compile(r"[.!?]$")
 PONTUACAO_FINAL = re.compile(r"[.,;:!?…]+$")
@@ -273,6 +277,7 @@ def blocos_legenda(palavras):
             "inicio": round(inicio, 3),
             "fim": round(fim, 3),
             "destaque": _indice_destaque(bloco),
+            "maxima": None,
             "palavras": [
                 {
                     "texto": p["palavra"],
@@ -282,7 +287,35 @@ def blocos_legenda(palavras):
                 for p in bloco
             ],
         })
-    return saida
+    return _marcar_maximas(saida)
+
+
+def _marcar_maximas(blocos):
+    """Promove até 3 destaques ao nível "máxima" (pílula cobre).
+
+    Heurística conservadora: ganha quem tem dígito (número que decide), depois
+    sigla em caixa alta. É palpite — a cota de 3 da skill `reels-legendas`
+    existe justamente porque a quarta pílula tira o peso das outras três.
+    """
+    candidatos = []
+    for i, bloco in enumerate(blocos):
+        j = bloco["destaque"]
+        if j is None:
+            continue
+        texto = PONTUACAO_FINAL.sub("", bloco["palavras"][j]["texto"].strip())
+        if any(c.isdigit() for c in texto):
+            peso = 2
+        elif len(texto) >= 3 and texto.isupper():
+            peso = 1
+        else:
+            continue
+        candidatos.append((peso, -i, i))
+
+    for _, _, i in sorted(candidatos, reverse=True)[:MAXIMAS_POR_REEL]:
+        # Um nível por bloco: quem vira pílula deixa de ser "chave".
+        blocos[i]["maxima"] = blocos[i]["destaque"]
+        blocos[i]["destaque"] = None
+    return blocos
 
 
 def _indice_destaque(bloco):
@@ -614,8 +647,24 @@ def validar(plano, transcricao, legendas=None, gloss=None):
                     f"começa em {inicio:.2f}s",
                 ))
 
-    # --- legenda repetida (skill reels-legendas) ---
+    # --- cotas da v2 ---
+    com_brilho = [c.get("id") for c in cenas if c.get("brilho")]
+    if len(com_brilho) > CENAS_COM_BRILHO:
+        achados.append((
+            "erro",
+            f"{len(com_brilho)} cenas com brilho metálico "
+            f'({", ".join(com_brilho)}); a skill permite {CENAS_COM_BRILHO}. '
+            "Se todo card brilha, nenhum brilha.",
+        ))
+
     if legendas:
+        pilulas = sum(1 for b in legendas if b.get("maxima") is not None)
+        if pilulas > MAXIMAS_POR_REEL:
+            achados.append((
+                "erro",
+                f"{pilulas} legendas em nível máxima; a skill permite "
+                f"{MAXIMAS_POR_REEL}.",
+            ))
         achados += _checar_repeticao(cenas, legendas)
 
     return achados

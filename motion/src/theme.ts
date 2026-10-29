@@ -46,6 +46,26 @@ export const cores = {
   navySoft: "#1C3A5E",
   /** Texto de apoio e rotulos. */
   creme60: "rgba(245,239,228,0.6)",
+  /** Veu sobre o fundo vivo, para o texto ter contraste. */
+  veu: "rgba(15,37,64,0.72)",
+  /**
+   * Corpo de card translucido: deixa a luz do cenario atravessar sem perder o
+   * navy. Base navy, nao navySoft: sobre as partes claras do palco o navySoft
+   * a 55% resultava num cinza-barro que nao pertence a paleta.
+   */
+  vidro: "rgba(15,37,64,0.85)",
+} as const;
+
+/**
+ * Acabamento metalico. O fio da borda tem 1,5 px: acima disso vira moldura de
+ * convite de casamento (skill `reels-estilo`).
+ */
+export const metal = {
+  borda: `linear-gradient(135deg, ${cores.cobre}, #E8D5BC, ${cores.cobre})`,
+  face: "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.12))",
+  brilho:
+    "linear-gradient(105deg, transparent 40%, rgba(245,239,228,0.22) 50%, transparent 60%)",
+  fio: 1.5,
 } as const;
 
 export const fontes = {
@@ -65,21 +85,37 @@ export const formato = {
 } as const;
 
 /**
- * Faixas da tela dividida (skill `reels-composicao`).
- * A proporcao pode virar 50/50, mas fica igual no video inteiro.
+ * Camadas da sobreposicao com profundidade (skill `reels-composicao`).
+ *
+ * Nao ha mais tela dividida: o video ocupa a tela inteira e o fundo da zona
+ * de cenas e o proprio video ampliado e desfocado. A emenda reta virou um
+ * degrade, e e por isso que o reel deixa de parecer "duas coisas coladas".
  */
 export const layout = {
-  painel: { topo: 0, altura: 900 },
-  divisoria: { topo: 900, altura: 140 },
-  video: { topo: 1040, altura: 880 },
-  /** Margem lateral do painel. */
+  /** O proprio video, ampliado e desfocado, atras de tudo. */
+  fundoVivo: { escala: 2.2, desfoque: 48, brilho: 0.45 },
+  /** Veu + grade cobrem do topo ate o inicio do video nitido. */
+  veu: { topo: 0, altura: 1010 },
+  /** Onde as cenas vivem. */
+  cenas: { topo: 150, altura: 710 },
+  /** Video nitido, com o topo dissolvendo no fundo desfocado. */
+  video: { topo: 1010, altura: 910, degrade: 150 },
+  /** Centro do rosto, em pixels absolutos: um terco do alto da faixa nitida. */
+  rosto: 1240,
+  /** O rosto nunca sobe disso: acima daqui ele disputa espaco com os cards. */
+  rostoMaximo: 1100,
+  /** Centro da legenda. */
+  legenda: 1620,
+  /** Margem lateral. */
   margem: 72,
   /** Nada importante acima disso (barra do Instagram). */
   topoSeguro: 120,
   /** Livre na lateral direita inferior (botoes de curtir, comentar). */
   lateralSegura: 140,
-  /** Distancia minima da legenda a borda inferior. */
-  baseSegura: 180,
+  /** Nada importante abaixo disso. */
+  baseSegura: 1740,
+  /** Profundidade da cena: fica no container, nunca no card. */
+  perspectiva: 1400,
 } as const;
 
 /** Espacamento vertical entre elementos dentro de uma cena. */
@@ -96,9 +132,17 @@ export const raios = {
   pilula: 999,
 } as const;
 
-/** Sombra maxima permitida pela skill de estilo. */
+/**
+ * Sombras. A do card flutuante e grande de proposito: e ela que faz o card
+ * parecer estar no ambiente em vez de colado na tela. Sem isso, o resto da
+ * profundidade nao convence.
+ */
 export const sombras = {
-  card: "0 8px 24px rgba(0,0,0,0.25)",
+  flutuante: "0 24px 60px rgba(0,0,0,0.45)",
+  /** De onde a sombra parte, para crescer junto com a entrada. */
+  flutuanteInicial: "0 8px 20px rgba(0,0,0,0.20)",
+  /** Elemento dentro de um card. */
+  interna: "0 4px 12px rgba(0,0,0,0.20)",
 } as const;
 
 /** Tamanhos base para 1080 px de largura. */
@@ -143,14 +187,24 @@ export const icones = {
   tamanho: 160,
 } as const;
 
-/** Legenda: contorno ou caixa navy, conforme a skill `reels-legendas`. */
+/**
+ * Legenda. Agora fica sobre a imagem, nao sobre fundo chapado, entao o
+ * contorno navy e obrigatorio. Tres niveis de enfase, com cota (skill
+ * `reels-legendas`): normal, chave (1 por bloco) e maxima (3 no reel inteiro).
+ */
 export const legenda = {
   corTexto: cores.creme,
-  corDestaque: cores.cobre,
-  escalaDestaque: 1.06,
+  corChave: cores.cobre,
+  /** Nivel maximo: creme sobre pilula cobre. */
+  maximaFundo: cores.cobre,
+  maximaTexto: cores.creme,
+  maximaPadding: "8px 20px",
   contorno: 6,
-  caixaFundo: "rgba(15,37,64,0.85)",
-  caixaRaio: 14,
+  /** Pop da palavra no momento em que e falada. E pop, nao balanco. */
+  escalaPop: 1.04,
+  framesPop: 4,
   maxLinhas: 2,
   maxCaracteresLinha: 28,
+  /** Largura que forca a quebra em ~28 caracteres no corpo de 54 px. */
+  larguraMaxima: 760,
 } as const;

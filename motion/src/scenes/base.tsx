@@ -1,25 +1,29 @@
 /**
  * Peças comuns a todas as cenas.
  *
- * `AreaCena` entrega a zona segura do painel (skill `reels-composicao`) e a
- * saída da cena; cada elemento lá dentro cuida da própria entrada, com o
- * atraso que a palavra-gatilho dele determina.
+ * `AreaCena` entrega a zona de cenas com perspectiva (skill
+ * `reels-composicao`: a perspectiva fica no contêiner, nunca no card) e a
+ * saída da cena. `Card` entrega o acabamento metálico. Cada elemento lá
+ * dentro cuida da própria entrada, com o atraso da palavra-gatilho dele.
  */
 
-import { useCurrentFrame } from "remotion";
+import { useCurrentFrame, useVideoConfig } from "remotion";
 
-import { desenho, duracoes, saida } from "../motion";
-import { cores, espaco, layout } from "../theme";
+import {
+  brilhoMetal,
+  desenho,
+  duracoes,
+  flutuar,
+  profundidade,
+  saida,
+} from "../motion";
+import { cores, espaco, metal, raios, layout } from "../theme";
 
-/** Largura útil do painel, já descontadas as margens laterais. */
+/** Largura útil, já descontadas as margens laterais. */
 export const LARGURA_UTIL = 1080 - layout.margem * 2;
 
-/** A assinatura ocupa a primeira faixa logo abaixo do topo seguro. */
-const TOPO_CONTEUDO = layout.topoSeguro + 56;
-
-/** Altura útil: da assinatura até um respiro antes da divisória. */
-export const ALTURA_UTIL =
-  layout.painel.altura - TOPO_CONTEUDO - espaco.distante;
+/** Altura da zona de cenas. */
+export const ALTURA_UTIL = layout.cenas.altura;
 
 /**
  * Quantos frames depois do início da cena um elemento entra.
@@ -48,9 +52,10 @@ export const AreaCena: React.FC<{
       style={{
         position: "absolute",
         left: layout.margem,
-        top: TOPO_CONTEUDO,
+        top: layout.cenas.topo,
         width: LARGURA_UTIL,
         height: ALTURA_UTIL,
+        perspective: layout.perspectiva,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -66,8 +71,79 @@ export const AreaCena: React.FC<{
 };
 
 /**
+ * Superfície de vidro com fio metálico, flutuando sobre o vídeo.
+ *
+ * O fio tem 1,5 px: acima disso vira moldura. A sombra cresce junto com a
+ * entrada (`profundidade`), que é o que faz o card descolar da tela.
+ *
+ * `brilho` liga a varredura especular — uma passada só, na entrada. A skill
+ * `reels-movimento` limita a 2 cenas por reel, e quem conta é o validador.
+ */
+export const Card: React.FC<{
+  atrasoFrames?: number;
+  brilho?: boolean;
+  preenchido?: boolean;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+}> = ({ atrasoFrames = 0, brilho = false, preenchido = false, style, children }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const posicaoBrilho = brilho ? brilhoMetal(frame, atrasoFrames + 6) : null;
+  const fundo = preenchido ? cores.creme : cores.vidro;
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        borderRadius: raios.card,
+        // Truque do fio metálico: o corpo pinta até o padding-box e o gradiente
+        // só aparece na faixa da borda.
+        background: `linear-gradient(${fundo}, ${fundo}) padding-box, ${metal.borda} border-box`,
+        border: `${metal.fio}px solid transparent`,
+        // Vidro fosco. Sem `saturate`: ele amplificava a luz quente do palco
+        // que atravessa o card e o deixava cinza-marrom. A cor do cenario
+        // vive no FUNDO; a superficie que segura texto fica navy.
+        ...(preenchido ? null : { backdropFilter: "blur(10px)" }),
+        ...flutuar(frame, fps, atrasoFrames),
+        ...profundidade(frame, fps, atrasoFrames),
+        ...style,
+      }}
+    >
+      {/* Leve sombreado de cima para baixo: dá volume à face do card. */}
+      {preenchido ? null : (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: metal.face,
+            pointerEvents: "none",
+          }}
+        />
+      )}
+
+      {posicaoBrilho === null ? null : (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: `${posicaoBrilho}%`,
+            width: "60%",
+            background: metal.brilho,
+            pointerEvents: "none",
+          }}
+        />
+      )}
+
+      <div style={{ position: "relative" }}>{children}</div>
+    </div>
+  );
+};
+
+/**
  * Régua curta em cobre, desenhada da esquerda para a direita.
- * É o acento da cena: no máximo um elemento cobre por cena.
+ * É o acento da cena: cobre preenchido, no máximo um por cena.
  */
 export const Regua: React.FC<{ atrasoFrames?: number; largura?: number }> = ({
   atrasoFrames = 0,

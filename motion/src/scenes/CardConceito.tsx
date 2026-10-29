@@ -2,10 +2,10 @@
 
 import { useCurrentFrame, useVideoConfig } from "remotion";
 
-import { entrada, entradaSuave } from "../motion";
-import { cores, tipografia } from "../theme";
+import { entradaSuave } from "../motion";
+import { cores, espaco, tipografia } from "../theme";
 import type { Cena } from "../tipos";
-import { AreaCena, Regua } from "./base";
+import { AreaCena, Card, LARGURA_UTIL, Regua } from "./base";
 
 export const CardConceito: React.FC<{
   cena: Extract<Cena, { tipo: "card_conceito" }>;
@@ -16,20 +16,30 @@ export const CardConceito: React.FC<{
 
   return (
     <AreaCena duracaoFrames={duracaoFrames}>
-      <Regua />
-      <div style={{ color: cores.creme, ...tipografia.termo, ...entrada(frame, fps, 2) }}>
-        {cena.conteudo.termo}
-      </div>
-      <div
+      <Card
+        brilho={cena.brilho}
         style={{
-          color: cores.creme60,
-          ...tipografia.corpo,
-          maxWidth: 820,
-          ...entradaSuave(frame, fps, 8),
+          width: LARGURA_UTIL,
+          padding: espaco.distante,
+          display: "flex",
+          flexDirection: "column",
+          gap: espaco.proximo,
         }}
       >
-        {cena.conteudo.definicao}
-      </div>
+        <Regua atrasoFrames={6} />
+        <div style={{ color: cores.creme, ...tipografia.termo }}>
+          {cena.conteudo.termo}
+        </div>
+        <div
+          style={{
+            color: cores.creme60,
+            ...tipografia.corpo,
+            ...entradaSuave(frame, fps, 10),
+          }}
+        >
+          {cena.conteudo.definicao}
+        </div>
+      </Card>
     </AreaCena>
   );
 };

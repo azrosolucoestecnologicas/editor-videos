@@ -20,6 +20,10 @@ const PRESO = {
 export const duracoes = {
   entrada: 14,
   entradaSuave: 20,
+  /** Entrada com perspectiva de um card que flutua sobre o video. */
+  flutuar: 18,
+  /** Uma passada de brilho metalico. Nunca repete. */
+  brilho: 22,
   saida: 8,
   destaqueSubida: 6,
   destaqueVolta: 10,
@@ -55,6 +59,69 @@ export const entrada = (frame: number, fps: number, atrasoFrames = 0) => {
     opacity: progresso,
     translate: `0px ${interpolate(progresso, [0, 1], [24, 0])}px`,
   };
+};
+
+/**
+ * Entrada de um card que flutua sobre o video: sobe, aparece e vira de frente.
+ * A rotacao e de eixo Y e some — e perspectiva, nao giro. Use sempre junto com
+ * `profundidade`, que cresce a sombra no mesmo tempo.
+ */
+export const flutuar = (frame: number, fps: number, atrasoFrames = 0) => {
+  const progresso = spring({
+    frame: Math.max(0, frame - atrasoFrames),
+    fps,
+    config: { damping: 200, stiffness: 120 },
+    durationInFrames: duracoes.flutuar,
+  });
+
+  return {
+    opacity: progresso,
+    translate: `0px ${interpolate(progresso, [0, 1], [28, 0])}px`,
+    rotate: `y ${interpolate(progresso, [0, 1], [-6, 0])}deg`,
+    scale: interpolate(progresso, [0, 1], [0.96, 1], {
+      output: "perceptual-scale",
+    }),
+  };
+};
+
+/**
+ * Sombra do card crescendo junto com o `flutuar`: o card "descola" da tela.
+ * Devolve só a `boxShadow`, para espalhar ao lado do `flutuar`.
+ */
+export const profundidade = (frame: number, fps: number, atrasoFrames = 0) => {
+  const progresso = spring({
+    frame: Math.max(0, frame - atrasoFrames),
+    fps,
+    config: { damping: 200, stiffness: 120 },
+    durationInFrames: duracoes.flutuar,
+  });
+
+  return {
+    boxShadow: `0 ${interpolate(progresso, [0, 1], [8, 24])}px ${interpolate(
+      progresso,
+      [0, 1],
+      [20, 60],
+    )}px rgba(0,0,0,${interpolate(progresso, [0, 1], [0.2, 0.45])})`,
+  };
+};
+
+/**
+ * Varredura especular atravessando um card com borda metálica.
+ *
+ * Uma passada por card, na entrada, NUNCA em laço — e no máximo duas cenas por
+ * reel usam brilho (skill `reels-movimento`). Devolve a posição da faixa em
+ * porcentagem; `null` quando a passada já terminou, para o componente deixar
+ * de desenhar o brilho.
+ */
+export const brilhoMetal = (frame: number, atrasoFrames = 0) => {
+  const f = frame - atrasoFrames;
+  if (f < 0 || f > duracoes.brilho) {
+    return null;
+  }
+  return interpolate(f, [0, duracoes.brilho], [-140, 240], {
+    ...PRESO,
+    easing: Easing.inOut(Easing.cubic),
+  });
 };
 
 /** Entrada mais longa e discreta: textos longos e citacoes legais. */
@@ -150,7 +217,7 @@ export const cena = (frame: number, fps: number, duracaoCena: number) => {
   const inicioSaida = duracaoCena - duracoes.sobreposicaoCenas;
 
   if (frame < inicioSaida) {
-    return entrada(frame, fps);
+    return flutuar(frame, fps);
   }
 
   return saida(frame, inicioSaida);

@@ -29,7 +29,8 @@
         "editado": true,
         "_fala": "Todo mês aparece notícia de advogado que juntou jurisprudência inventada pela IA.",
         "_hash": "38e2463b5c72",
-        "_em": 0.0
+        "_em": 0.0,
+        "brilho": false
       },
       {
         "id": "c02",
@@ -55,7 +56,8 @@
         "editado": true,
         "_fala": "O problema não é usar IA, é usar sem método.",
         "_hash": "976a0b2e981e",
-        "_em": 5.16
+        "_em": 5.16,
+        "brilho": false
       },
       {
         "id": "c03",
@@ -82,7 +84,8 @@
         "editado": true,
         "_fala": "No MBA de IA no Direito você aprende a engenharia de prompt e as boas práticas contra alucinação",
         "_hash": "e121a5db33cb",
-        "_em": 8.527
+        "_em": 8.527,
+        "brilho": false
       },
       {
         "id": "c04",
@@ -113,7 +116,8 @@
         "editado": true,
         "_fala": "para produzir peça com velocidade e conferir o que está assinado.",
         "_hash": "a2cfb5d1a5bf",
-        "_em": 14.447
+        "_em": 14.447,
+        "brilho": true
       },
       {
         "id": "c05",
@@ -131,7 +135,8 @@
         "editado": true,
         "_fala": "Formação de 360 horas reconhecida pelo MEC 100% prática.",
         "_hash": "d7c538b0e926",
-        "_em": 18.873
+        "_em": 18.873,
+        "brilho": false
       },
       {
         "id": "c06",
@@ -147,7 +152,8 @@
         "editado": true,
         "_fala": "Ela vai ter uma condição que não se repete. A dupla Black Friday Vitalícia.",
         "_hash": "335dca1461c1",
-        "_em": 24.553
+        "_em": 24.553,
+        "brilho": true
       },
       {
         "id": "c07",
@@ -179,7 +185,8 @@
         "editado": true,
         "_fala": "Você leva o MBA de IA no Direito, ganha o IA para Negócios e tem acesso vitalício aos dois.",
         "_hash": "f84dc499b22f",
-        "_em": 29.613
+        "_em": 29.613,
+        "brilho": false
       },
       {
         "id": "c08",
@@ -197,7 +204,8 @@
         "editado": true,
         "_fala": "Nesta quarta-feira, 11 de novembro, iremos fazer ao vivo uma oferta única e exclusiva da dupla",
         "_hash": "3bcd6341595c",
-        "_em": 34.667
+        "_em": 34.667,
+        "brilho": false
       },
       {
         "id": "c09",
@@ -213,7 +221,8 @@
         "editado": true,
         "_fala": "Black Friday Vitalícia do MBA de IA no Direito. Só para quem estiver no grupo de WhatsApp.",
         "_hash": "e33fad4d96bb",
-        "_em": 40.527
+        "_em": 40.527,
+        "brilho": false
       },
       {
         "id": "c10",
@@ -228,7 +237,8 @@
         "editado": true,
         "_fala": "Toque no botão e entre.",
         "_hash": "0b378cc952a3",
-        "_em": 45.38
+        "_em": 45.38,
+        "brilho": false
       }
     ]
   },
@@ -237,6 +247,7 @@
       "inicio": 0.0,
       "fim": 1.6,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "Todo",
@@ -264,6 +275,7 @@
       "inicio": 1.6,
       "fim": 3.54,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "de",
@@ -296,6 +308,7 @@
       "inicio": 3.54,
       "fim": 5.16,
       "destaque": 2,
+      "maxima": null,
       "palavras": [
         {
           "texto": "inventada",
@@ -318,6 +331,7 @@
       "inicio": 5.16,
       "fim": 6.54,
       "destaque": 2,
+      "maxima": null,
       "palavras": [
         {
           "texto": "O",
@@ -350,6 +364,7 @@
       "inicio": 6.54,
       "fim": 8.527,
       "destaque": 0,
+      "maxima": null,
       "palavras": [
         {
           "texto": "IA,",
@@ -382,6 +397,7 @@
       "inicio": 8.527,
       "fim": 9.687,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "No",
@@ -399,6 +415,7 @@
       "inicio": 9.687,
       "fim": 11.067,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "você",
@@ -426,6 +443,7 @@
       "inicio": 11.067,
       "fim": 12.687,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "de",
@@ -458,6 +476,7 @@
       "inicio": 12.687,
       "fim": 15.567,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "práticas",
@@ -490,6 +509,7 @@
       "inicio": 15.567,
       "fim": 17.787,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "peça",
@@ -522,6 +542,7 @@
       "inicio": 17.787,
       "fim": 18.873,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "o",
@@ -548,7 +569,8 @@
     {
       "inicio": 18.873,
       "fim": 22.113,
-      "destaque": 2,
+      "destaque": null,
+      "maxima": 2,
       "palavras": [
         {
           "texto": "Formação",
@@ -580,7 +602,8 @@
     {
       "inicio": 22.113,
       "fim": 24.553,
-      "destaque": 2,
+      "destaque": null,
+      "maxima": 2,
       "palavras": [
         {
           "texto": "pelo",
@@ -608,6 +631,7 @@
       "inicio": 24.553,
       "fim": 26.053,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "Ela",
@@ -640,6 +664,7 @@
       "inicio": 26.053,
       "fim": 27.533,
       "destaque": 1,
+      "maxima": null,
       "palavras": [
         {
           "texto": "que",
@@ -667,6 +692,7 @@
       "inicio": 27.533,
       "fim": 29.613,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "A",
@@ -689,6 +715,7 @@
       "inicio": 29.613,
       "fim": 30.253,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "Você",
@@ -711,6 +738,7 @@
       "inicio": 30.253,
       "fim": 31.327,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "MBA de IA no Direito,",
@@ -723,6 +751,7 @@
       "inicio": 31.327,
       "fim": 32.607,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "ganha",
@@ -745,6 +774,7 @@
       "inicio": 32.607,
       "fim": 33.887,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "e",
@@ -772,6 +802,7 @@
       "inicio": 33.887,
       "fim": 34.667,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "aos",
@@ -788,7 +819,8 @@
     {
       "inicio": 34.667,
       "fim": 36.867,
-      "destaque": 2,
+      "destaque": null,
+      "maxima": 2,
       "palavras": [
         {
           "texto": "Nesta",
@@ -821,6 +853,7 @@
       "inicio": 36.867,
       "fim": 37.987,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "iremos",
@@ -848,6 +881,7 @@
       "inicio": 37.987,
       "fim": 39.567,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "uma",
@@ -880,6 +914,7 @@
       "inicio": 39.567,
       "fim": 41.727,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "da",
@@ -902,6 +937,7 @@
       "inicio": 41.727,
       "fim": 43.167,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "do",
@@ -919,6 +955,7 @@
       "inicio": 43.167,
       "fim": 44.147,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "Só",
@@ -946,6 +983,7 @@
       "inicio": 44.147,
       "fim": 45.38,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "no",
@@ -973,6 +1011,7 @@
       "inicio": 45.38,
       "fim": 46.98,
       "destaque": null,
+      "maxima": null,
       "palavras": [
         {
           "texto": "Toque",

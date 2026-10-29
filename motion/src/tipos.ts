@@ -35,6 +35,11 @@ type CenaBase = Gatilho & {
   readonly fim: number;
   readonly ocorrencia?: number;
   readonly editado?: boolean;
+  /**
+   * Liga a varredura especular nos cards desta cena. A skill
+   * `reels-movimento` limita a 2 cenas por reel e o validador conta.
+   */
+  readonly brilho?: boolean;
 };
 
 /** União discriminada: cada `tipo` casa com o formato do seu `conteudo`. */
@@ -72,8 +77,13 @@ export type PalavraLegenda = {
 export type BlocoLegenda = {
   readonly inicio: number;
   readonly fim: number;
-  /** Índice da palavra destacada, ou null se o bloco não tem destaque. */
+  /** Índice da palavra em nível "chave" (cobre), ou null. Máximo 1 por bloco. */
   readonly destaque: number | null;
+  /**
+   * Índice da palavra em nível "máxima" (pílula cobre), ou null.
+   * A skill `reels-legendas` dá cota de 3 no reel inteiro.
+   */
+  readonly maxima?: number | null;
   readonly palavras: readonly PalavraLegenda[];
 };
 

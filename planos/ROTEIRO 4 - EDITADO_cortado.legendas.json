@@ -3,6 +3,7 @@
     "inicio": 0.0,
     "fim": 1.6,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "Todo",
@@ -30,6 +31,7 @@
     "inicio": 1.6,
     "fim": 3.54,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "de",
@@ -62,6 +64,7 @@
     "inicio": 3.54,
     "fim": 5.16,
     "destaque": 2,
+    "maxima": null,
     "palavras": [
       {
         "texto": "inventada",
@@ -84,6 +87,7 @@
     "inicio": 5.16,
     "fim": 6.54,
     "destaque": 2,
+    "maxima": null,
     "palavras": [
       {
         "texto": "O",
@@ -116,6 +120,7 @@
     "inicio": 6.54,
     "fim": 8.527,
     "destaque": 0,
+    "maxima": null,
     "palavras": [
       {
         "texto": "IA,",
@@ -148,6 +153,7 @@
     "inicio": 8.527,
     "fim": 9.687,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "No",
@@ -165,6 +171,7 @@
     "inicio": 9.687,
     "fim": 11.067,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "você",
@@ -192,6 +199,7 @@
     "inicio": 11.067,
     "fim": 12.687,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "de",
@@ -224,6 +232,7 @@
     "inicio": 12.687,
     "fim": 15.567,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "práticas",
@@ -256,6 +265,7 @@
     "inicio": 15.567,
     "fim": 17.787,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "peça",
@@ -288,6 +298,7 @@
     "inicio": 17.787,
     "fim": 18.873,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "o",
@@ -314,7 +325,8 @@
   {
     "inicio": 18.873,
     "fim": 22.113,
-    "destaque": 2,
+    "destaque": null,
+    "maxima": 2,
     "palavras": [
       {
         "texto": "Formação",
@@ -346,7 +358,8 @@
   {
     "inicio": 22.113,
     "fim": 24.553,
-    "destaque": 2,
+    "destaque": null,
+    "maxima": 2,
     "palavras": [
       {
         "texto": "pelo",
@@ -374,6 +387,7 @@
     "inicio": 24.553,
     "fim": 26.053,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "Ela",
@@ -406,6 +420,7 @@
     "inicio": 26.053,
     "fim": 27.533,
     "destaque": 1,
+    "maxima": null,
     "palavras": [
       {
         "texto": "que",
@@ -433,6 +448,7 @@
     "inicio": 27.533,
     "fim": 29.613,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "A",
@@ -455,6 +471,7 @@
     "inicio": 29.613,
     "fim": 30.253,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "Você",
@@ -477,6 +494,7 @@
     "inicio": 30.253,
     "fim": 31.327,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "MBA de IA no Direito,",
@@ -489,6 +507,7 @@
     "inicio": 31.327,
     "fim": 32.607,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "ganha",
@@ -511,6 +530,7 @@
     "inicio": 32.607,
     "fim": 33.887,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "e",
@@ -538,6 +558,7 @@
     "inicio": 33.887,
     "fim": 34.667,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "aos",
@@ -554,7 +575,8 @@
   {
     "inicio": 34.667,
     "fim": 36.867,
-    "destaque": 2,
+    "destaque": null,
+    "maxima": 2,
     "palavras": [
       {
         "texto": "Nesta",
@@ -587,6 +609,7 @@
     "inicio": 36.867,
     "fim": 37.987,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "iremos",
@@ -614,6 +637,7 @@
     "inicio": 37.987,
     "fim": 39.567,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "uma",
@@ -646,6 +670,7 @@
     "inicio": 39.567,
     "fim": 41.727,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "da",
@@ -668,6 +693,7 @@
     "inicio": 41.727,
     "fim": 43.167,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "do",
@@ -685,6 +711,7 @@
     "inicio": 43.167,
     "fim": 44.147,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "Só",
@@ -712,6 +739,7 @@
     "inicio": 44.147,
     "fim": 45.38,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "no",
@@ -739,6 +767,7 @@
     "inicio": 45.38,
     "fim": 46.98,
     "destaque": null,
+    "maxima": null,
     "palavras": [
       {
         "texto": "Toque",

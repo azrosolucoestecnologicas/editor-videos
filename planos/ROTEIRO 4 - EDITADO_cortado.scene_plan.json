@@ -28,7 +28,8 @@
       "editado": true,
       "_fala": "Todo mês aparece notícia de advogado que juntou jurisprudência inventada pela IA.",
       "_hash": "38e2463b5c72",
-      "_em": 0.0
+      "_em": 0.0,
+      "brilho": false
     },
     {
       "id": "c02",
@@ -54,7 +55,8 @@
       "editado": true,
       "_fala": "O problema não é usar IA, é usar sem método.",
       "_hash": "976a0b2e981e",
-      "_em": 5.16
+      "_em": 5.16,
+      "brilho": false
     },
     {
       "id": "c03",
@@ -81,7 +83,8 @@
       "editado": true,
       "_fala": "No MBA de IA no Direito você aprende a engenharia de prompt e as boas práticas contra alucinação",
       "_hash": "e121a5db33cb",
-      "_em": 8.527
+      "_em": 8.527,
+      "brilho": false
     },
     {
       "id": "c04",
@@ -112,7 +115,8 @@
       "editado": true,
       "_fala": "para produzir peça com velocidade e conferir o que está assinado.",
       "_hash": "a2cfb5d1a5bf",
-      "_em": 14.447
+      "_em": 14.447,
+      "brilho": true
     },
     {
       "id": "c05",
@@ -130,7 +134,8 @@
       "editado": true,
       "_fala": "Formação de 360 horas reconhecida pelo MEC 100% prática.",
       "_hash": "d7c538b0e926",
-      "_em": 18.873
+      "_em": 18.873,
+      "brilho": false
     },
     {
       "id": "c06",
@@ -146,7 +151,8 @@
       "editado": true,
       "_fala": "Ela vai ter uma condição que não se repete. A dupla Black Friday Vitalícia.",
       "_hash": "335dca1461c1",
-      "_em": 24.553
+      "_em": 24.553,
+      "brilho": true
     },
     {
       "id": "c07",
@@ -178,7 +184,8 @@
       "editado": true,
       "_fala": "Você leva o MBA de IA no Direito, ganha o IA para Negócios e tem acesso vitalício aos dois.",
       "_hash": "f84dc499b22f",
-      "_em": 29.613
+      "_em": 29.613,
+      "brilho": false
     },
     {
       "id": "c08",
@@ -196,7 +203,8 @@
       "editado": true,
       "_fala": "Nesta quarta-feira, 11 de novembro, iremos fazer ao vivo uma oferta única e exclusiva da dupla",
       "_hash": "3bcd6341595c",
-      "_em": 34.667
+      "_em": 34.667,
+      "brilho": false
     },
     {
       "id": "c09",
@@ -212,7 +220,8 @@
       "editado": true,
       "_fala": "Black Friday Vitalícia do MBA de IA no Direito. Só para quem estiver no grupo de WhatsApp.",
       "_hash": "e33fad4d96bb",
-      "_em": 40.527
+      "_em": 40.527,
+      "brilho": false
     },
     {
       "id": "c10",
@@ -227,7 +236,8 @@
       "editado": true,
       "_fala": "Toque no botão e entre.",
       "_hash": "0b378cc952a3",
-      "_em": 45.38
+      "_em": 45.38,
+      "brilho": false
     }
   ]
 }

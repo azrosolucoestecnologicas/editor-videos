@@ -7,47 +7,41 @@
  * quando o texto do dispositivo não foi conferido na fonte.
  */
 
-import { useCurrentFrame, useVideoConfig } from "remotion";
-
-import { entradaSuave } from "../motion";
-import { cores, espaco, raios, sombras, tipografia } from "../theme";
+import { cores, espaco, tipografia } from "../theme";
 import type { Cena } from "../tipos";
-import { AreaCena, LARGURA_UTIL, Regua } from "./base";
+import { AreaCena, Card, LARGURA_UTIL, Regua } from "./base";
 
 export const CitacaoLegal: React.FC<{
   cena: Extract<Cena, { tipo: "citacao_legal" }>;
   duracaoFrames: number;
 }> = ({ cena, duracaoFrames }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
   const { referencia, trecho } = cena.conteudo;
 
   return (
     <AreaCena duracaoFrames={duracaoFrames}>
-      <div
+      <Card
+        preenchido
+        brilho={cena.brilho}
         style={{
           // Sem trecho, o card encolhe para a referência em vez de esticar
           // uma faixa creme vazia pelo painel inteiro.
           width: trecho ? LARGURA_UTIL : "auto",
           maxWidth: LARGURA_UTIL,
           padding: espaco.distante,
-          borderRadius: raios.card,
-          backgroundColor: cores.creme,
-          boxShadow: sombras.card,
-          display: "flex",
-          flexDirection: "column",
-          gap: espaco.proximo,
-          ...entradaSuave(frame, fps, 0),
         }}
       >
-        <div style={{ color: cores.navy, ...tipografia.referencia }}>{referencia}</div>
-        {trecho ? (
-          <>
-            <Regua atrasoFrames={10} largura={140} />
-            <div style={{ color: cores.navy, ...tipografia.corpo }}>{trecho}</div>
-          </>
-        ) : null}
-      </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: espaco.proximo }}>
+          <div style={{ color: cores.navy, ...tipografia.referencia }}>
+            {referencia}
+          </div>
+          {trecho ? (
+            <>
+              <Regua atrasoFrames={12} largura={140} />
+              <div style={{ color: cores.navy, ...tipografia.corpo }}>{trecho}</div>
+            </>
+          ) : null}
+        </div>
+      </Card>
     </AreaCena>
   );
 };

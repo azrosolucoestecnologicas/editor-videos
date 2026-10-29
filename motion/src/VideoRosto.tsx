@@ -1,10 +1,10 @@
 /**
- * O vídeo gravado, na faixa de baixo (1040 a 1920 px).
+ * O vídeo gravado, nítido, na faixa de baixo.
  *
- * Recorte em cover centralizado no rosto: a skill `reels-movimento` pede os
- * olhos no terço superior da metade de baixo, então o centro do rosto é
- * levado para 1/3 da altura da faixa. `foco_rosto` vem da detecção
- * automática e pode ser corrigido à mão no `scene_plan.json`.
+ * Duas diferenças para a v1: o rosto desce para 1240 px (um terço do alto da
+ * faixa, longe dos cards) e o topo do vídeo **dissolve** no fundo desfocado em
+ * 150 px. É esse degradê que substitui a emenda reta de 900 px — a skill
+ * `reels-composicao` proíbe qualquer linha reta separando as duas metades.
  */
 
 import { Video } from "@remotion/media";
@@ -13,9 +13,6 @@ import { staticFile } from "remotion";
 import { cores, layout } from "./theme";
 import type { Enquadramento } from "./tipos";
 
-/** Onde o rosto deve ficar dentro da faixa: um terço a partir do topo. */
-const TERCO = 1 / 3;
-
 export const VideoRosto: React.FC<{
   arquivo: string;
   enquadramento: Enquadramento;
@@ -23,8 +20,7 @@ export const VideoRosto: React.FC<{
 }> = ({ arquivo, enquadramento, fonte }) => {
   const faixa = { largura: 1080, altura: layout.video.altura };
 
-  // Sem vídeo (os defaultProps do Studio), a faixa fica como um bloco vazio
-  // em vez de quebrar o `staticFile()`.
+  // Sem vídeo (os defaultProps do Studio), a faixa fica como um bloco vazio.
   if (!arquivo) {
     return (
       <div
@@ -49,11 +45,12 @@ export const VideoRosto: React.FC<{
   const largura = fonte.largura * escala;
   const altura = fonte.altura * escala;
 
-  // Leva o rosto para o terço superior da faixa, sem deixar borda vazia.
+  // Leva o rosto para `layout.rosto`, sem deixar borda vazia na faixa.
+  const alvoNaFaixa = layout.rosto - layout.video.topo;
   const limitar = (valor: number, minimo: number) =>
     Math.min(0, Math.max(minimo, valor));
   const topo = limitar(
-    faixa.altura * TERCO - enquadramento.foco_rosto * altura,
+    alvoNaFaixa - enquadramento.foco_rosto * altura,
     faixa.altura - altura,
   );
   const esquerda = limitar((faixa.largura - largura) / 2, faixa.largura - largura);
@@ -67,6 +64,9 @@ export const VideoRosto: React.FC<{
         width: faixa.largura,
         height: faixa.altura,
         overflow: "hidden",
+        // O topo some gradualmente, revelando o fundo vivo por baixo.
+        maskImage: `linear-gradient(to bottom, transparent 0px, black ${layout.video.degrade}px)`,
+        WebkitMaskImage: `linear-gradient(to bottom, transparent 0px, black ${layout.video.degrade}px)`,
       }}
     >
       <Video

@@ -1,32 +1,62 @@
 /**
- * Legendas na faixa da divisória (900 a 1040 px).
+ * Legendas na zona segura inferior, sobre o vídeo.
  *
- * Padrão da skill `reels-legendas`: Hanken Grotesk 700, creme, contorno de
- * 6 px em navy, no máximo 2 linhas. Uma palavra destacada por bloco, em
- * cobre, com o pulso de escala do preset `destaque` no frame em que ela é
- * falada — o mesmo frame em que a cena correspondente entra.
+ * Três níveis de ênfase (skill `reels-legendas`): normal em creme, chave em
+ * cobre e máxima em creme sobre pílula cobre. Cada palavra dá um pop ao ser
+ * falada — é pop, não balanço.
+ *
+ * O contorno navy agora é obrigatório: a legenda ficou sobre a imagem, não
+ * sobre fundo chapado.
  */
 
-import { useCurrentFrame, useVideoConfig } from "remotion";
+import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 
-import { destaque } from "./motion";
-import { cores, layout, legenda as tokens, tipografia } from "./theme";
+import { cores, layout, legenda as tokens, raios, tipografia } from "./theme";
 import type { BlocoLegenda } from "./tipos";
+
+type Nivel = "normal" | "chave" | "maxima";
 
 const Palavra: React.FC<{
   texto: string;
-  destacada: boolean;
+  nivel: Nivel;
   inicio: number;
-}> = ({ texto, destacada, inicio }) => {
+}> = ({ texto, nivel, inicio }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
+
+  const inicioFrame = Math.round(inicio * fps);
+  const pop = interpolate(
+    frame - inicioFrame,
+    [0, tokens.framesPop, tokens.framesPop * 2],
+    [1, tokens.escalaPop, 1],
+    {
+      extrapolateLeft: "clamp",
+      extrapolateRight: "clamp",
+      output: "perceptual-scale",
+    },
+  );
+
+  const maxima = nivel === "maxima";
 
   return (
     <span
       style={{
         display: "inline-block",
-        color: destacada ? tokens.corDestaque : tokens.corTexto,
-        ...(destacada ? destaque(frame, Math.round(inicio * fps)) : null),
+        scale: pop,
+        color: maxima
+          ? tokens.maximaTexto
+          : nivel === "chave"
+            ? tokens.corChave
+            : tokens.corTexto,
+        ...(maxima
+          ? {
+              backgroundColor: tokens.maximaFundo,
+              borderRadius: raios.pilula,
+              padding: tokens.maximaPadding,
+              // Na pílula o contorno atrapalha: o fundo já dá o contraste.
+              WebkitTextStroke: "0px transparent",
+            }
+          : null),
       }}
     >
       {texto}
@@ -46,14 +76,22 @@ export const Legendas: React.FC<{ blocos: readonly BlocoLegenda[] }> = ({
     return null;
   }
 
+  const nivelDe = (i: number): Nivel => {
+    if (bloco.maxima === i) {
+      return "maxima";
+    }
+    return bloco.destaque === i ? "chave" : "normal";
+  };
+
   return (
     <div
       style={{
         position: "absolute",
-        top: layout.divisoria.topo,
+        // Centrada em `layout.legenda`, dentro da zona segura inferior.
+        top: layout.legenda - 110,
         left: 0,
         width: 1080,
-        height: layout.divisoria.altura,
+        height: 220,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -65,15 +103,14 @@ export const Legendas: React.FC<{ blocos: readonly BlocoLegenda[] }> = ({
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
-          columnGap: 14,
-          rowGap: 0,
-          // ~28 caracteres por linha no corpo de 54 px: passando disso, o
-          // bloco quebra na segunda linha em vez de esticar de ponta a ponta.
-          maxWidth: 760,
+          alignItems: "center",
+          // O contorno de 6 px cresce para os dois lados de cada palavra e come
+          // o espaço entre elas: sem compensar, "dupla Black" vira "duplaBlack".
+          columnGap: 14 + tokens.contorno * 2,
+          rowGap: 6,
+          maxWidth: tokens.larguraMaxima,
           lineHeight: 1.1,
           ...tipografia.legenda,
-          // Contorno navy: a legenda continua legível quando encosta na
-          // borda do vídeo.
           WebkitTextStroke: `${tokens.contorno}px ${cores.navy}`,
           paintOrder: "stroke fill",
         }}
@@ -82,7 +119,7 @@ export const Legendas: React.FC<{ blocos: readonly BlocoLegenda[] }> = ({
           <Palavra
             key={`${palavra.inicio}-${palavra.texto}`}
             texto={palavra.texto}
-            destacada={i === bloco.destaque}
+            nivel={nivelDe(i)}
             inicio={palavra.inicio}
           />
         ))}

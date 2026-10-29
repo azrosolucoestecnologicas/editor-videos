@@ -19,7 +19,7 @@ const Amostra: React.FC<{ nome: string; valor: string; escura?: boolean }> = ({
         height: 100,
         backgroundColor: valor,
         borderRadius: raios.card,
-        boxShadow: sombras.card,
+        boxShadow: sombras.flutuante,
         border: escura ? `1px solid ${cores.navySoft}` : "none",
       }}
     />
