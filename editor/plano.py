@@ -55,6 +55,8 @@ PAUSA_QUEBRA = 0.45
 # brilha, nenhum brilha.
 MAXIMAS_POR_REEL = 3
 CENAS_COM_BRILHO = 2
+# Zoom de ênfase no vídeo: no mínimo 8 s entre um e outro.
+INTERVALO_ZOOM = 8.0
 
 FIM_DE_FRASE = re.compile(r"[.!?]$")
 PONTUACAO_FINAL = re.compile(r"[.,;:!?…]+$")
@@ -399,6 +401,21 @@ def _dividir_em_cenas(palavras, duracao):
     return cenas
 
 
+def _espacar_zooms(cenas):
+    """Marca em quais cenas o vídeo recebe o zoom de ênfase.
+
+    Sem isso o vídeo fica parado o reel inteiro. A skill `reels-movimento`
+    pede no mínimo 8 s entre um zoom e outro; aqui o primeiro só entra depois
+    da abertura, para o gancho não começar já se mexendo.
+    """
+    ultimo = -INTERVALO_ZOOM
+    for cena in cenas[1:]:
+        if cena["inicio"] - ultimo >= INTERVALO_ZOOM:
+            cena["zoom"] = True
+            ultimo = cena["inicio"]
+    return cenas
+
+
 def esqueleto(transcricao, video, duracao=None, assinatura="", gloss=None):
     """Monta o plano estrutural. `tipo` e `conteudo` ficam em branco de propósito."""
     gloss = gloss or mod_glossario.carregar()
@@ -432,6 +449,10 @@ def esqueleto(transcricao, video, duracao=None, assinatura="", gloss=None):
         }
         cena["_hash"] = _hash(cena)
         cenas.append(cena)
+
+    _espacar_zooms(cenas)
+    for cena in cenas:
+        cena["_hash"] = _hash(cena)
 
     return {
         "versao": 1,
@@ -648,6 +669,16 @@ def validar(plano, transcricao, legendas=None, gloss=None):
                 ))
 
     # --- cotas da v2 ---
+    zooms = [c for c in cenas if c.get("zoom")]
+    for anterior, seguinte in zip(zooms, zooms[1:]):
+        intervalo = seguinte["inicio"] - anterior["inicio"]
+        if intervalo < INTERVALO_ZOOM:
+            achados.append((
+                "aviso",
+                f'zoom em {seguinte.get("id")} só {intervalo:.1f}s depois do de '
+                f'{anterior.get("id")} (a skill pede {INTERVALO_ZOOM:.0f}s)',
+            ))
+
     com_brilho = [c.get("id") for c in cenas if c.get("brilho")]
     if len(com_brilho) > CENAS_COM_BRILHO:
         achados.append((

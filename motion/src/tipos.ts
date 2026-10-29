@@ -40,6 +40,8 @@ type CenaBase = Gatilho & {
    * `reels-movimento` limita a 2 cenas por reel e o validador conta.
    */
   readonly brilho?: boolean;
+  /** Dá um zoom leve no vídeo durante esta cena. Espaçados em 8 s no mínimo. */
+  readonly zoom?: boolean;
 };
 
 /** União discriminada: cada `tipo` casa com o formato do seu `conteudo`. */
@@ -50,9 +52,14 @@ export type Cena = {
 export type Enquadramento = {
   /** Altura do rosto no vídeo original: 0 = topo, 1 = base. */
   readonly foco_rosto: number;
+  /** Topo da cabeça, mesma escala. A dissolução tem que terminar acima dele. */
+  readonly topo_cabeca?: number;
   readonly zoom: number;
   readonly origem: "padrao" | "auto" | "manual";
 };
+
+/** Trecho em que o vídeo recebe o zoom de ênfase. */
+export type JanelaZoom = { readonly inicio: number; readonly fim: number };
 
 /** Dimensões do arquivo de vídeo, para o recorte em cover. */
 export type Fonte = { readonly largura: number; readonly altura: number };

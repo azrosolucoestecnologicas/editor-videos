@@ -53,6 +53,9 @@ export const Reel: React.FC<PropsReel> = ({
         arquivo={video}
         enquadramento={plano.enquadramento}
         fonte={plano.fonte}
+        zooms={plano.cenas
+          .filter((c) => c.zoom)
+          .map((c) => ({ inicio: c.inicio, fim: c.fim }))}
       />
 
       {plano.assinatura ? <Assinatura texto={plano.assinatura} /> : null}

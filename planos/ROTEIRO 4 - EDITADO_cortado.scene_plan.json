@@ -11,7 +11,8 @@
   "enquadramento": {
     "foco_rosto": 0.284,
     "zoom": 1.0,
-    "origem": "auto"
+    "origem": "auto",
+    "topo_cabeca": 0.1325
   },
   "cenas": [
     {
@@ -56,7 +57,8 @@
       "_fala": "O problema não é usar IA, é usar sem método.",
       "_hash": "976a0b2e981e",
       "_em": 5.16,
-      "brilho": false
+      "brilho": false,
+      "zoom": true
     },
     {
       "id": "c03",
@@ -116,7 +118,8 @@
       "_fala": "para produzir peça com velocidade e conferir o que está assinado.",
       "_hash": "a2cfb5d1a5bf",
       "_em": 14.447,
-      "brilho": true
+      "brilho": true,
+      "zoom": true
     },
     {
       "id": "c05",
@@ -152,7 +155,8 @@
       "_fala": "Ela vai ter uma condição que não se repete. A dupla Black Friday Vitalícia.",
       "_hash": "335dca1461c1",
       "_em": 24.553,
-      "brilho": true
+      "brilho": true,
+      "zoom": true
     },
     {
       "id": "c07",
@@ -204,7 +208,8 @@
       "_fala": "Nesta quarta-feira, 11 de novembro, iremos fazer ao vivo uma oferta única e exclusiva da dupla",
       "_hash": "3bcd6341595c",
       "_em": 34.667,
-      "brilho": false
+      "brilho": false,
+      "zoom": true
     },
     {
       "id": "c09",
@@ -237,7 +242,8 @@
       "_fala": "Toque no botão e entre.",
       "_hash": "0b378cc952a3",
       "_em": 45.38,
-      "brilho": false
+      "brilho": false,
+      "zoom": true
     }
   ]
 }

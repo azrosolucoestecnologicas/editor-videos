@@ -16,6 +16,9 @@ import tempfile
 from pathlib import Path
 
 PADRAO = 0.36
+# Quanto o cabelo sobe acima da caixa do rosto, como fracao da altura dela.
+# O cascade acha a FACE (testa a queixo); o topo da cabeca fica acima disso.
+CABELO = 0.32
 AMOSTRAS = 24
 # Abaixo disso a detecção não é confiável o bastante para mexer no
 # enquadramento: melhor manter o valor que já estava.
@@ -23,21 +26,27 @@ MINIMO_DETECCOES = 3
 
 
 def detectar(video, amostras=AMOSTRAS, padrao=PADRAO):
-    """Devolve ``(foco_rosto, quantas_deteccoes, quantos_quadros)``."""
+    """Mede o enquadramento.
+
+    Devolve ``(foco_rosto, topo_cabeca, deteccoes, quadros)``, tudo em
+    fracao da altura do arquivo. `topo_cabeca` existe porque a dissolucao
+    no alto da faixa de video precisa terminar ANTES dela: sem essa medida,
+    o degrade come a cabeca de quem tem o rosto alto no quadro.
+    """
     try:
         import cv2
     except ImportError:
-        return padrao, 0, 0
+        return padrao, padrao - 0.15, 0, 0
 
     duracao = _duracao(video)
     if not duracao:
-        return padrao, 0, 0
+        return padrao, padrao - 0.15, 0, 0
 
     cascade = cv2.CascadeClassifier(
         cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
     )
 
-    alturas = []
+    alturas, topos = [], []
     with tempfile.TemporaryDirectory() as tmp:
         quadros = _extrair(video, duracao, amostras, Path(tmp))
         for quadro in quadros:
@@ -55,11 +64,17 @@ def detectar(video, amostras=AMOSTRAS, padrao=PADRAO):
             # Com mais de um rosto, fica o maior: é quem está falando.
             x, y, w, h = max(achados, key=lambda r: r[2] * r[3])
             alturas.append((y + h / 2) / imagem.shape[0])
+            topos.append((y - h * CABELO) / imagem.shape[0])
 
     if len(alturas) < MINIMO_DETECCOES:
-        return padrao, len(alturas), len(quadros)
+        return padrao, padrao - 0.15, len(alturas), len(quadros)
     # Mediana: um quadro em que ele virou o rosto não desloca o enquadramento.
-    return round(statistics.median(alturas), 4), len(alturas), len(quadros)
+    return (
+        round(statistics.median(alturas), 4),
+        round(statistics.median(topos), 4),
+        len(alturas),
+        len(quadros),
+    )
 
 
 def _duracao(video):

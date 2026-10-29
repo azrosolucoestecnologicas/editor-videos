@@ -148,9 +148,10 @@ def gerar_plano(video, assinatura="", refazer=False, refazer_cena=(),
     # refeito quando você pede, para a detecção não desfazer um ajuste à mão.
     nunca_detectado = final["enquadramento"].get("origem") == "padrao"
     if detectar_rosto or nunca_detectado:
-        foco, deteccoes, quadros = rosto.detectar(video)
+        foco, topo_cabeca, deteccoes, quadros = rosto.detectar(video)
         if deteccoes >= rosto.MINIMO_DETECCOES:
             final["enquadramento"]["foco_rosto"] = foco
+            final["enquadramento"]["topo_cabeca"] = topo_cabeca
             final["enquadramento"]["origem"] = "auto"
             print(f"Rosto detectado em {deteccoes}/{quadros} quadros: foco_rosto={foco}")
         else:

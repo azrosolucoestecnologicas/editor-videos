@@ -95,15 +95,22 @@ export const layout = {
   /** O proprio video, ampliado e desfocado, atras de tudo. */
   fundoVivo: { escala: 2.2, desfoque: 3, brilho: 0.45 },
   /** Veu + grade cobrem do topo ate o inicio do video nitido. */
-  veu: { topo: 0, altura: 1010 },
+  veu: { topo: 0, altura: 820 },
   /** Onde as cenas vivem. */
-  cenas: { topo: 150, altura: 710 },
+  cenas: { topo: 150, altura: 610 },
   /** Video nitido, com o topo dissolvendo no fundo desfocado. */
-  video: { topo: 1010, altura: 910, degrade: 150 },
-  /** Centro do rosto, em pixels absolutos: um terco do alto da faixa nitida. */
-  rosto: 1240,
-  /** O rosto nunca sobe disso: acima daqui ele disputa espaco com os cards. */
-  rostoMaximo: 1100,
+  video: { topo: 820, altura: 1100, degrade: 140 },
+  /**
+   * Centro do rosto, em pixels absolutos.
+   *
+   * O topo da cabeca fica ~292 px acima deste ponto (medido no material).
+   * Ele TEM que cair depois do fim do degrade (820+140=960), senao a
+   * dissolucao come a cabeca: com rosto em 1240 o topo caia em 948, 62 px
+   * acima do inicio da faixa, e sumia de vez.
+   */
+  rosto: 1310,
+  /** Folga minima entre o fim do degrade e o topo da cabeca. */
+  folgaCabeca: 48,
   /** Centro da legenda. */
   legenda: 1620,
   /** Margem lateral. */
