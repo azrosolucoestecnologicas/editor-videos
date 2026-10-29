@@ -1,4 +1,4 @@
-Contexto: este repositório (editor-videos) é meu pipeline de reels. Eu gravo falando para a câmera, coloco o vídeo em entrada/ e o pipeline em Python faz transcrição, cortes, legendas e textos. Tudo isso funciona e deve ser preservado. Não altere o comportamento dos comandos existentes de editar.py.
+Contexto: este repositório (editor-videos) é meu pipeline de reels. Antes de tudo, leia o CLAUDE.md e as skills em .claude/skills/ (reels-estilo, reels-ritmo, reels-legendas, reels-movimento, reels-composicao): elas são as regras de estilo, tempo, legenda, movimento e layout e valem sobre qualquer detalhe deste prompt. Em conflito, reels-composicao decide layout e reels-ritmo decide tempo. Eu gravo falando para a câmera, coloco o vídeo em entrada/ e o pipeline em Python faz transcrição, cortes, legendas e textos. Tudo isso funciona e deve ser preservado. Não altere o comportamento dos comandos existentes de editar.py.
 
 O que já existe (Fase 0 concluída; confira lendo o código, não precisa refazer o diagnóstico do zero):
 - editar.py: linha de comando com os subcomandos transcrever, cortar, novo, eventos, quadro e renderizar.
@@ -21,16 +21,17 @@ Decisões já tomadas:
 Antes de começar, pergunte-me (numa única mensagem):
 1. Quem escreve o scene_plan.json: (a) você, nesta conversa, com um script validador das regras; ou (b) um script que chama a API do Claude (precisa de chave de API e tem custo por vídeo, mas roda sozinho no comando único).
 2. Enquadramento do rosto: detecção automática (ex.: MediaPipe) ou o ajuste manual atual (foco_rosto)?
-3. A identidade visual do theme.ts (cores, fontes, estilo).
+A identidade visual já está definida na skill reels-estilo (paleta AR: navy, cobre, creme; Fraunces, Hanken Grotesk, JetBrains Mono). Só confirme comigo se eu quero outra.
 
 FASE 1 - Setup
 1. Crie um projeto Remotion dentro do repositório (pasta /motion) e instale as Agent Skills oficiais do Remotion seguindo a documentação atual em remotion.dev (consulte a doc, não use API de memória).
 2. Formato fixo: 1080x1920, 30fps.
-3. Crie /motion/theme.ts com os tokens visuais (cores, fontes, raios, sombras, duração padrão de entrada e saída) conforme a identidade que eu escolher.
+3. Crie motion/src/theme.ts com os tokens da skill reels-estilo (cores, fontes, raios, sombras) e motion/src/motion.ts com os presets da skill reels-movimento (entrada, entradaSuave, saida, destaque, desenho, contador).
+4. Crie glossario.json na raiz com as correções da skill reels-legendas e aplique-o às legendas.
 
 FASE 2 - Planejador de cenas
 1. Crie uma etapa que lê a transcrição com timestamps (a do vídeo cortado) e gera um scene_plan.json com uma lista de cenas: {id, inicio, fim, tipo, conteudo, palavra_gatilho}.
-2. Tipos de cena (catálogo fechado, cada um vira um componente React):
+2. Tipos de cena (catálogo fechado da skill reels-composicao, cada um vira um componente em motion/src/scenes/):
    - card_conceito: termo + definição curta
    - lista: 2 a 4 itens entrando um a um
    - comparacao: duas colunas (antes/depois, humano/IA)
@@ -38,19 +39,20 @@ FASE 2 - Planejador de cenas
    - numero: estatística animada (contador)
    - citacao_legal: artigo de lei ou súmula em destaque
    - icone_destaque: ícone grande + palavra-chave
-3. Regras do planejador:
+   - sintese: frase final de fechamento (até 10 palavras)
+3. Regras do planejador (detalhes e limites por tipo nas skills reels-ritmo e reels-composicao):
    - Uma mudança visual a cada 3 a 6 segundos, sem trechos mortos.
    - A entrada de cada elemento sincroniza com o timestamp da palavra_gatilho.
-   - No máximo 8 palavras na tela por elemento. Nunca repetir a legenda.
+   - Limites de palavras por tipo conforme a tabela da skill reels-composicao. Nunca repetir a legenda.
    - Conteúdo fiel ao que eu falei; não inventar dados nem citações.
    - Português com acentuação completa, sem emojis.
 4. O scene_plan.json deve ser editável à mão: se eu mudar um texto ou tempo e rodar de novo, só aquilo muda.
 
 FASE 3 - Composição
 1. Uma composição Remotion que recebe o scene_plan.json e o vídeo cortado como props:
-   - metade de cima: cenas animadas (transições suaves, spring, sem efeitos exagerados)
-   - metade de baixo: meu vídeo (OffthreadVideo), com reenquadramento centralizado no rosto
-   - legendas: na divisória, migradas para a composição
+   - painel de cima (0 a 900 px): cenas animadas com os presets de motion.ts
+   - faixa da divisória (900 a 1040 px): legendas migradas para a composição, no padrão da skill reels-legendas
+   - vídeo (1040 a 1920 px): meu vídeo (OffthreadVideo), com reenquadramento centralizado no rosto
 2. Antes do render completo, gere stills (npx remotion still) de 4 a 6 frames-chave e me mostre para validação.
 3. Render final local para /output/<nome>_final.mp4.
 
