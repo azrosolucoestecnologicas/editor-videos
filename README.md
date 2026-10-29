@@ -44,10 +44,14 @@ O resultado fica em `saida/demo_editado_previa.mp4`.
 
 ```bash
 # 1) Coloque o vídeo na pasta entrada/
-# 2) Crie o roteiro (já transcreve o vídeo e coloca a transcrição como referência)
-python editar.py novo entrada/meu_reels.mp4
+# 2) Cortes automáticos: tira pausas longas e muletas (hã, hum)
+#    Gera entrada/meu_reels_cortado.mp4 + a transcrição já com os tempos ajustados
+python editar.py cortar entrada/meu_reels.mp4
 
-# 3) Edite roteiros/meu_reels.yaml com os eventos (ou peça ao Claude para fazer isso)
+# 3) Crie o roteiro a partir do vídeo cortado (a transcrição entra como referência)
+python editar.py novo entrada/meu_reels_cortado.mp4
+
+# 3b) Edite roteiros/meu_reels_cortado.yaml com os eventos (ou peça ao Claude para fazer isso)
 
 # 4) Confira em que segundo cada gatilho caiu
 python editar.py eventos roteiros/meu_reels.yaml
@@ -63,6 +67,8 @@ python editar.py renderizar roteiros/meu_reels.yaml
 ```
 
 Opções úteis:
+
+- `cortar --pausa-max 0.5` deixa pausas de até 0,5 s (padrão: 0,35 s). `--margem 0.12` dá mais respiro antes e depois de cada fala. `--muletas "hã,hum,tipo"` troca a lista de muletas; `--muletas ""` não remove nenhuma. Os trechos mantidos ficam registrados em `entrada/<video>_cortado.cortes.json`.
 
 - `--inicio 0:10 --fim 0:20` renderiza só um trecho.
 - `python editar.py transcrever video.mp4 --modelo medium` usa um modelo mais preciso (o `small` é o padrão; `medium` e `large-v3` acertam mais, mas são mais lentos). Na primeira vez o modelo é baixado da internet para a pasta `modelos/` do projeto; depois disso funciona offline (inclusive no Cowork).
@@ -150,6 +156,7 @@ tema:
 ```
 editar.py              linha de comando
 editor/
+  cortes.py            cortes automáticos de pausas e muletas
   roteiro.py           leitura do YAML e gatilhos por frase
   transcricao.py       transcrição com faster-whisper (tempo por palavra)
   legendas.py          legendas dinâmicas

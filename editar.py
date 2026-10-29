@@ -3,6 +3,7 @@
 
 Uso rápido:
   python editar.py transcrever entrada/meu_video.mp4
+  python editar.py cortar entrada/meu_video.mp4        # tira pausas -> entrada/meu_video_cortado.mp4
   python editar.py novo entrada/meu_video.mp4          # cria roteiros/meu_video.yaml
   python editar.py eventos roteiros/meu_video.yaml     # confere os tempos dos gatilhos
   python editar.py quadro roteiros/meu_video.yaml 12.5 # PNG de um instante
@@ -16,7 +17,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent
 sys.path.insert(0, str(RAIZ))
 
-from editor import render, transcricao  # noqa: E402
+from editor import cortes, render, transcricao  # noqa: E402
 from editor.animacoes import REGISTRO  # noqa: E402
 from editor.roteiro import Roteiro, ler_tempo  # noqa: E402
 
@@ -55,6 +56,12 @@ eventos: []
 def cmd_transcrever(args):
     render.verificar_ffmpeg()
     transcricao.transcrever(args.video, modelo=args.modelo, idioma=args.idioma)
+
+
+def cmd_cortar(args):
+    render.verificar_ffmpeg()
+    muletas = None if args.muletas is None else [m.strip() for m in args.muletas.split(",") if m.strip()]
+    cortes.cortar(args.video, pausa_max=args.pausa_max, margem=args.margem, muletas=muletas, modelo=args.modelo)
 
 
 def cmd_novo(args):
@@ -111,6 +118,14 @@ def main():
     p.add_argument("--modelo", default="small", help="tiny, base, small, medium, large-v3 (maior = mais preciso)")
     p.add_argument("--idioma", default="pt")
     p.set_defaults(func=cmd_transcrever)
+
+    p = sub.add_parser("cortar", help="remove pausas longas e muletas (hã, hum) usando a transcrição")
+    p.add_argument("video")
+    p.add_argument("--pausa-max", type=float, default=0.35, help="pausas maiores que isso (s) são cortadas")
+    p.add_argument("--margem", type=float, default=0.08, help="respiro mantido antes/depois de cada fala (s)")
+    p.add_argument("--muletas", help='lista separada por vírgula; "" para não remover nenhuma')
+    p.add_argument("--modelo", default="small")
+    p.set_defaults(func=cmd_cortar)
 
     p = sub.add_parser("novo", help="cria um roteiro YAML a partir do vídeo")
     p.add_argument("video")
