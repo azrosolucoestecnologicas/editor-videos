@@ -34,6 +34,7 @@ export const RemotionRoot: React.FC = () => {
           },
           legendas: [],
           video: "",
+          videoFundo: "",
         }}
       />
       <Still id="Tokens" component={Tokens} width={1080} height={1920} />

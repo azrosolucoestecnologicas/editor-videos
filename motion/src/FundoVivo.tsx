@@ -6,8 +6,10 @@
  * palco — que muda de cor ao longo da gravação — vaza sozinha para trás dos
  * cards. É por isso que os cards passam a parecer estar no ambiente.
  *
- * Custo: um segundo decode do mesmo arquivo. É o preço do efeito; não há como
- * desfocar "o que está atrás" de um elemento com outra transformação.
+ * O arquivo usado aqui NÃO é o vídeo principal: é uma versão de 270 px já
+ * desfocada pelo ffmpeg. Decodificar o original duas vezes por frame
+ * respondia, medido, por 70% do tempo de render (17,8 s contra 5,2 s em
+ * 60 frames). Desfocar em CSS não resolvia — o custo era o decode.
  */
 
 import { Video } from "@remotion/media";
@@ -68,6 +70,10 @@ export const FundoVivo: React.FC<{ arquivo: string }> = ({ arquivo }) => {
   return (
     <AbsoluteFill style={{ backgroundColor: cores.navy, overflow: "hidden" }}>
       {arquivo ? (
+        // Desfoca pequeno e amplia depois. Desfocar os 2376x4224 finais são
+        // 10 milhões de pixels por frame e dominavam o tempo de render; numa
+        // imagem que vai sair borrada de qualquer jeito, a resolução não
+        // muda o resultado visível.
         <Video
           src={staticFile(arquivo)}
           muted
@@ -79,6 +85,8 @@ export const FundoVivo: React.FC<{ arquivo: string }> = ({ arquivo }) => {
             top: (1920 - altura) / 2,
             width: largura,
             height: altura,
+            // O grosso do desfoque já veio do ffmpeg; aqui só suavizamos a
+            // ampliação e escurecemos.
             filter: `blur(${desfoque}px) brightness(${brilho})`,
           }}
         />

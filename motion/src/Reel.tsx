@@ -37,12 +37,17 @@ const Assinatura: React.FC<{ texto: string }> = ({ texto }) => (
   </div>
 );
 
-export const Reel: React.FC<PropsReel> = ({ plano, legendas, video }) => {
+export const Reel: React.FC<PropsReel> = ({
+  plano,
+  legendas,
+  video,
+  videoFundo,
+}) => {
   const { fps } = plano;
 
   return (
     <AbsoluteFill style={{ backgroundColor: cores.navy }}>
-      <FundoVivo arquivo={video} />
+      <FundoVivo arquivo={videoFundo} />
 
       <VideoRosto
         arquivo={video}

@@ -93,7 +93,7 @@ export const formato = {
  */
 export const layout = {
   /** O proprio video, ampliado e desfocado, atras de tudo. */
-  fundoVivo: { escala: 2.2, desfoque: 48, brilho: 0.45 },
+  fundoVivo: { escala: 2.2, desfoque: 3, brilho: 0.45 },
   /** Veu + grade cobrem do topo ate o inicio do video nitido. */
   veu: { topo: 0, altura: 1010 },
   /** Onde as cenas vivem. */

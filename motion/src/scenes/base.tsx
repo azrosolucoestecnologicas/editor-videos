@@ -101,10 +101,9 @@ export const Card: React.FC<{
         // só aparece na faixa da borda.
         background: `linear-gradient(${fundo}, ${fundo}) padding-box, ${metal.borda} border-box`,
         border: `${metal.fio}px solid transparent`,
-        // Vidro fosco. Sem `saturate`: ele amplificava a luz quente do palco
-        // que atravessa o card e o deixava cinza-marrom. A cor do cenario
-        // vive no FUNDO; a superficie que segura texto fica navy.
-        ...(preenchido ? null : { backdropFilter: "blur(10px)" }),
+        // Sem `backdrop-filter` aqui: o que passa por tras do card ja vem
+        // desfocado do fundo vivo, e com o vidro a 85% o efeito nao aparece.
+        // So custava tempo de render.
         ...flutuar(frame, fps, atrasoFrames),
         ...profundidade(frame, fps, atrasoFrames),
         ...style,

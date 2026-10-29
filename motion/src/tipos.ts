@@ -92,4 +92,6 @@ export type PropsReel = {
   readonly legendas: readonly BlocoLegenda[];
   /** Nome do arquivo dentro de `motion/public/`, para o `staticFile()`. */
   readonly video: string;
+  /** Versão pequena e desfocada do vídeo, usada pelo fundo vivo. */
+  readonly videoFundo: string;
 };

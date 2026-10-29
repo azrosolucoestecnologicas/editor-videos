@@ -747,6 +747,25 @@ def dimensoes(video):
         return {"largura": 1080, "altura": 1920}
 
 
+def gerar_fundo(video, destino):
+    """Versão pequena e já desfocada do vídeo, para o fundo vivo.
+
+    O fundo vivo precisa do mesmo material do vídeo principal, mas borrado.
+    Reaproveitar o arquivo original significava decodificá-lo duas vezes por
+    frame — medido, isso era 70% do tempo de render. Aqui o ffmpeg desfoca uma
+    vez só, e o arquivo resultante tem 270 px de largura: decodifica num
+    piscar de olhos.
+    """
+    subprocess.run(
+        ["ffmpeg", "-y", "-v", "error", "-i", str(video),
+         "-vf", "scale=270:-2,gblur=sigma=6", "-an",
+         "-c:v", "libx264", "-preset", "veryfast", "-crf", "30",
+         "-pix_fmt", "yuv420p", str(destino)],
+        check=True,
+    )
+    return destino
+
+
 def _slug(nome):
     """Nome de arquivo seguro para URL: sem acento, sem espaço."""
     sem_acento = "".join(
@@ -770,24 +789,42 @@ def exportar_props(plano, legendas, video, destino, pasta_publica=PASTA_PUBLICA)
     publicado = pasta_publica / nome_publico
     alvo = Path(video).resolve()
 
-    if publicado.exists() or publicado.is_symlink():
-        mesmo = (
-            not publicado.is_symlink()
-            and publicado.stat().st_ino == alvo.stat().st_ino
-        )
-        if mesmo:
-            return salvar(
-                {"plano": plano, "legendas": legendas, "video": nome_publico}, destino
-            )
-        publicado.unlink()
+    ja_publicado = (
+        publicado.exists()
+        and not publicado.is_symlink()
+        and publicado.stat().st_ino == alvo.stat().st_ino
+    )
+    if not ja_publicado:
+        if publicado.exists() or publicado.is_symlink():
+            publicado.unlink()
+        try:
+            os.link(alvo, publicado)
+        except OSError:
+            shutil.copy2(alvo, publicado)
 
-    try:
-        os.link(alvo, publicado)
-    except OSError:
-        shutil.copy2(alvo, publicado)
+    # Um caminho de saída só: quando havia dois, o atalho de "já publicado"
+    # escrevia as props sem o vídeo de fundo e a composição renderizava sem
+    # fundo nenhum.
+    return _com_fundo(plano, legendas, nome_publico, pasta_publica, destino)
+
+
+def _com_fundo(plano, legendas, nome_publico, pasta_publica, destino):
+    """Garante o vídeo de fundo e escreve as props."""
+    nome_fundo = f"{Path(nome_publico).stem}_fundo.mp4"
+    fundo = pasta_publica / nome_fundo
+    origem = pasta_publica / nome_publico
+    if not fundo.exists() or fundo.stat().st_mtime < origem.stat().st_mtime:
+        print(f"Gerando o fundo desfocado: {fundo.name}")
+        gerar_fundo(origem, fundo)
 
     return salvar(
-        {"plano": plano, "legendas": legendas, "video": nome_publico}, destino
+        {
+            "plano": plano,
+            "legendas": legendas,
+            "video": nome_publico,
+            "videoFundo": nome_fundo,
+        },
+        destino,
     )
 
 
