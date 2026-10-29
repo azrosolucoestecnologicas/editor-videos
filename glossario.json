@@ -1,0 +1,63 @@
+{
+  "_nota": "Correcoes aplicadas as legendas (skill reels-legendas). A comparacao ignora acentos, maiusculas e pontuacao. Acrescente aqui os erros novos que aparecerem. Isto corrige a GRAFIA da transcricao, nunca o conteudo do que foi dito.",
+
+  "_nota_palavras": "Uma palavra errada -> a forma correta. A pontuacao final da palavra original e preservada.",
+  "palavras": {
+    "rag": "RAG",
+    "rague": "RAG",
+    "hag": "RAG",
+    "cloud": "Claude",
+    "clode": "Claude",
+    "clod": "Claude",
+    "cloude": "Claude",
+    "lgpd": "LGPD",
+    "elegepede": "LGPD",
+    "tst": "TST",
+    "trt": "TRT",
+    "stf": "STF",
+    "stj": "STJ",
+    "clt": "CLT",
+    "oab": "OAB",
+    "prompti": "prompt",
+    "prompits": "prompts",
+    "promptis": "prompts",
+    "llm": "LLM",
+    "llms": "LLMs",
+    "elemente": "LLM",
+    "elemem": "LLM",
+    "eleeme": "LLM",
+    "chatgpt": "ChatGPT",
+    "chatgipiti": "ChatGPT",
+    "gpt": "GPT",
+    "api": "API",
+    "pdf": "PDF",
+    "blackfriday": "Black Friday"
+  },
+
+  "_nota_expressoes": "Sequencias de palavras faladas -> um texto so. Numeros de lei, sumula, processo e valores sempre em algarismos. As mais longas sao testadas primeiro.",
+  "expressoes": [
+    { "de": "le ge pe de", "para": "LGPD" },
+    { "de": "lei geral de protecao de dados", "para": "LGPD" },
+    { "de": "artigo setimo inciso treze", "para": "Art. 7º, XIII" },
+    { "de": "artigo setimo inciso xiii", "para": "Art. 7º, XIII" },
+    { "de": "sumula trezentos e trinta e um", "para": "Súmula 331" },
+    { "de": "sumula 331", "para": "Súmula 331" },
+    { "de": "te e se te", "para": "TST" },
+    { "de": "te erre te tres", "para": "TRT-3" },
+    { "de": "trt 3", "para": "TRT-3" },
+    { "de": "trt tres", "para": "TRT-3" },
+    { "de": "inteligencia artificial", "para": "inteligência artificial" },
+    { "de": "black friday", "para": "Black Friday" }
+  ],
+
+  "_nota_muletas": "Palavras de preenchimento removidas da LEGENDA (continuam no audio). `nao_remover_antes_de` evita apagar o uso legitimo da palavra: em \"tipo de contrato\", `tipo` fica.",
+  "muletas": [
+    { "palavra": "ne" },
+    { "palavra": "ahn" },
+    { "palavra": "han" },
+    { "palavra": "hum" },
+    { "palavra": "tipo", "nao_remover_antes_de": ["de", "da", "do", "dos", "das"] },
+    { "palavra": "assim", "nao_remover_antes_de": ["que", "como", "sendo"] },
+    { "palavra": "ai", "nao_remover_antes_de": ["de", "que"] }
+  ]
+}

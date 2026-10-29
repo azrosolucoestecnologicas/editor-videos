@@ -6,3 +6,5 @@ entrada/*
 saida/*
 !saida/.gitkeep
 modelos/
+output/*
+!output/.gitkeep
