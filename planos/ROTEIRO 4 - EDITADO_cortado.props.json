@@ -1,0 +1,1006 @@
+{
+  "plano": {
+    "versao": 1,
+    "video": "entrada/Black Friday/ROTEIRO 4 - EDITADO_cortado.mp4",
+    "duracao": 47.067,
+    "fps": 30,
+    "fonte": {
+      "largura": 1080,
+      "altura": 1920
+    },
+    "assinatura": "Thiago Azeredo",
+    "enquadramento": {
+      "foco_rosto": 0.284,
+      "zoom": 1.0,
+      "origem": "auto"
+    },
+    "cenas": [
+      {
+        "id": "c01",
+        "inicio": 0.0,
+        "fim": 5.16,
+        "palavra_gatilho": "Todo",
+        "ocorrencia": 1,
+        "tipo": "icone_destaque",
+        "conteudo": {
+          "icone": "file-warning",
+          "texto": "Jurisprudência inventada"
+        },
+        "editado": true,
+        "_fala": "Todo mês aparece notícia de advogado que juntou jurisprudência inventada pela IA.",
+        "_hash": "38e2463b5c72",
+        "_em": 0.0
+      },
+      {
+        "id": "c02",
+        "inicio": 5.16,
+        "fim": 8.527,
+        "palavra_gatilho": "O",
+        "ocorrencia": 1,
+        "tipo": "comparacao",
+        "conteudo": {
+          "esquerda": {
+            "titulo": "Usar IA",
+            "linhas": [
+              "não é o problema"
+            ]
+          },
+          "direita": {
+            "titulo": "Usar sem método",
+            "linhas": [
+              "é o problema"
+            ]
+          }
+        },
+        "editado": true,
+        "_fala": "O problema não é usar IA, é usar sem método.",
+        "_hash": "976a0b2e981e",
+        "_em": 5.16
+      },
+      {
+        "id": "c03",
+        "inicio": 8.527,
+        "fim": 14.447,
+        "palavra_gatilho": "No",
+        "ocorrencia": 1,
+        "tipo": "lista",
+        "conteudo": {
+          "titulo": "MBA de IA no Direito",
+          "itens": [
+            {
+              "texto": "Engenharia de prompt",
+              "palavra_gatilho": "engenharia",
+              "_em": 10.587
+            },
+            {
+              "texto": "Boas práticas",
+              "palavra_gatilho": "boas",
+              "_em": 12.327
+            }
+          ]
+        },
+        "editado": true,
+        "_fala": "No MBA de IA no Direito você aprende a engenharia de prompt e as boas práticas contra alucinação",
+        "_hash": "e121a5db33cb",
+        "_em": 8.527
+      },
+      {
+        "id": "c04",
+        "inicio": 14.447,
+        "fim": 18.873,
+        "palavra_gatilho": "para",
+        "ocorrencia": 1,
+        "tipo": "fluxo",
+        "conteudo": {
+          "etapas": [
+            {
+              "rotulo": "Prompt",
+              "palavra_gatilho": "produzir",
+              "_em": 14.987
+            },
+            {
+              "rotulo": "Peça",
+              "palavra_gatilho": "peça",
+              "_em": 15.567
+            },
+            {
+              "rotulo": "Conferência",
+              "palavra_gatilho": "conferir",
+              "_em": 17.187
+            }
+          ]
+        },
+        "editado": true,
+        "_fala": "para produzir peça com velocidade e conferir o que está assinado.",
+        "_hash": "a2cfb5d1a5bf",
+        "_em": 14.447
+      },
+      {
+        "id": "c05",
+        "inicio": 18.873,
+        "fim": 24.553,
+        "palavra_gatilho": "Formação",
+        "ocorrencia": 1,
+        "tipo": "numero",
+        "conteudo": {
+          "valor": "360",
+          "rotulo": "horas reconhecidas pelo MEC",
+          "palavra_gatilho": "360",
+          "_em": 19.493
+        },
+        "editado": true,
+        "_fala": "Formação de 360 horas reconhecida pelo MEC 100% prática.",
+        "_hash": "d7c538b0e926",
+        "_em": 18.873
+      },
+      {
+        "id": "c06",
+        "inicio": 24.553,
+        "fim": 29.613,
+        "palavra_gatilho": "Ela",
+        "ocorrencia": 1,
+        "tipo": "card_conceito",
+        "conteudo": {
+          "termo": "Black Friday Vitalícia",
+          "definicao": "uma condição que não se repete"
+        },
+        "editado": true,
+        "_fala": "Ela vai ter uma condição que não se repete. A dupla Black Friday Vitalícia.",
+        "_hash": "335dca1461c1",
+        "_em": 24.553
+      },
+      {
+        "id": "c07",
+        "inicio": 29.613,
+        "fim": 34.667,
+        "palavra_gatilho": "Você",
+        "ocorrencia": 2,
+        "tipo": "lista",
+        "conteudo": {
+          "titulo": "Você leva",
+          "itens": [
+            {
+              "texto": "MBA de IA no Direito",
+              "palavra_gatilho": "leva",
+              "_em": 29.853
+            },
+            {
+              "texto": "IA para Negócios",
+              "palavra_gatilho": "ganha",
+              "_em": 31.327
+            },
+            {
+              "texto": "Acesso vitalício",
+              "palavra_gatilho": "vitalício",
+              "_em": 33.227
+            }
+          ]
+        },
+        "editado": true,
+        "_fala": "Você leva o MBA de IA no Direito, ganha o IA para Negócios e tem acesso vitalício aos dois.",
+        "_hash": "f84dc499b22f",
+        "_em": 29.613
+      },
+      {
+        "id": "c08",
+        "inicio": 34.667,
+        "fim": 40.527,
+        "palavra_gatilho": "Nesta",
+        "ocorrencia": 1,
+        "tipo": "numero",
+        "conteudo": {
+          "valor": "11",
+          "rotulo": "de novembro, ao vivo",
+          "palavra_gatilho": "11",
+          "_em": 35.767
+        },
+        "editado": true,
+        "_fala": "Nesta quarta-feira, 11 de novembro, iremos fazer ao vivo uma oferta única e exclusiva da dupla",
+        "_hash": "3bcd6341595c",
+        "_em": 34.667
+      },
+      {
+        "id": "c09",
+        "inicio": 40.527,
+        "fim": 45.38,
+        "palavra_gatilho": "Black Friday Vitalícia",
+        "ocorrencia": 2,
+        "tipo": "icone_destaque",
+        "conteudo": {
+          "icone": "message-circle",
+          "texto": "Só no grupo"
+        },
+        "editado": true,
+        "_fala": "Black Friday Vitalícia do MBA de IA no Direito. Só para quem estiver no grupo de WhatsApp.",
+        "_hash": "e33fad4d96bb",
+        "_em": 40.527
+      },
+      {
+        "id": "c10",
+        "inicio": 45.38,
+        "fim": 47.067,
+        "palavra_gatilho": "Toque",
+        "ocorrencia": 1,
+        "tipo": "sintese",
+        "conteudo": {
+          "frase": "Use IA com método"
+        },
+        "editado": true,
+        "_fala": "Toque no botão e entre.",
+        "_hash": "0b378cc952a3",
+        "_em": 45.38
+      }
+    ]
+  },
+  "legendas": [
+    {
+      "inicio": 0.0,
+      "fim": 1.6,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "Todo",
+          "inicio": 0.0,
+          "fim": 0.14
+        },
+        {
+          "texto": "mês",
+          "inicio": 0.14,
+          "fim": 0.42
+        },
+        {
+          "texto": "aparece",
+          "inicio": 0.42,
+          "fim": 0.98
+        },
+        {
+          "texto": "notícia",
+          "inicio": 0.98,
+          "fim": 1.6
+        }
+      ]
+    },
+    {
+      "inicio": 1.6,
+      "fim": 3.54,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "de",
+          "inicio": 1.6,
+          "fim": 1.74
+        },
+        {
+          "texto": "advogado",
+          "inicio": 1.74,
+          "fim": 2.24
+        },
+        {
+          "texto": "que",
+          "inicio": 2.24,
+          "fim": 2.4
+        },
+        {
+          "texto": "juntou",
+          "inicio": 2.4,
+          "fim": 2.82
+        },
+        {
+          "texto": "jurisprudência",
+          "inicio": 2.82,
+          "fim": 3.54
+        }
+      ]
+    },
+    {
+      "inicio": 3.54,
+      "fim": 5.16,
+      "destaque": 2,
+      "palavras": [
+        {
+          "texto": "inventada",
+          "inicio": 3.54,
+          "fim": 4.36
+        },
+        {
+          "texto": "pela",
+          "inicio": 4.36,
+          "fim": 4.56
+        },
+        {
+          "texto": "IA.",
+          "inicio": 4.56,
+          "fim": 4.82
+        }
+      ]
+    },
+    {
+      "inicio": 5.16,
+      "fim": 6.54,
+      "destaque": 2,
+      "palavras": [
+        {
+          "texto": "O",
+          "inicio": 5.16,
+          "fim": 5.44
+        },
+        {
+          "texto": "problema",
+          "inicio": 5.44,
+          "fim": 5.8
+        },
+        {
+          "texto": "não",
+          "inicio": 5.8,
+          "fim": 6.08
+        },
+        {
+          "texto": "é",
+          "inicio": 6.08,
+          "fim": 6.26
+        },
+        {
+          "texto": "usar",
+          "inicio": 6.26,
+          "fim": 6.54
+        }
+      ]
+    },
+    {
+      "inicio": 6.54,
+      "fim": 8.527,
+      "destaque": 0,
+      "palavras": [
+        {
+          "texto": "IA,",
+          "inicio": 6.54,
+          "fim": 6.84
+        },
+        {
+          "texto": "é",
+          "inicio": 7.18,
+          "fim": 7.24
+        },
+        {
+          "texto": "usar",
+          "inicio": 7.24,
+          "fim": 7.52
+        },
+        {
+          "texto": "sem",
+          "inicio": 7.52,
+          "fim": 7.88
+        },
+        {
+          "texto": "método.",
+          "inicio": 7.88,
+          "fim": 8.36
+        }
+      ]
+    },
+    {
+      "inicio": 8.527,
+      "fim": 9.687,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "No",
+          "inicio": 8.527,
+          "fim": 8.687
+        },
+        {
+          "texto": "MBA de IA no Direito",
+          "inicio": 8.687,
+          "fim": 9.687
+        }
+      ]
+    },
+    {
+      "inicio": 9.687,
+      "fim": 11.067,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "você",
+          "inicio": 9.687,
+          "fim": 10.107
+        },
+        {
+          "texto": "aprende",
+          "inicio": 10.107,
+          "fim": 10.507
+        },
+        {
+          "texto": "a",
+          "inicio": 10.507,
+          "fim": 10.587
+        },
+        {
+          "texto": "engenharia",
+          "inicio": 10.587,
+          "fim": 11.067
+        }
+      ]
+    },
+    {
+      "inicio": 11.067,
+      "fim": 12.687,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "de",
+          "inicio": 11.067,
+          "fim": 11.167
+        },
+        {
+          "texto": "prompt",
+          "inicio": 11.167,
+          "fim": 11.687
+        },
+        {
+          "texto": "e",
+          "inicio": 11.687,
+          "fim": 12.107
+        },
+        {
+          "texto": "as",
+          "inicio": 12.107,
+          "fim": 12.327
+        },
+        {
+          "texto": "boas",
+          "inicio": 12.327,
+          "fim": 12.687
+        }
+      ]
+    },
+    {
+      "inicio": 12.687,
+      "fim": 15.567,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "práticas",
+          "inicio": 12.687,
+          "fim": 13.147
+        },
+        {
+          "texto": "contra",
+          "inicio": 13.147,
+          "fim": 13.547
+        },
+        {
+          "texto": "alucinação",
+          "inicio": 13.547,
+          "fim": 14.447
+        },
+        {
+          "texto": "para",
+          "inicio": 14.447,
+          "fim": 14.987
+        },
+        {
+          "texto": "produzir",
+          "inicio": 14.987,
+          "fim": 15.567
+        }
+      ]
+    },
+    {
+      "inicio": 15.567,
+      "fim": 17.787,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "peça",
+          "inicio": 15.567,
+          "fim": 15.907
+        },
+        {
+          "texto": "com",
+          "inicio": 15.907,
+          "fim": 16.087
+        },
+        {
+          "texto": "velocidade",
+          "inicio": 16.087,
+          "fim": 16.627
+        },
+        {
+          "texto": "e",
+          "inicio": 16.627,
+          "fim": 17.187
+        },
+        {
+          "texto": "conferir",
+          "inicio": 17.187,
+          "fim": 17.787
+        }
+      ]
+    },
+    {
+      "inicio": 17.787,
+      "fim": 18.873,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "o",
+          "inicio": 17.787,
+          "fim": 17.927
+        },
+        {
+          "texto": "que",
+          "inicio": 17.927,
+          "fim": 18.007
+        },
+        {
+          "texto": "está",
+          "inicio": 18.007,
+          "fim": 18.207
+        },
+        {
+          "texto": "assinado.",
+          "inicio": 18.207,
+          "fim": 18.727
+        }
+      ]
+    },
+    {
+      "inicio": 18.873,
+      "fim": 22.113,
+      "destaque": 2,
+      "palavras": [
+        {
+          "texto": "Formação",
+          "inicio": 18.873,
+          "fim": 19.293
+        },
+        {
+          "texto": "de",
+          "inicio": 19.293,
+          "fim": 19.493
+        },
+        {
+          "texto": "360",
+          "inicio": 19.493,
+          "fim": 20.433
+        },
+        {
+          "texto": "horas",
+          "inicio": 20.433,
+          "fim": 21.093
+        },
+        {
+          "texto": "reconhecida",
+          "inicio": 21.093,
+          "fim": 22.113
+        }
+      ]
+    },
+    {
+      "inicio": 22.113,
+      "fim": 24.553,
+      "destaque": 2,
+      "palavras": [
+        {
+          "texto": "pelo",
+          "inicio": 22.113,
+          "fim": 22.433
+        },
+        {
+          "texto": "MEC",
+          "inicio": 22.433,
+          "fim": 22.713
+        },
+        {
+          "texto": "100%",
+          "inicio": 22.713,
+          "fim": 23.893
+        },
+        {
+          "texto": "prática.",
+          "inicio": 23.893,
+          "fim": 24.553
+        }
+      ]
+    },
+    {
+      "inicio": 24.553,
+      "fim": 26.053,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "Ela",
+          "inicio": 24.553,
+          "fim": 25.053
+        },
+        {
+          "texto": "vai",
+          "inicio": 25.053,
+          "fim": 25.233
+        },
+        {
+          "texto": "ter",
+          "inicio": 25.233,
+          "fim": 25.433
+        },
+        {
+          "texto": "uma",
+          "inicio": 25.433,
+          "fim": 25.593
+        },
+        {
+          "texto": "condição",
+          "inicio": 25.593,
+          "fim": 26.053
+        }
+      ]
+    },
+    {
+      "inicio": 26.053,
+      "fim": 27.533,
+      "destaque": 1,
+      "palavras": [
+        {
+          "texto": "que",
+          "inicio": 26.053,
+          "fim": 26.233
+        },
+        {
+          "texto": "não",
+          "inicio": 26.233,
+          "fim": 26.513
+        },
+        {
+          "texto": "se",
+          "inicio": 26.513,
+          "fim": 26.693
+        },
+        {
+          "texto": "repete.",
+          "inicio": 26.693,
+          "fim": 27.213
+        }
+      ]
+    },
+    {
+      "inicio": 27.533,
+      "fim": 29.613,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "A",
+          "inicio": 27.533,
+          "fim": 27.593
+        },
+        {
+          "texto": "dupla",
+          "inicio": 27.593,
+          "fim": 27.973
+        },
+        {
+          "texto": "Black Friday Vitalícia.",
+          "inicio": 27.973,
+          "fim": 29.373
+        }
+      ]
+    },
+    {
+      "inicio": 29.613,
+      "fim": 30.253,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "Você",
+          "inicio": 29.613,
+          "fim": 29.853
+        },
+        {
+          "texto": "leva",
+          "inicio": 29.853,
+          "fim": 30.153
+        },
+        {
+          "texto": "o",
+          "inicio": 30.153,
+          "fim": 30.253
+        }
+      ]
+    },
+    {
+      "inicio": 30.253,
+      "fim": 31.327,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "MBA de IA no Direito,",
+          "inicio": 30.253,
+          "fim": 31.153
+        }
+      ]
+    },
+    {
+      "inicio": 31.327,
+      "fim": 32.607,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "ganha",
+          "inicio": 31.327,
+          "fim": 31.647
+        },
+        {
+          "texto": "o",
+          "inicio": 31.647,
+          "fim": 31.787
+        },
+        {
+          "texto": "IA para Negócios",
+          "inicio": 31.787,
+          "fim": 32.607
+        }
+      ]
+    },
+    {
+      "inicio": 32.607,
+      "fim": 33.887,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "e",
+          "inicio": 32.607,
+          "fim": 32.867
+        },
+        {
+          "texto": "tem",
+          "inicio": 32.867,
+          "fim": 32.987
+        },
+        {
+          "texto": "acesso",
+          "inicio": 32.987,
+          "fim": 33.227
+        },
+        {
+          "texto": "vitalício",
+          "inicio": 33.227,
+          "fim": 33.887
+        }
+      ]
+    },
+    {
+      "inicio": 33.887,
+      "fim": 34.667,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "aos",
+          "inicio": 33.887,
+          "fim": 34.207
+        },
+        {
+          "texto": "dois.",
+          "inicio": 34.207,
+          "fim": 34.527
+        }
+      ]
+    },
+    {
+      "inicio": 34.667,
+      "fim": 36.867,
+      "destaque": 2,
+      "palavras": [
+        {
+          "texto": "Nesta",
+          "inicio": 34.667,
+          "fim": 34.927
+        },
+        {
+          "texto": "quarta-feira,",
+          "inicio": 34.927,
+          "fim": 35.627
+        },
+        {
+          "texto": "11",
+          "inicio": 35.767,
+          "fim": 36.027
+        },
+        {
+          "texto": "de",
+          "inicio": 36.027,
+          "fim": 36.187
+        },
+        {
+          "texto": "novembro,",
+          "inicio": 36.187,
+          "fim": 36.727
+        }
+      ]
+    },
+    {
+      "inicio": 36.867,
+      "fim": 37.987,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "iremos",
+          "inicio": 36.867,
+          "fim": 37.127
+        },
+        {
+          "texto": "fazer",
+          "inicio": 37.127,
+          "fim": 37.347
+        },
+        {
+          "texto": "ao",
+          "inicio": 37.347,
+          "fim": 37.727
+        },
+        {
+          "texto": "vivo",
+          "inicio": 37.727,
+          "fim": 37.987
+        }
+      ]
+    },
+    {
+      "inicio": 37.987,
+      "fim": 39.567,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "uma",
+          "inicio": 37.987,
+          "fim": 38.227
+        },
+        {
+          "texto": "oferta",
+          "inicio": 38.227,
+          "fim": 38.507
+        },
+        {
+          "texto": "única",
+          "inicio": 38.507,
+          "fim": 38.847
+        },
+        {
+          "texto": "e",
+          "inicio": 38.847,
+          "fim": 38.967
+        },
+        {
+          "texto": "exclusiva",
+          "inicio": 38.967,
+          "fim": 39.567
+        }
+      ]
+    },
+    {
+      "inicio": 39.567,
+      "fim": 41.727,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "da",
+          "inicio": 39.567,
+          "fim": 40.067
+        },
+        {
+          "texto": "dupla",
+          "inicio": 40.067,
+          "fim": 40.527
+        },
+        {
+          "texto": "Black Friday Vitalícia",
+          "inicio": 40.527,
+          "fim": 41.727
+        }
+      ]
+    },
+    {
+      "inicio": 41.727,
+      "fim": 43.167,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "do",
+          "inicio": 41.727,
+          "fim": 41.887
+        },
+        {
+          "texto": "MBA de IA no Direito.",
+          "inicio": 41.887,
+          "fim": 42.907
+        }
+      ]
+    },
+    {
+      "inicio": 43.167,
+      "fim": 44.147,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "Só",
+          "inicio": 43.167,
+          "fim": 43.527
+        },
+        {
+          "texto": "para",
+          "inicio": 43.527,
+          "fim": 43.707
+        },
+        {
+          "texto": "quem",
+          "inicio": 43.707,
+          "fim": 43.887
+        },
+        {
+          "texto": "estiver",
+          "inicio": 43.887,
+          "fim": 44.147
+        }
+      ]
+    },
+    {
+      "inicio": 44.147,
+      "fim": 45.38,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "no",
+          "inicio": 44.147,
+          "fim": 44.427
+        },
+        {
+          "texto": "grupo",
+          "inicio": 44.427,
+          "fim": 44.687
+        },
+        {
+          "texto": "de",
+          "inicio": 44.687,
+          "fim": 44.847
+        },
+        {
+          "texto": "WhatsApp.",
+          "inicio": 44.847,
+          "fim": 45.227
+        }
+      ]
+    },
+    {
+      "inicio": 45.38,
+      "fim": 46.98,
+      "destaque": null,
+      "palavras": [
+        {
+          "texto": "Toque",
+          "inicio": 45.38,
+          "fim": 45.7
+        },
+        {
+          "texto": "no",
+          "inicio": 45.7,
+          "fim": 45.82
+        },
+        {
+          "texto": "botão",
+          "inicio": 45.82,
+          "fim": 46.26
+        },
+        {
+          "texto": "e",
+          "inicio": 46.26,
+          "fim": 46.7
+        },
+        {
+          "texto": "entre.",
+          "inicio": 46.7,
+          "fim": 46.98
+        }
+      ]
+    }
+  ],
+  "video": "ROTEIRO-4---EDITADO_cortado.mp4"
+}

@@ -17,7 +17,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent
 sys.path.insert(0, str(RAIZ))
 
-from editor import cortes, plano as mod_plano, render, transcricao  # noqa: E402
+from editor import cortes, plano as mod_plano, render, rosto, transcricao  # noqa: E402
 from editor.animacoes import REGISTRO  # noqa: E402
 from editor.roteiro import Roteiro, ler_tempo  # noqa: E402
 
@@ -128,7 +128,7 @@ def cmd_plano(args):
         )
     dados = transcricao.carregar(arq_trans)
 
-    destino_plano, destino_legendas = mod_plano.caminhos(video)
+    destino_plano, destino_legendas, destino_props = mod_plano.caminhos(video)
     if args.saida:
         destino_plano = Path(args.saida)
 
@@ -136,15 +136,33 @@ def cmd_plano(args):
     novo = mod_plano.esqueleto(dados, video, assinatura=args.assinatura)
     mesclado = mod_plano.mesclar(anterior, novo, refazer=args.refazer_cena or ())
     final = mod_plano.resolver_gatilhos(mesclado, dados)
+
+    # O enquadramento sobrevive ao recálculo (o `mesclar` o preserva); só é
+    # refeito quando você pede, para a detecção não desfazer um ajuste à mão.
+    nunca_detectado = final["enquadramento"].get("origem") == "padrao"
+    if args.detectar_rosto or nunca_detectado:
+        foco, achados, quadros = rosto.detectar(video)
+        if achados >= rosto.MINIMO_DETECCOES:
+            final["enquadramento"]["foco_rosto"] = foco
+            final["enquadramento"]["origem"] = "auto"
+            print(f"Rosto detectado em {achados}/{quadros} quadros: foco_rosto={foco}")
+        else:
+            print(
+                f"Rosto detectado em só {achados}/{quadros} quadros; "
+                f'mantendo foco_rosto={final["enquadramento"]["foco_rosto"]} '
+                "(ajuste à mão no plano se o enquadramento sair torto)."
+            )
     legendas = mod_plano.legendas_do_plano(dados)
 
     mod_plano.salvar(final, destino_plano)
     mod_plano.salvar(legendas, destino_legendas)
+    mod_plano.exportar_props(final, legendas, video, destino_props)
 
     preservadas = sum(1 for c in final["cenas"] if c.get("editado"))
     pendentes = sum(1 for c in final["cenas"] if c.get("tipo") is None)
     print(f"Plano: {destino_plano}")
     print(f"Legendas: {destino_legendas} ({len(legendas)} bloco(s))")
+    print(f"Props do Remotion: {destino_props}")
     print(
         f"{len(final['cenas'])} cena(s): {preservadas} preservada(s) da sua edição, "
         f"{pendentes} ainda sem tipo."
@@ -156,14 +174,14 @@ def cmd_plano(args):
 def cmd_validar_plano(args):
     alvo = Path(args.plano)
     if alvo.suffix.lower() in {".mp4", ".mov", ".mkv", ".webm"}:
-        alvo, _ = mod_plano.caminhos(alvo)
+        alvo = mod_plano.caminhos(alvo)[0]
     dados_plano = mod_plano.carregar(alvo)
     if dados_plano is None:
         raise SystemExit(f"Plano não encontrado: {alvo}")
 
     video = RAIZ / dados_plano["video"]
     dados = transcricao.carregar(transcricao.caminho_transcricao(video))
-    _, arq_legendas = mod_plano.caminhos(video)
+    _, arq_legendas, _props = mod_plano.caminhos(video)
     legendas = mod_plano.carregar(arq_legendas)
 
     print(f"{alvo} ({len(dados_plano.get('cenas') or [])} cena(s))")
@@ -220,6 +238,8 @@ def main():
                    help="descarta as edições à mão e recalcula tudo")
     p.add_argument("--refazer-cena", action="append", metavar="ID",
                    help="devolve só esta cena ao planejador (pode repetir)")
+    p.add_argument("--detectar-rosto", action="store_true",
+                   help="redetecta o enquadramento do rosto, descartando o ajuste manual")
     p.set_defaults(func=cmd_plano)
 
     p = sub.add_parser("validar-plano", help="confere o plano contra as regras das skills")

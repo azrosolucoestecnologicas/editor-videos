@@ -19,7 +19,11 @@ Correção de texto de legenda se faz em `glossario.json`, não aqui.
 
 import hashlib
 import json
+import os
 import re
+import shutil
+import subprocess
+import unicodedata
 from pathlib import Path
 
 from . import glossario as mod_glossario
@@ -27,6 +31,7 @@ from .roteiro import normalizar
 
 RAIZ = Path(__file__).resolve().parent.parent
 PASTA_PLANOS = RAIZ / "planos"
+PASTA_PUBLICA = RAIZ / "motion" / "public"
 FPS = 30
 
 # ---------------------------------------------------------------- ritmo
@@ -400,6 +405,7 @@ def esqueleto(transcricao, video, duracao=None, assinatura="", gloss=None):
         "video": _relativo(video),
         "duracao": round(duracao, 3),
         "fps": FPS,
+        "fonte": dimensoes(video),
         "assinatura": assinatura,
         "enquadramento": {"foco_rosto": 0.36, "zoom": 1.0, "origem": "padrao"},
         "cenas": cenas,
@@ -679,6 +685,63 @@ class LocalizadorSimples:
 
 
 # ---------------------------------------------------------------- arquivos
+def dimensoes(video):
+    """Largura e altura do arquivo, que a composição usa no recorte em cover."""
+    try:
+        saida = subprocess.run(
+            ["ffprobe", "-v", "error", "-select_streams", "v:0",
+             "-show_entries", "stream=width,height", "-of", "csv=p=0:s=x", str(video)],
+            capture_output=True, text=True, check=True,
+        ).stdout.strip().split("x")
+        return {"largura": int(saida[0]), "altura": int(saida[1])}
+    except (subprocess.CalledProcessError, ValueError, IndexError):
+        return {"largura": 1080, "altura": 1920}
+
+
+def _slug(nome):
+    """Nome de arquivo seguro para URL: sem acento, sem espaço."""
+    sem_acento = "".join(
+        c for c in unicodedata.normalize("NFD", nome)
+        if unicodedata.category(c) != "Mn"
+    )
+    return re.sub(r"[^A-Za-z0-9._-]+", "-", sem_acento).strip("-")
+
+
+def exportar_props(plano, legendas, video, destino, pasta_publica=PASTA_PUBLICA):
+    """Escreve o arquivo de props do Remotion e publica o vídeo em `public/`.
+
+    O Remotion só serve arquivos de dentro de `motion/public/`, e ao empacotar
+    ele copia a pasta sem seguir link simbólico. Por isso o vídeo entra como
+    link físico (custo zero no mesmo sistema de arquivos), caindo para cópia
+    quando as duas pastas estão em discos diferentes. O nome é normalizado
+    porque vira uma URL.
+    """
+    pasta_publica.mkdir(parents=True, exist_ok=True)
+    nome_publico = _slug(Path(video).name)
+    publicado = pasta_publica / nome_publico
+    alvo = Path(video).resolve()
+
+    if publicado.exists() or publicado.is_symlink():
+        mesmo = (
+            not publicado.is_symlink()
+            and publicado.stat().st_ino == alvo.stat().st_ino
+        )
+        if mesmo:
+            return salvar(
+                {"plano": plano, "legendas": legendas, "video": nome_publico}, destino
+            )
+        publicado.unlink()
+
+    try:
+        os.link(alvo, publicado)
+    except OSError:
+        shutil.copy2(alvo, publicado)
+
+    return salvar(
+        {"plano": plano, "legendas": legendas, "video": nome_publico}, destino
+    )
+
+
 def _relativo(caminho):
     p = Path(caminho).resolve()
     try:
@@ -688,11 +751,12 @@ def _relativo(caminho):
 
 
 def caminhos(video):
-    """Onde ficam o plano e as legendas de um vídeo."""
+    """Onde ficam o plano, as legendas e as props de um vídeo."""
     nome = Path(video).stem
     return (
         PASTA_PLANOS / f"{nome}.scene_plan.json",
         PASTA_PLANOS / f"{nome}.legendas.json",
+        PASTA_PLANOS / f"{nome}.props.json",
     )
 
 

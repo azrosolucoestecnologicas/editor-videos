@@ -3,11 +3,15 @@
   "video": "entrada/Black Friday/ROTEIRO 4 - EDITADO_cortado.mp4",
   "duracao": 47.067,
   "fps": 30,
+  "fonte": {
+    "largura": 1080,
+    "altura": 1920
+  },
   "assinatura": "Thiago Azeredo",
   "enquadramento": {
-    "foco_rosto": 0.36,
+    "foco_rosto": 0.284,
     "zoom": 1.0,
-    "origem": "padrao"
+    "origem": "auto"
   },
   "cenas": [
     {

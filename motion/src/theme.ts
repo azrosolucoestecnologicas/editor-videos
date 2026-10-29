@@ -114,9 +114,19 @@ export const tipografia = {
     textTransform: "uppercase" as const,
     letterSpacing: "0.08em",
   },
+  /** Rótulo dentro de caixa estreita (etapas de fluxo). */
+  rotuloCaixa: {
+    fontFamily: fontes.corpo,
+    fontWeight: 600,
+    fontSize: 26,
+    textTransform: "uppercase" as const,
+    letterSpacing: "0.04em",
+  },
   numero: { fontFamily: fontes.mono, fontWeight: 600, fontSize: 120 },
   referencia: { fontFamily: fontes.mono, fontWeight: 600, fontSize: 56 },
-  legenda: { fontFamily: fontes.corpo, fontWeight: 700, fontSize: 56 },
+  // 54 px é o piso da faixa que a skill permite: com 56 px duas linhas
+  // encostam na borda do vídeo.
+  legenda: { fontFamily: fontes.corpo, fontWeight: 700, fontSize: 54 },
   assinatura: { fontFamily: fontes.corpo, fontWeight: 600, fontSize: 28 },
 } as const;
 

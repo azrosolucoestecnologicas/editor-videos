@@ -10,3 +10,7 @@ out
 # (as versoes ficam fixadas em skills-lock.json)
 .agents/skills
 .claude/skills
+
+# Videos publicados pelo planejador (link fisico para entrada/)
+public/*.mp4
+public/*.mov
