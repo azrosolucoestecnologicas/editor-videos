@@ -42,8 +42,13 @@ export const AreaCena: React.FC<{
 }> = ({ duracaoFrames, alinhamento = "esquerda", children }) => {
   const frame = useCurrentFrame();
   // A cena começa a sair antes de acabar, para a próxima entrar por cima:
-  // nunca um corte seco entre cenas animadas.
-  const inicioSaida = Math.max(1, duracaoFrames - duracoes.sobreposicaoCenas);
+  // nunca um corte seco entre cenas animadas. A saída termina logo depois
+  // do fim da cena, não muito depois — senão duas cenas convivem meio
+  // transparentes e se tornam ilegíveis.
+  const inicioSaida = Math.max(
+    1,
+    duracaoFrames + duracoes.caudaCena - duracoes.saida,
+  );
   const estiloSaida = frame >= inicioSaida ? saida(frame, inicioSaida) : null;
   const centro = alinhamento === "centro";
 

@@ -31,6 +31,12 @@ export const duracoes = {
   contador: 24,
   /** Cenas vizinhas se sobrepoem de 4 a 6 frames; nunca corte seco. */
   sobreposicaoCenas: 5,
+  /**
+   * Quanto a cena sobrevive depois do proprio fim. Curto de proposito: com
+   * cauda longa, a cena que sai e a que entra ficam as duas em meia
+   * opacidade no mesmo lugar da tela e o resultado e ilegivel.
+   */
+  caudaCena: 2,
   /** Wipe horizontal para mudanca de assunto. */
   wipe: 12,
   /** Transicao para o video em tela cheia. */

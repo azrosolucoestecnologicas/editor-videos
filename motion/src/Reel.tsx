@@ -69,7 +69,7 @@ export const Reel: React.FC<PropsReel> = ({
             key={cena.id}
             name={`${cena.id} ${cena.tipo}`}
             from={Math.max(0, inicio)}
-            durationInFrames={duracaoCena + duracoes.saida}
+            durationInFrames={duracaoCena + duracoes.caudaCena}
             layout="none"
           >
             <CenaDoPlano cena={cena} duracaoFrames={duracaoCena} />
