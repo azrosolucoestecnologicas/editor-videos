@@ -95,11 +95,19 @@ export const layout = {
   /** O proprio video, ampliado e desfocado, atras de tudo. */
   fundoVivo: { escala: 2.2, desfoque: 3, brilho: 0.45 },
   /** Veu + grade cobrem do topo ate o inicio do video nitido. */
-  veu: { topo: 0, altura: 820 },
+  veu: { topo: 0, altura: 690 },
   /** Onde as cenas vivem. */
-  cenas: { topo: 150, altura: 610 },
-  /** Video nitido, com o topo dissolvendo no fundo desfocado. */
-  video: { topo: 820, altura: 1100, degrade: 140 },
+  cenas: { topo: 150, altura: 484 },
+  /**
+   * Video nitido, com o topo dissolvendo no fundo desfocado.
+   *
+   * A altura de 1230 px nao e estetica, e uma medida: o arquivo deste reel
+   * ja vem editado, com selo do MEC ate y=1355 e legendas queimadas a
+   * partir de y=1389. A janela visivel precisa alcancar o selo sem chegar
+   * nas legendas antigas, senao o reel fica com duas legendas ao mesmo
+   * tempo. Com video bruto, esta faixa pode voltar a ser menor.
+   */
+  video: { topo: 690, altura: 1230, degrade: 60 },
   /**
    * Centro do rosto, em pixels absolutos.
    *
@@ -108,11 +116,17 @@ export const layout = {
    * dissolucao come a cabeca: com rosto em 1240 o topo caia em 948, 62 px
    * acima do inicio da faixa, e sumia de vez.
    */
-  rosto: 1310,
+  rosto: 1090,
   /** Folga minima entre o fim do degrade e o topo da cabeca. */
-  folgaCabeca: 48,
-  /** Centro da legenda. */
-  legenda: 1620,
+  folgaCabeca: 40,
+  /**
+   * Centro da legenda.
+   *
+   * 1480 e nao 1620: o selo do MEC que ele segura ocupa de 1585 a 1900 na
+   * composicao, e a legenda caia em cima justamente do elemento que o
+   * enquadramento foi alargado para mostrar.
+   */
+  legenda: 1480,
   /** Margem lateral. */
   margem: 72,
   /** Nada importante acima disso (barra do Instagram). */
