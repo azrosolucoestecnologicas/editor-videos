@@ -14,7 +14,9 @@ import type { Cena } from "../tipos";
 import { AreaCena, atrasoDe, LARGURA_UTIL } from "./base";
 
 const SETA_HORIZONTAL = 72;
-const SETA_VERTICAL = 56;
+const SETA_VERTICAL = 44;
+/** Empilhado, a caixa não precisa da largura toda: o rótulo é curto. */
+const FRACAO_VERTICAL = 0.72;
 /** A seta começa a ser desenhada quando a caixa anterior terminou de entrar. */
 const ATRASO_SETA = 8;
 
@@ -79,7 +81,7 @@ export const Fluxo: React.FC<{
   );
 
   const larguraCaixa = vertical
-    ? LARGURA_UTIL
+    ? LARGURA_UTIL * FRACAO_VERTICAL
     : (LARGURA_UTIL - SETA_HORIZONTAL * (etapas.length - 1)) / etapas.length;
 
   return (
@@ -101,7 +103,7 @@ export const Fluxo: React.FC<{
               style={{
                 width: larguraCaixa,
                 minHeight: vertical ? undefined : 150,
-                padding: 20,
+                padding: vertical ? 16 : 20,
                 borderRadius: raios.card,
                 backgroundColor: cores.navySoft,
                 boxShadow: sombras.card,

@@ -26,7 +26,10 @@ export const CitacaoLegal: React.FC<{
     <AreaCena duracaoFrames={duracaoFrames}>
       <div
         style={{
-          width: LARGURA_UTIL,
+          // Sem trecho, o card encolhe para a referência em vez de esticar
+          // uma faixa creme vazia pelo painel inteiro.
+          width: trecho ? LARGURA_UTIL : "auto",
+          maxWidth: LARGURA_UTIL,
           padding: espaco.distante,
           borderRadius: raios.card,
           backgroundColor: cores.creme,

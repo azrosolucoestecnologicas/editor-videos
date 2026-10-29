@@ -55,8 +55,17 @@ def renderizar(props, destino, previa=False, concorrencia=None, log="info"):
 
 
 def stills(props, frames, pasta, log="error"):
-    """Renderiza frames avulsos como PNG, num empacotamento só."""
+    """Renderiza frames avulsos como PNG, num empacotamento só.
+
+    A pasta é esvaziada antes: o Remotion varia o zero à esquerda do nome
+    conforme a quantidade de frames (`element-405.png` num render de um,
+    `element-0405.png` num de oito), então sobras de uma rodada anterior
+    ficariam lado a lado com as novas e seriam lidas como se fossem atuais.
+    """
     pasta = Path(pasta)
+    if pasta.exists():
+        for antigo in pasta.glob("*.png"):
+            antigo.unlink()
     pasta.mkdir(parents=True, exist_ok=True)
 
     _rodar([

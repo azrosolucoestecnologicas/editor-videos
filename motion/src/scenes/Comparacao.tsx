@@ -53,8 +53,9 @@ export const Comparacao: React.FC<{
   duracaoFrames: number;
 }> = ({ cena, duracaoFrames }) => (
   <AreaCena duracaoFrames={duracaoFrames}>
-    {/* Entram na ordem de leitura: esquerda, depois direita. */}
-    <div style={{ display: "flex", gap: espaco.proximo, alignItems: "flex-start" }}>
+    {/* Entram na ordem de leitura: esquerda, depois direita. `stretch` iguala
+        a altura das colunas quando uma delas quebra numa segunda linha. */}
+    <div style={{ display: "flex", gap: espaco.proximo, alignItems: "stretch" }}>
       <Coluna coluna={cena.conteudo.esquerda} destacada={false} atrasoFrames={0} />
       <Coluna
         coluna={cena.conteudo.direita}
