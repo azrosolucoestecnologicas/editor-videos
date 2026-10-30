@@ -26,7 +26,7 @@ import subprocess
 import unicodedata
 from pathlib import Path
 
-from . import glossario as mod_glossario
+from . import ffmpeg, glossario as mod_glossario
 from .texto_util import normalizar
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -480,7 +480,15 @@ def _espacar_zooms(cenas):
 def esqueleto(transcricao, video, duracao=None, assinatura="", gloss=None):
     """Monta o plano estrutural. `tipo` e `conteudo` ficam em branco de propósito."""
     gloss = gloss or mod_glossario.carregar()
-    duracao = float(duracao if duracao is not None else transcricao["duracao"])
+    # A duração sai do arquivo, não da transcrição. O JSON traz a soma dos
+    # trechos mantidos no corte; o mp4 sai de `select` + `setpts=N/30/TB` e
+    # difere por arredondamento de quadro. Como este número vira o `fim` da
+    # última cena E o tamanho da composição Remotion, a sobra aparecia como
+    # quadros pretos no fim ou a síntese cortada. A transcrição fica de
+    # reserva para quando o ffprobe não puder responder.
+    if duracao is None:
+        duracao = ffmpeg.duracao(video, padrao=transcricao.get("duracao"))
+    duracao = float(duracao)
 
     # Tudo daqui para baixo trabalha sobre a transcrição JÁ CORRIGIDA pelo
     # glossário: é o texto que aparece na legenda, e é ele que mantém
@@ -898,7 +906,13 @@ class LocalizadorSimples:
 
 # ---------------------------------------------------------------- arquivos
 def dimensoes(video):
-    """Largura e altura do arquivo, que a composição usa no recorte em cover."""
+    """Largura e altura do arquivo, que a composição usa no recorte em cover.
+
+    O padrão de 1080x1920 é o último recurso, e ele mente: um vídeo gravado
+    em 1920x1080 recortado como se fosse vertical sai com o enquadramento
+    errado, sem nenhuma mensagem. Por isso o motivo da falha é impresso —
+    quem vir o reel torto vai saber onde olhar.
+    """
     try:
         saida = subprocess.run(
             ["ffprobe", "-v", "error", "-select_streams", "v:0",
@@ -906,7 +920,11 @@ def dimensoes(video):
             capture_output=True, text=True, check=True,
         ).stdout.strip().split("x")
         return {"largura": int(saida[0]), "altura": int(saida[1])}
-    except (subprocess.CalledProcessError, ValueError, IndexError):
+    except (subprocess.CalledProcessError, FileNotFoundError, ValueError, IndexError) as erro:
+        print(
+            f"Não consegui medir {Path(video).name} ({type(erro).__name__}); "
+            "assumindo 1080x1920. Se o enquadramento sair torto, é isto."
+        )
         return {"largura": 1080, "altura": 1920}
 
 
@@ -919,13 +937,25 @@ def gerar_fundo(video, destino):
     vez só, e o arquivo resultante tem 270 px de largura: decodifica num
     piscar de olhos.
     """
-    subprocess.run(
-        ["ffmpeg", "-y", "-v", "error", "-i", str(video),
-         "-vf", "scale=270:-2,gblur=sigma=6", "-an",
-         "-c:v", "libx264", "-preset", "veryfast", "-crf", "30",
-         "-pix_fmt", "yuv420p", str(destino)],
-        check=True,
-    )
+    # Escreve num temporário e só então renomeia. Escrevendo direto no
+    # destino, um ffmpeg interrompido (Ctrl-C, disco cheio) deixava um mp4
+    # truncado que a checagem por mtime aceitava como pronto — e o reel saía
+    # com o fundo cortado no meio. `os.replace` é atômico no mesmo diretório.
+    destino = Path(destino)
+    # A extensão fica no fim: o ffmpeg escolhe o muxer por ela, e um
+    # `fundo.mp4.parcial` o faz morrer com "unable to find output format".
+    parcial = destino.with_name(f"{destino.stem}.parcial{destino.suffix}")
+    try:
+        subprocess.run(
+            ["ffmpeg", "-y", "-v", "error", "-i", str(video),
+             "-vf", "scale=270:-2,gblur=sigma=6", "-an",
+             "-c:v", "libx264", "-preset", "veryfast", "-crf", "30",
+             "-pix_fmt", "yuv420p", str(parcial)],
+            check=True,
+        )
+        os.replace(parcial, destino)
+    finally:
+        parcial.unlink(missing_ok=True)
     return destino
 
 
@@ -936,6 +966,12 @@ def _slug(nome):
         if unicodedata.category(c) != "Mn"
     )
     return re.sub(r"[^A-Za-z0-9._-]+", "-", sem_acento).strip("-")
+
+
+def _identidade(caminho):
+    """O que identifica um arquivo: o disco e o inode, nunca só o inode."""
+    info = Path(caminho).stat()
+    return (info.st_dev, info.st_ino)
 
 
 def exportar_props(plano, legendas, video, destino, pasta_publica=PASTA_PUBLICA):
@@ -952,10 +988,14 @@ def exportar_props(plano, legendas, video, destino, pasta_publica=PASTA_PUBLICA)
     publicado = pasta_publica / nome_publico
     alvo = Path(video).resolve()
 
+    # (st_dev, st_ino) e não só o inode: números de inode se repetem entre
+    # sistemas de arquivos diferentes, e `entrada/` e `motion/public/` podem
+    # estar em discos distintos. Coincidindo, o vídeo antigo seria servido
+    # como se fosse o novo — e o reel sairia com o material da rodada passada.
     ja_publicado = (
         publicado.exists()
         and not publicado.is_symlink()
-        and publicado.stat().st_ino == alvo.stat().st_ino
+        and _identidade(publicado) == _identidade(alvo)
     )
     if not ja_publicado:
         if publicado.exists() or publicado.is_symlink():
@@ -1065,7 +1105,14 @@ def carregar(caminho):
 def salvar(dados, caminho):
     caminho = Path(caminho)
     caminho.parent.mkdir(parents=True, exist_ok=True)
-    caminho.write_text(
-        json.dumps(dados, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
+    # Mesmo motivo do fundo: um plano meio escrito é pior que nenhum, porque
+    # ele parece existir. O temporário fica ao lado para o rename ser atômico.
+    parcial = caminho.with_name(f"{caminho.stem}.parcial{caminho.suffix}")
+    try:
+        parcial.write_text(
+            json.dumps(dados, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        )
+        os.replace(parcial, caminho)
+    finally:
+        parcial.unlink(missing_ok=True)
     return caminho

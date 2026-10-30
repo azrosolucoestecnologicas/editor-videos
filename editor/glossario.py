@@ -12,6 +12,7 @@ tela, e não com o que o Whisper ouviu.
 
 import json
 import re
+from functools import lru_cache
 from pathlib import Path
 
 from .texto_util import normalizar
@@ -108,8 +109,18 @@ def _pontuacao(palavra):
     return achado.group(0) if achado else ""
 
 
+@lru_cache(maxsize=4)
 def carregar(caminho=None):
-    """Lê o glossário. Se o arquivo não existir, devolve um glossário vazio."""
+    """Lê o glossário. Se o arquivo não existir, devolve um glossário vazio.
+
+    Em cache porque uma rodada de `editar.py plano` chamava isto quatro
+    vezes, relendo o arquivo e remontando os mesmos dicionários. O objeto
+    devolvido é só de leitura — `aplicar` não guarda estado entre chamadas.
+
+    O cache vive no processo: editar o glossario.json e rodar de novo lê o
+    arquivo novo, porque é outro processo. Dentro de um teste que precise
+    reler, use `carregar.cache_clear()`.
+    """
     arquivo = Path(caminho) if caminho else CAMINHO_PADRAO
     if not arquivo.exists():
         return Glossario()
