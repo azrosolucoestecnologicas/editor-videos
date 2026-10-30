@@ -15,6 +15,7 @@ import { Fluxo } from "./Fluxo";
 import { IconeDestaque } from "./IconeDestaque";
 import { Lista } from "./Lista";
 import { Numero } from "./Numero";
+import { Objeto } from "./Objeto";
 import { Sintese } from "./Sintese";
 
 export const CenaDoPlano: React.FC<{ cena: Cena; duracaoFrames: number }> = ({
@@ -38,6 +39,8 @@ export const CenaDoPlano: React.FC<{ cena: Cena; duracaoFrames: number }> = ({
       return <IconeDestaque cena={cena} duracaoFrames={duracaoFrames} />;
     case "documento":
       return <Documento cena={cena} duracaoFrames={duracaoFrames} />;
+    case "objeto":
+      return <Objeto cena={cena} duracaoFrames={duracaoFrames} />;
     case "sintese":
       return <Sintese cena={cena} duracaoFrames={duracaoFrames} />;
     default: {

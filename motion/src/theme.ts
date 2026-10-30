@@ -323,6 +323,20 @@ export const documento = {
   atrasoPrimeira: 16,
 } as const;
 
+/**
+ * Cena `objeto`: a ilustracao gerada e o titulo que ela carrega.
+ *
+ * A altura e menor do que a zona de cenas comporta porque o titulo divide o
+ * espaco com ela: objeto grande demais empurra o titulo para fora.
+ */
+export const objeto = {
+  altura: 300,
+  larguraTitulo: 880,
+  sombra: "drop-shadow(0 20px 28px rgba(0,0,0,0.28))",
+  /** Frames ate o titulo entrar, depois do objeto pousar. */
+  atrasoTitulo: 10,
+} as const;
+
 export const aviso = {
   padding: "10px 24px",
   espacoIcone: 10,

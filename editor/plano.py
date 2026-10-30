@@ -191,6 +191,16 @@ def _ver_documento(c):
     return erros
 
 
+def _ver_objeto(c):
+    erros = _limite(c, "titulo", 8, "o título")
+    if not str(c.get("imagem") or "").strip():
+        erros.append("falta o arquivo da imagem (na pasta do job, em entrada/)")
+    chave = str(c.get("chave") or "").strip()
+    if chave and chave.lower() not in str(c.get("titulo") or "").lower():
+        erros.append(f'a palavra-chave "{chave}" não aparece no título')
+    return erros
+
+
 def _ver_sintese(c):
     erros = _limite(c, "frase", 10, "a frase")
     chave = str(c.get("chave") or "").strip()
@@ -213,6 +223,7 @@ CATALOGO = {
     "citacao_legal": {"quando": "artigo, súmula, tese", "verificar": _ver_citacao_legal},
     "icone_destaque": {"quando": "ideia-chave sem estrutura", "verificar": _ver_icone_destaque},
     "documento": {"quando": "cláusulas de um instrumento", "verificar": _ver_documento},
+    "objeto": {"quando": "metáfora concreta, ilustração", "verificar": _ver_objeto},
     "sintese": {"quando": "fechamento", "verificar": _ver_sintese},
 }
 
@@ -223,6 +234,8 @@ def textos_da_cena(cena):
     tipo = cena.get("tipo")
     if tipo == "card_conceito":
         return [c.get("termo"), c.get("definicao")]
+    if tipo == "objeto":
+        return [c.get("titulo")]
     if tipo == "documento":
         return [c.get("titulo")] + [x.get("texto") for x in c.get("clausulas") or []]
     if tipo == "lista":
@@ -952,10 +965,56 @@ def exportar_props(plano, legendas, video, destino, pasta_publica=PASTA_PUBLICA)
         except OSError:
             shutil.copy2(alvo, publicado)
 
+    publicar_imagens(plano, Path(video).parent, pasta_publica)
+
     # Um caminho de saída só: quando havia dois, o atalho de "já publicado"
     # escrevia as props sem o vídeo de fundo e a composição renderizava sem
     # fundo nenhum.
     return _com_fundo(plano, legendas, nome_publico, pasta_publica, destino)
+
+
+IMAGENS = {".png", ".jpg", ".jpeg", ".webp", ".avif"}
+
+
+def publicar_imagens(plano, pasta_job, pasta_publica=PASTA_PUBLICA):
+    """Copia para `public/` as imagens que as cenas `objeto` pedem.
+
+    O nome escrito no plano é o do arquivo como ele está na pasta do job —
+    é assim que o Thiago o vê. Aqui ele vira o nome normalizado que o
+    `staticFile()` consegue pedir por URL, e o plano é reescrito com ele.
+
+    Imagem que não existe não interrompe o planejamento: o `validar` já
+    reclama, e parar aqui tiraria do Thiago a chance de ver o resto do plano.
+    """
+    pasta_publica.mkdir(parents=True, exist_ok=True)
+    faltando = []
+    for cena in plano.get("cenas") or []:
+        if cena.get("tipo") != "objeto":
+            continue
+        conteudo = cena.get("conteudo") or {}
+        nome = str(conteudo.get("imagem") or "").strip()
+        if not nome:
+            continue
+
+        origem = Path(nome)
+        if not origem.is_absolute():
+            origem = pasta_job / nome
+        if not origem.exists() or origem.suffix.lower() not in IMAGENS:
+            faltando.append(nome)
+            continue
+
+        publico = _slug(origem.name)
+        destino = pasta_publica / publico
+        if not destino.exists() or destino.stat().st_mtime < origem.stat().st_mtime:
+            shutil.copy2(origem, destino)
+        conteudo["imagem"] = publico
+
+    if faltando:
+        print(
+            f"Imagem não encontrada em {pasta_job}: {', '.join(faltando)}\n"
+            "Gere e salve na pasta do job, ou troque o tipo da cena."
+        )
+    return plano
 
 
 def _com_fundo(plano, legendas, nome_publico, pasta_publica, destino):

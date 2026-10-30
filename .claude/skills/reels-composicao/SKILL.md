@@ -90,7 +90,19 @@ acrescentá-lo aqui primeiro.
 | `citacao_legal` | artigo, súmula, tese | referência + trecho de até 20 palavras |
 | `icone_destaque` | ideia-chave sem estrutura | 1 ícone + até 4 palavras |
 | `documento` | cláusulas de um instrumento | título + 2 a 4 cláusulas de até 5 palavras |
+| `objeto` | metáfora concreta | 1 imagem + título de até 8 palavras |
 | `sintese` | fechamento | 1 frase de até 10 palavras, com `chave` opcional |
+
+`objeto` mostra **a coisa** de que a fala trata — a casa, o selo, a balança —
+em vez de descrevê-la num card. A imagem não vem de código: é um arquivo que o
+Thiago gera e deixa na pasta do job, em `entrada/<job>/`, e que o
+`exportar_props` publica sozinho. Escreva no plano o nome do arquivo como ele
+está na pasta.
+
+O guia de prompt para gerar essas imagens está em
+[reels-ilustracao](../reels-ilustracao/SKILL.md). Imagem fora daquela gramática
+estraga mais do que ajuda: um render 3D genérico tira autoridade igual a foto
+de banco de imagem.
 
 `documento` não é uma `lista` com outro nome. A lista **enumera ideias**; o
 documento mostra **um papel que existe** e o que está escrito nele — escritura,

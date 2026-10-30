@@ -33,6 +33,12 @@ export type ConteudoPorTipo = {
     readonly titulo: string;
     readonly clausulas: readonly ClausulaDoc[];
   };
+  objeto: {
+    /** Nome do arquivo em `motion/public/`, publicado pelo exportar_props. */
+    readonly imagem: string;
+    readonly titulo: string;
+    readonly chave?: string;
+  };
   sintese: { readonly frase: string; readonly chave?: string };
 };
 
