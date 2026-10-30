@@ -1,5 +1,8 @@
 # Pipeline de reels
 
+Quando o Thiago disser que pôs um vídeo em `entrada/`, siga a skill
+reels-briefing: ela diz o que perguntar antes de editar e em que ordem rodar.
+
 Antes de criar ou alterar qualquer cena, legenda, corte ou animação dos reels,
 consulte as skills reels-estilo, reels-ritmo, reels-legendas, reels-movimento
 e reels-composicao (em `.claude/skills/`). Em conflito, reels-composicao decide layout e reels-ritmo decide tempo.

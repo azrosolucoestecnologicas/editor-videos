@@ -27,7 +27,7 @@ ambiente em vez de morar numa caixa separada.
 
 | # | Camada | Faixa (px) | O que é |
 |---|---|---|---|
-| 1 | Fundo vivo | 0 a 1920 | o próprio vídeo, escala 2,2x, desfoque 48 px, brilho 0,45 |
+| 1 | Fundo vivo | 0 a 1920 | o próprio vídeo, escala 2,2x, desfocado, escurecido a 0,45 |
 | 2 | Véu | 0 a 1010 | `navy` a 72%, para o texto ter contraste |
 | 3 | Grade | 0 a 1010 | linhas `navySoft` a 20%, espaçamento 72 px |
 | 4 | Vídeo nítido | 1010 a 1920 | você, reenquadrado no rosto, com degradê de 150 px no topo |

@@ -17,8 +17,21 @@ RAIZ = Path(__file__).resolve().parent
 sys.path.insert(0, str(RAIZ))
 
 from editor import (  # noqa: E402
-    cortes, ffmpeg, plano as mod_plano, remotion as mod_remotion, rosto, transcricao,
+    cortes, entrada as mod_entrada, ffmpeg, plano as mod_plano,
+    remotion as mod_remotion, rosto, transcricao,
 )
+
+
+def cmd_entrada(args):
+    jobs = mod_entrada.listar()
+    if not jobs:
+        raise SystemExit(
+            f"Nenhum vídeo em {mod_entrada.PASTA_ENTRADA}.\n"
+            "Crie uma pasta por vídeo e ponha dentro o .mp4 e as imagens que ele usa."
+        )
+    for job in jobs:
+        print("\n".join(mod_entrada.descrever(job)))
+        print()
 
 
 def cmd_transcrever(args):
@@ -209,6 +222,9 @@ def cmd_reel(args):
 def main():
     ap = argparse.ArgumentParser(description="Editor automático de Reels")
     sub = ap.add_subparsers(dest="comando", required=True)
+
+    p = sub.add_parser("entrada", help="o que está na pasta entrada/ e qual o próximo passo de cada um")
+    p.set_defaults(func=cmd_entrada)
 
     p = sub.add_parser("transcrever", help="gera a transcrição com tempo de cada palavra")
     p.add_argument("video")
