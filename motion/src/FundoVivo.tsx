@@ -63,34 +63,42 @@ const Grade: React.FC = () => {
 };
 
 export const FundoVivo: React.FC<{ arquivo: string }> = ({ arquivo }) => {
-  const { escala, desfoque, brilho } = layout.fundoVivo;
+  const { escala, brilho } = layout.fundoVivo;
   const largura = 1080 * escala;
   const altura = 1920 * escala;
 
   return (
     <AbsoluteFill style={{ backgroundColor: cores.navy, overflow: "hidden" }}>
       {arquivo ? (
-        // Desfoca pequeno e amplia depois. Desfocar os 2376x4224 finais são
-        // 10 milhões de pixels por frame e dominavam o tempo de render; numa
-        // imagem que vai sair borrada de qualquer jeito, a resolução não
-        // muda o resultado visível.
+        // O arquivo já vem desfocado e com 270px de largura (gerar_fundo, em
+        // editor/plano.py, roda `scale=270:-2,gblur=sigma=6`). Aqui ele só é
+        // ampliado: a própria interpolação do navegador num upscale de 8,8x
+        // suaviza mais do que qualquer blur de CSS somaria.
+        //
+        // Não devolva o `filter` aqui. Um `blur()` em CSS roda sobre a caixa
+        // já rasterizada — estes 2376x4224 — e eram 10 milhões de pixels de
+        // gaussiana por frame, em cima de uma imagem que já estava borrada.
         <Video
           src={staticFile(arquivo)}
           muted
           style={{
             position: "absolute",
             // Centralizado e maior que a tela: o desfoque precisa de material
-            // sobrando nas bordas, senão aparece a franja do blur.
+            // sobrando nas bordas, senão aparece a franja.
             left: (1080 - largura) / 2,
             top: (1920 - altura) / 2,
             width: largura,
             height: altura,
-            // O grosso do desfoque já veio do ffmpeg; aqui só suavizamos a
-            // ampliação e escurecemos.
-            filter: `blur(${desfoque}px) brightness(${brilho})`,
           }}
         />
       ) : null}
+
+      {/* Escurece o fundo. Era um `brightness()` no filtro do vídeo; como uma
+          camada, é uma composição em vez de um filtro — mesmo resultado, sem
+          o custo por pixel. */}
+      <AbsoluteFill
+        style={{ backgroundColor: `rgba(0, 0, 0, ${1 - brilho})` }}
+      />
 
       {/* Véu: dá contraste ao texto sem matar a cor que veio do cenário.
           Ele DISSOLVE no fim em vez de terminar reto — um retângulo com borda
