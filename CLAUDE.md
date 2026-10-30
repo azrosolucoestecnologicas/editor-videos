@@ -24,3 +24,6 @@ nesta conversa, não por heurística — a fala de cada cena está no campo `_fa
 - Cenas editadas à mão são preservadas pelo `_hash`; campos com prefixo `_` são
   derivados. Para recalcular uma, use `--refazer-cena ID`.
 - Antes de qualquer render completo, gere stills (`--stills`) e confira.
+- `pytest` roda em menos de um segundo e não precisa de ffmpeg. Rode depois de
+  mexer em `mesclar`, no glossário, nos cortes ou em qualquer das duas listas
+  que o Python e o Remotion guardam em paralelo (ícones e tipos de cena).

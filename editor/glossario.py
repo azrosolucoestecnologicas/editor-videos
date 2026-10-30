@@ -5,9 +5,9 @@ Elas valem para a GRAFIA das legendas, nunca para o conteúdo do que foi dito:
 se o Thiago errou um número na fala, o glossário não conserta — isso é
 sinalizado para ele.
 
-Este módulo é usado na exportação das legendas para o Remotion. O caminho
-antigo em Pillow (`editor/legendas.py`) continua intocado, para não mudar o
-comportamento dos comandos já existentes de `editar.py`.
+Este módulo é usado na exportação das legendas para o Remotion e na busca das
+palavras-gatilho: a cena casa com o texto corrigido, que é o que aparece na
+tela, e não com o que o Whisper ouviu.
 """
 
 import json

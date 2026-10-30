@@ -576,29 +576,42 @@ def mesclar(antigo, novo, refazer=()):
         por_chave.setdefault(_chave(c), c)
     por_id = {c["id"]: c for c in antigas}
 
+    # O casamento é em dois passos, e a ordem importa: se cada proposta
+    # tentasse a fala e logo o id, uma cena nova no começo faria a proposta de
+    # uma fala reivindicar, pela posição, a cena que você escreveu para outra.
+    # Toda fala que ainda existe casa primeiro; só o resto disputa por id.
+    casadas = {}
     usadas = set()
-    cenas = []
     for proposta in novo["cenas"]:
         atual = por_chave.get(_chave(proposta))
-        gatilho_mudou = False
-        if atual is None or atual["id"] in usadas:
-            # A fala sumiu ou já foi reaproveitada: cai no id, como antes, mas
-            # marca a cena para o `validar` pedir uma conferida.
-            atual = por_id.get(proposta["id"])
-            gatilho_mudou = atual is not None
+        if atual is not None and atual["id"] not in usadas:
+            casadas[proposta["id"]] = atual
+            usadas.add(atual["id"])
 
+    pela_posicao = set()
+    for proposta in novo["cenas"]:
+        if proposta["id"] in casadas:
+            continue
+        atual = por_id.get(proposta["id"])
+        if atual is not None and atual["id"] not in usadas:
+            casadas[proposta["id"]] = atual
+            usadas.add(atual["id"])
+            pela_posicao.add(proposta["id"])
+
+    cenas = []
+    for proposta in novo["cenas"]:
+        atual = casadas.get(proposta["id"])
         if atual is None or refazer & {proposta["id"], atual["id"]}:
             cenas.append(proposta)
             continue
 
-        usadas.add(atual["id"])
         tocada = atual.get("editado") or atual.get("_hash") != _hash(atual)
         if tocada:
             mantida = dict(atual)
             mantida["id"] = proposta["id"]       # o id segue a posição nova
             mantida["editado"] = True
             mantida["_fala"] = proposta["_fala"]
-            if gatilho_mudou:
+            if proposta["id"] in pela_posicao:
                 mantida["_gatilho_mudou"] = True
             else:
                 mantida.pop("_gatilho_mudou", None)
