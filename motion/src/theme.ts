@@ -337,6 +337,13 @@ export const objeto = {
   atrasoTitulo: 10,
 } as const;
 
+/** Cena `cena_apoio`: o clipe de b-roll e o rotulo sobre ele. */
+export const cenaApoio = {
+  paddingRotulo: "8px 18px",
+  /** Frames ate o rotulo entrar, depois do clipe aparecer. */
+  atrasoRotulo: 8,
+} as const;
+
 export const aviso = {
   padding: "10px 24px",
   espacoIcone: 10,

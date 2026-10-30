@@ -146,7 +146,13 @@ export const Card: React.FC<{
         />
       )}
 
-      <div style={{ position: "relative" }}>{children}</div>
+      {/* `height: 100%` para que um filho absoluto se posicione contra o card
+          e não contra si mesmo. Num card de altura automática isto resolve
+          como `auto`, então as outras cenas não sentem; na `cena_apoio`, que
+          fixa a altura, é o que faz o clipe preencher em vez de encolher. */}
+      <div style={{ position: "relative", width: "100%", height: "100%" }}>
+        {children}
+      </div>
     </div>
   );
 };

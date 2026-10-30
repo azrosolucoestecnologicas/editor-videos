@@ -191,6 +191,22 @@ def _ver_documento(c):
     return erros
 
 
+# Limites da skill `reels-composicao` para o b-roll: mais que isso e o reel
+# vira vídeo de banco, e duas seguidas tiram o lugar da fala.
+APOIO_MIN = 2.0
+APOIO_MAX = 4.0
+APOIOS_POR_REEL = 2
+
+
+def _ver_cena_apoio(c):
+    erros = []
+    if not str(c.get("clipe") or "").strip():
+        erros.append("falta o arquivo do clipe (na pasta do job, em entrada/)")
+    if str(c.get("rotulo") or "").strip():
+        erros += _limite(c, "rotulo", 5, "o rótulo")
+    return erros
+
+
 def _ver_objeto(c):
     erros = _limite(c, "titulo", 8, "o título")
     if not str(c.get("imagem") or "").strip():
@@ -224,6 +240,7 @@ CATALOGO = {
     "icone_destaque": {"quando": "ideia-chave sem estrutura", "verificar": _ver_icone_destaque},
     "documento": {"quando": "cláusulas de um instrumento", "verificar": _ver_documento},
     "objeto": {"quando": "metáfora concreta, ilustração", "verificar": _ver_objeto},
+    "cena_apoio": {"quando": "b-roll ilustrando a fala", "verificar": _ver_cena_apoio},
     "sintese": {"quando": "fechamento", "verificar": _ver_sintese},
 }
 
@@ -234,6 +251,8 @@ def textos_da_cena(cena):
     tipo = cena.get("tipo")
     if tipo == "card_conceito":
         return [c.get("termo"), c.get("definicao")]
+    if tipo == "cena_apoio":
+        return [c.get("rotulo")]
     if tipo == "objeto":
         return [c.get("titulo")]
     if tipo == "documento":
@@ -742,6 +761,15 @@ def validar(plano, transcricao, legendas=None, gloss=None):
             achados.append(("erro", f"{ident}: dura {dur:.2f}s (mínimo {CENA_MINIMA}s; ninguém lê)"))
         elif dur > LACUNA_MAXIMA:
             achados.append(("erro", f"{ident}: dura {dur:.2f}s sem mudança visual (máximo {LACUNA_MAXIMA}s)"))
+        elif cena.get("tipo") == "cena_apoio":
+            # O b-roll tem janela própria: a skill o quer mais curto que uma
+            # cena comum, porque ele ilustra a fala em vez de carregá-la.
+            if not APOIO_MIN <= dur <= APOIO_MAX:
+                achados.append((
+                    "aviso",
+                    f"{ident}: b-roll de {dur:.2f}s "
+                    f"(a skill pede de {APOIO_MIN} a {APOIO_MAX}s)",
+                ))
         elif dur > CENA_ALVO_MAX:
             achados.append(("aviso", f"{ident}: dura {dur:.2f}s (a skill pede de {CENA_ALVO_MIN} a {CENA_ALVO_MAX}s)"))
 
@@ -826,6 +854,26 @@ def validar(plano, transcricao, legendas=None, gloss=None):
             f"{len(com_brilho)} cenas com brilho metálico "
             f'({", ".join(com_brilho)}); a skill permite {CENAS_COM_BRILHO}. '
             "Se todo card brilha, nenhum brilha.",
+        ))
+
+    apoios = [c.get("id") for c in cenas if c.get("tipo") == "cena_apoio"]
+    if len(apoios) > APOIOS_POR_REEL:
+        achados.append((
+            "erro",
+            f"{len(apoios)} cenas de b-roll ({', '.join(apoios)}); a skill "
+            f"permite {APOIOS_POR_REEL}. Mais que isso e o reel vira vídeo de banco.",
+        ))
+    # Duas seguidas são um corte para o b-roll com uma pausa no meio: a fala
+    # some por 4 a 8 segundos e o reel deixa de ser dele.
+    seguidas = [
+        b.get("id") for a, b in zip(cenas, cenas[1:])
+        if a.get("tipo") == "cena_apoio" and b.get("tipo") == "cena_apoio"
+    ]
+    if seguidas:
+        achados.append((
+            "erro",
+            f"b-roll logo depois de b-roll em {', '.join(seguidas)}; "
+            "a skill pede que nunca sejam seguidas.",
         ))
 
     if legendas:
@@ -1005,7 +1053,7 @@ def exportar_props(plano, legendas, video, destino, pasta_publica=PASTA_PUBLICA)
         except OSError:
             shutil.copy2(alvo, publicado)
 
-    publicar_imagens(plano, Path(video).parent, pasta_publica)
+    publicar_midia(plano, Path(video).parent, pasta_publica)
 
     # Um caminho de saída só: quando havia dois, o atalho de "já publicado"
     # escrevia as props sem o vídeo de fundo e a composição renderizava sem
@@ -1014,32 +1062,43 @@ def exportar_props(plano, legendas, video, destino, pasta_publica=PASTA_PUBLICA)
 
 
 IMAGENS = {".png", ".jpg", ".jpeg", ".webp", ".avif"}
+CLIPES = {".mp4", ".mov", ".webm", ".m4v"}
+
+# Que campo de que tipo de cena aponta para um arquivo, e que extensões ele
+# aceita. Uma tabela e não dois laços: o próximo tipo que trouxer mídia entra
+# aqui e nada mais muda.
+MIDIA_DA_CENA = {
+    "objeto": ("imagem", IMAGENS),
+    "cena_apoio": ("clipe", CLIPES),
+}
 
 
-def publicar_imagens(plano, pasta_job, pasta_publica=PASTA_PUBLICA):
-    """Copia para `public/` as imagens que as cenas `objeto` pedem.
+def publicar_midia(plano, pasta_job, pasta_publica=PASTA_PUBLICA):
+    """Copia para `public/` os arquivos que as cenas pedem.
 
     O nome escrito no plano é o do arquivo como ele está na pasta do job —
     é assim que o Thiago o vê. Aqui ele vira o nome normalizado que o
     `staticFile()` consegue pedir por URL, e o plano é reescrito com ele.
 
-    Imagem que não existe não interrompe o planejamento: o `validar` já
-    reclama, e parar aqui tiraria do Thiago a chance de ver o resto do plano.
+    Arquivo que não existe não interrompe o planejamento: o `validar` já
+    reclama, e parar aqui tiraria dele a chance de ver o resto do plano.
     """
     pasta_publica.mkdir(parents=True, exist_ok=True)
     faltando = []
     for cena in plano.get("cenas") or []:
-        if cena.get("tipo") != "objeto":
+        ficha = MIDIA_DA_CENA.get(cena.get("tipo"))
+        if ficha is None:
             continue
+        campo, extensoes = ficha
         conteudo = cena.get("conteudo") or {}
-        nome = str(conteudo.get("imagem") or "").strip()
+        nome = str(conteudo.get(campo) or "").strip()
         if not nome:
             continue
 
         origem = Path(nome)
         if not origem.is_absolute():
             origem = pasta_job / nome
-        if not origem.exists() or origem.suffix.lower() not in IMAGENS:
+        if not origem.exists() or origem.suffix.lower() not in extensoes:
             faltando.append(nome)
             continue
 
@@ -1047,12 +1106,12 @@ def publicar_imagens(plano, pasta_job, pasta_publica=PASTA_PUBLICA):
         destino = pasta_publica / publico
         if not destino.exists() or destino.stat().st_mtime < origem.stat().st_mtime:
             shutil.copy2(origem, destino)
-        conteudo["imagem"] = publico
+        conteudo[campo] = publico
 
     if faltando:
         print(
-            f"Imagem não encontrada em {pasta_job}: {', '.join(faltando)}\n"
-            "Gere e salve na pasta do job, ou troque o tipo da cena."
+            f"Arquivo não encontrado em {pasta_job}: {', '.join(faltando)}\n"
+            "Coloque na pasta do job, ou troque o tipo da cena."
         )
     return plano
 

@@ -36,6 +36,10 @@ ambiente em vez de morar numa caixa separada.
 | 7 | Assinatura | 120 | nome em `tintaFraca`, 28 px, canto superior esquerdo |
 | 8 | Aviso | 120 | pílula fixa, centralizada, acima de tudo (ver abaixo) |
 
+O degradê no topo da camada 4 é o que substitui a emenda: o vídeo nítido
+dissolve no desfocado em 150 px. **Nunca existe uma linha reta separando as
+duas metades.**
+
 ## O aviso fixo
 
 O campo `aviso` do plano põe uma pílula no topo pelo **reel inteiro** — não é
@@ -45,10 +49,6 @@ assistiu o resto.
 Para conteúdo jurídico ele não é enfeite: é o que separa informar de parecer
 dar consultoria. Texto curto, numa linha: *"Conteúdo informativo · não é
 consultoria jurídica"*. Quando há aviso, a assinatura desce sozinha.
-
-O degradê no topo da camada 4 é o que substitui a emenda: o vídeo nítido
-dissolve no desfocado em 150 px. **Nunca existe uma linha reta separando as
-duas metades.**
 
 ## Enquadramento do rosto
 
@@ -91,6 +91,7 @@ acrescentá-lo aqui primeiro.
 | `icone_destaque` | ideia-chave sem estrutura | 1 ícone + até 4 palavras |
 | `documento` | cláusulas de um instrumento | título + 2 a 4 cláusulas de até 5 palavras |
 | `objeto` | metáfora concreta | 1 imagem + título de até 8 palavras |
+| `cena_apoio` | b-roll ilustrando a fala | 1 clipe + rótulo de até 5 palavras |
 | `sintese` | fechamento | 1 frase de até 10 palavras, com `chave` opcional |
 
 `objeto` mostra **a coisa** de que a fala trata — a casa, o selo, a balança —
@@ -115,17 +116,20 @@ checada — um acento preenchido por instante, como manda `reels-estilo`.
 Em `sintese`, o campo `chave` sublinha **uma** palavra da frase no acento. Ela
 precisa aparecer na frase (o validador cobra): é justamente quando alguém
 reescreve a frase e esquece a chave que o sublinhado sumiria calado.
-| `cena_apoio` | **novo**: b-roll ilustrando a fala | 1 clipe + rótulo de até 5 palavras |
 
 ### `cena_apoio`
 
 O clipe ocupa a zona de cenas inteira, com os mesmos cantos e a mesma sombra de
 um card — é um card cujo conteúdo é vídeo, não um corte para tela cheia.
 
-- Duração mínima 2 s, máxima 4 s. Mais que isso e o reel vira vídeo de banco.
-- No máximo **2 por reel**, nunca seguidas.
+- Duração de 2 a 4 s — janela própria, diferente dos 3 a 6 s das outras.
+  Mais que isso e o reel vira vídeo de banco. O validador avisa.
+- No máximo **2 por reel**, nunca seguidas. As duas regras são erro no
+  validador, não aviso: b-roll demais deixa de ser reel dele.
 - Entra e sai com os mesmos presets das outras cenas, sem corte seco.
-- Mudo, sempre: o áudio é a sua fala.
+- Mudo, sempre: o áudio é a sua fala. O componente força isso.
+- O clipe fica em `entrada/<job>/` e o `exportar_props` publica sozinho,
+  igual às imagens do `objeto`.
 - Vale a regra de fidelidade da `reels-estilo`: filmagem real, nada de robô,
   martelo ou juiz genérico.
 

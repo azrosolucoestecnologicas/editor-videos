@@ -32,8 +32,15 @@ def tipos_do_switch():
 
 
 def tipos_da_skill():
+    """Os tipos listados na TABELA do catálogo de `reels-composicao`.
+
+    Lê as linhas da tabela, não qualquer coisa entre crases. A versão
+    anterior filtrava por `if t in plano.CATALOGO` e por isso era incapaz,
+    por construção, de ver um tipo documentado que ninguém implementou —
+    que é metade do erro que este arquivo existe para pegar.
+    """
     fonte = (RAIZ / ".claude" / "skills" / "reels-composicao" / "SKILL.md").read_text(encoding="utf-8")
-    return {t for t in re.findall(r"`([a-z_]+)`", fonte) if t in plano.CATALOGO}
+    return set(re.findall(r"^\|\s*`([a-z_]+)`\s*\|", fonte, re.M))
 
 
 def test_os_icones_sao_os_mesmos_dos_dois_lados():
@@ -82,11 +89,22 @@ def test_todo_tipo_do_catalogo_tem_componente():
     )
 
 
-def test_todo_tipo_do_catalogo_esta_na_skill():
-    faltando = set(plano.CATALOGO) - tipos_da_skill()
-    assert not faltando, (
-        f"tipos que o CATALOGO tem mas a skill reels-composicao não documenta: "
-        f"{sorted(faltando)}"
+def test_a_skill_e_o_catalogo_listam_os_mesmos_tipos():
+    """Nos dois sentidos.
+
+    Tipo no catálogo e fora da skill: ninguém sabe quando usá-lo. Tipo na
+    skill e fora do catálogo é pior — alguém lê a documentação, escreve a
+    cena no plano, e o validador rejeita um tipo que a própria skill mandou
+    usar. Foi exatamente o que aconteceu com `cena_apoio`.
+    """
+    do_catalogo = set(plano.CATALOGO)
+    da_skill = tipos_da_skill()
+
+    assert da_skill, "não consegui ler a tabela de tipos de reels-composicao"
+    assert do_catalogo == da_skill, (
+        "O CATALOGO (editor/plano.py) e a tabela de reels-composicao discordam. "
+        f"Documentado mas não implementado: {sorted(da_skill - do_catalogo)}. "
+        f"Implementado mas não documentado: {sorted(do_catalogo - da_skill)}."
     )
 
 
