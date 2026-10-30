@@ -16,3 +16,7 @@ planos/catalogo_de_cenas.props.json
 # Caches do Remotion
 .cache/
 .remotion/
+
+# Cópia da skill motion-director: a licença dela proíbe redistribuição
+# pública dos arquivos. A instalada vive em ~/.claude/skills/.
+motion-director/
