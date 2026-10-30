@@ -36,7 +36,7 @@ export const Numero: React.FC<{
     <AreaCena duracaoFrames={duracaoFrames} alinhamento="centro">
       <div
         style={{
-          color: cores.cobre,
+          color: cores.acento,
           ...tipografia.numero,
           fontVariantNumeric: "tabular-nums",
           ...entrada(frame, fps, 0),
@@ -47,7 +47,7 @@ export const Numero: React.FC<{
       {/* Sem régua aqui: o número já é o elemento cobre da cena. */}
       <div
         style={{
-          color: cores.creme,
+          color: cores.tinta,
           ...tipografia.corpo,
           maxWidth: 760,
           ...entrada(frame, fps, 6),

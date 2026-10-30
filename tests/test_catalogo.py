@@ -48,6 +48,28 @@ def test_os_icones_sao_os_mesmos_dos_dois_lados():
     )
 
 
+def mundos_do_remotion():
+    fonte = (MOTION / "theme.ts").read_text(encoding="utf-8")
+    corpo = _bloco(fonte, "export const mundos = {", "\n} as const;")
+    return set(re.findall(r"^  ([a-z]+): \{", corpo, re.M))
+
+
+def test_os_mundos_sao_os_mesmos_dos_dois_lados():
+    do_python = set(plano.MUNDOS)
+    do_remotion = mundos_do_remotion()
+
+    assert do_remotion, "não consegui ler `mundos` de motion/src/theme.ts"
+    assert do_python == do_remotion, (
+        "MUNDOS (editor/plano.py) e `mundos` (motion/src/theme.ts) discordam. "
+        f"Só no Python: {sorted(do_python - do_remotion)}. "
+        f"Só no Remotion: {sorted(do_remotion - do_python)}."
+    )
+
+
+def test_o_mundo_padrao_existe():
+    assert plano.MUNDO_PADRAO in plano.MUNDOS
+
+
 def test_todo_tipo_do_catalogo_tem_componente():
     do_catalogo = set(plano.CATALOGO)
     do_switch = tipos_do_switch()

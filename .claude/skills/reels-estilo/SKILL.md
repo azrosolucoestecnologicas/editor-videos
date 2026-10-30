@@ -24,15 +24,29 @@ glitch, partícula, brilho pulsante.
 Nunca escreva cor, fonte ou tamanho direto num componente. Importe de
 `theme.ts`. Se o token não existir, crie-o lá antes de usar.
 
-| Token | Valor | Uso |
-|---|---|---|
-| `navy` | `#0F2540` | base escura, véu sobre o fundo vivo |
-| `cobre` | `#B87333` | destaque: palavra-chave, seta ativa, número |
-| `creme` | `#F5EFE4` | texto sobre escuro, fundo de card de citação |
-| `navySoft` | `#1C3A5E` | corpo dos cards, grades, conectores inativos |
-| `creme60` | `rgba(245,239,228,0.6)` | texto de apoio, rótulos |
-| `veu` | `rgba(15,37,64,0.72)` | **novo**: véu sobre o fundo vivo |
-| `vidro` | `rgba(28,58,94,0.55)` | **novo**: corpo de card translúcido |
+Os tokens são **papéis, não cores**. Um reel escolhe um dos dois mundos no
+campo `mundo` do plano, e os mesmos papéis apontam para valores diferentes.
+É a mesma paleta AR com o chão e a tinta trocados de lugar — por isso um reel
+claro continua sendo reconhecivelmente seu.
+
+| Papel | `palco` (padrão) | `documento` | Uso |
+|---|---|---|---|
+| `chao` | `#0F2540` | `#E7DAC6` | o fundo do mundo |
+| `tinta` | `#F5EFE4` | `#122538` | texto e traços sobre o chão |
+| `tintaFraca` | creme a 60% | navy a 62% | texto de apoio, rótulos |
+| `acento` | `#B87333` | `#B87333` | destaque: palavra-chave, seta ativa, número |
+| `superficie` | `#F5EFE4` | `#FDFAF4` | fundo do card preenchido |
+| `tintaSuperficie` | `#0F2540` | `#122538` | texto **sobre** o card preenchido |
+| `reforco` | `#1C3A5E` | `#D8C8AE` | grades, conectores inativos, faixa do vídeo |
+| `veu` | navy a 72% | creme a 84% | véu sobre o fundo vivo |
+| `vidro` | navy a 85% | branco a 94% | corpo de card translúcido |
+| `contorno` | `#0F2540` | `#122538` | contorno da legenda |
+
+O `acento` é o mesmo nos dois mundos: é ele que diz "isto é um reel seu".
+
+**A legenda não segue o mundo.** Ela corre sobre o vídeo, não sobre o chão, e
+num mundo claro seguir `tinta` a deixaria navy sobre terno escuro. As cores
+dela são fixas em `theme.ts`.
 
 ### Metal
 
@@ -45,7 +59,7 @@ Nunca escreva cor, fonte ou tamanho direto num componente. Importe de
 A borda metálica é um fio de **1,5 px**. Acima disso vira moldura de convite de
 casamento.
 
-## A regra do cobre
+## A regra do acento
 
 Esta é a regra que mais se quebra sozinha quando se libera metal, então ela
 muda de forma:
@@ -55,10 +69,10 @@ muda de forma:
 - **Cobre como fio** (borda metálica de 1,5 px): pode estar em todos os cards
   da cena. Lê como material, não como sinal.
 
-Se você não consegue dizer qual é o único elemento cobre preenchido da cena, a
+Se você não consegue dizer qual é o único elemento `acento` preenchido da cena, a
 cena tem cobre demais.
 
-Proporção por cena: cerca de 70% escuro, 25% creme, no máximo 5% cobre.
+Proporção por cena: cerca de 70% escuro, 25% claro, no máximo 5% `acento`.
 
 ## Sombra e profundidade
 
@@ -90,12 +104,12 @@ itens curtos.
 
 ## Ícones e figuras
 
-- Ícones de linha de `lucide-react`, `strokeWidth` 2, cor `creme` ou `cobre`.
+- Ícones de linha de `lucide-react`, `strokeWidth` 2, cor `tinta` ou `acento`.
   Um único estilo de ícone no vídeo inteiro.
 - Preferir figuras próprias: diagramas de caixas e setas, linhas do tempo,
   tabelas de duas colunas, documentos estilizados.
-- Documento jurídico estilizado: card creme, cabeçalho em JetBrains Mono
-  ("Art. 7º, XIII"), corpo em linhas cinza, um trecho sublinhado em cobre.
+- Documento jurídico estilizado: card `superficie`, cabeçalho em JetBrains Mono
+  ("Art. 7º, XIII"), corpo em linhas cinza, um trecho sublinhado em `acento`.
 
 ## B-roll
 
@@ -120,7 +134,7 @@ não ser identificado como gerado. Na dúvida, não use.
 
 - Glitch, neon, gradiente arco-íris, brilho pulsante, partículas, lens flare.
 - Gradiente entre matizes diferentes. Os permitidos são monocromáticos:
-  cobre-creme-cobre e claro-escuro da mesma cor.
+  acento-creme-acento e claro-escuro da mesma cor.
 - Foto ou textura atrás de texto que não seja o fundo vivo desfocado.
 - Mais de duas famílias tipográficas visíveis na mesma cena.
 - Raios misturados. Padrão: 20 px em cards, 999 px em pílulas.
@@ -131,7 +145,7 @@ não ser identificado como gerado. Na dúvida, não use.
 ## Checklist antes de renderizar
 
 1. Todas as cores e fontes vêm de `theme.ts`.
-2. Dá para apontar o único elemento cobre preenchido da cena.
+2. Dá para apontar o único elemento `acento` preenchido da cena.
 3. Fio metálico com no máximo 1,5 px.
 4. Nenhum emoji, nenhuma imagem de banco, nenhum logo de terceiro.
 5. Textos com acentuação correta e conferidos contra a transcrição.

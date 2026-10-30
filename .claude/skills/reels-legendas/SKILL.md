@@ -11,7 +11,7 @@ animação: a animação mostra o conceito, a legenda mostra a frase.
 ## O que mudou da v1
 
 A v1 tinha a legenda numa faixa de divisória e **uma** palavra destacada em
-cobre por bloco. Com o layout novo não existe mais divisória, e um único nível
+acento por bloco. Com o layout novo não existe mais divisória, e um único nível
 de ênfase deixa a legenda monótona num reel de 50 segundos. A v2 move a legenda
 para a zona segura inferior e cria **três níveis** de ênfase, com cota.
 
@@ -21,7 +21,7 @@ para a zona segura inferior e cria **três níveis** de ênfase, com cota.
   da zona segura inferior e longe dos botões do Instagram (lateral direita,
   140 px).
 - Fonte: Hanken Grotesk 700, 54 a 60 px.
-- Contorno de 6 px em `navy`, sempre: agora a legenda fica sobre a imagem, não
+- Contorno de 6 px em `contorno`, sempre: agora a legenda fica sobre a imagem, não
   sobre fundo chapado.
 - No máximo 2 linhas e 28 caracteres por linha.
 
@@ -38,9 +38,9 @@ para a zona segura inferior e cria **três níveis** de ênfase, com cota.
 
 | Nível | Aparência | Cota |
 |---|---|---|
-| Normal | `creme` | o resto do bloco |
-| Chave | `cobre` | no máximo 1 por bloco |
-| Máxima | `creme` sobre pílula `cobre`, raio 999 px, padding 8/20 px | no máximo **3 por reel inteiro** |
+| Normal | creme fixo | o resto do bloco |
+| Chave | `acento` | no máximo 1 por bloco |
+| Máxima | creme sobre pílula `acento`, raio 999 px, padding 8/20 px | no máximo **3 por reel inteiro** |
 
 O que merece cada nível:
 
@@ -81,7 +81,7 @@ vídeo. Antes de renderizar, confira e corrija:
   mesmo tempo (escolha um dos dois).
 - Legenda em caixa alta inteira.
 - Mais de um nível "máxima" no mesmo bloco.
-- Cor fora da paleta: a ênfase é cobre e creme, não verde, vermelho ou amarelo.
+- Cor fora da paleta: a ênfase é `acento` e creme, não verde, vermelho ou amarelo.
 - Emojis inseridos automaticamente.
 - Palavras de preenchimento ("né", "tipo", "assim") na legenda: remova da
   legenda mesmo que fiquem no áudio.

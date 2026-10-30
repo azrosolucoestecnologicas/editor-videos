@@ -52,7 +52,7 @@ Crie e reutilize estes presets. Nenhum componente define curva própria.
 
 - Padrão: a cena atual sai com `saida` enquanto a próxima entra com `flutuar`,
   sobrepostas 4 a 6 frames.
-- Para mudança de assunto: wipe horizontal de 12 frames com `navySoft`.
+- Para mudança de assunto: wipe horizontal de 12 frames com `reforco`.
 - Para entrar e sair de uma `cena_apoio`: as mesmas `flutuar` e `saida`. **Nunca
   corte seco para o b-roll** — é o que faz parecer vídeo de banco colado.
 - Proibido: zoom de transição, giro, flash branco, glitch, slide 3D.

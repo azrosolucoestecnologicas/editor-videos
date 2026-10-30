@@ -90,11 +90,17 @@ export const Card: React.FC<{
   preenchido?: boolean;
   style?: React.CSSProperties;
   children: React.ReactNode;
-}> = ({ atrasoFrames = 0, brilho = false, preenchido = false, style, children }) => {
+}> = ({
+  atrasoFrames = 0,
+  brilho = false,
+  preenchido = false,
+  style,
+  children,
+}) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const posicaoBrilho = brilho ? brilhoMetal(frame, atrasoFrames + 6) : null;
-  const fundo = preenchido ? cores.creme : cores.vidro;
+  const fundo = preenchido ? cores.superficie : cores.vidro;
 
   return (
     <div
@@ -162,7 +168,7 @@ export const Regua: React.FC<{ atrasoFrames?: number; largura?: number }> = ({
         y1={3}
         x2={largura}
         y2={3}
-        stroke={cores.cobre}
+        style={{ stroke: cores.acento }}
         strokeWidth={6}
         strokeLinecap="round"
         {...desenho(frame - atrasoFrames, largura)}

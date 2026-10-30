@@ -18,7 +18,7 @@ import { FundoVivo } from "./FundoVivo";
 import { Legendas } from "./Legendas";
 import { ANTECIPACAO_FRAMES, duracoes } from "./motion";
 import { CenaDoPlano } from "./scenes";
-import { cores, layout, tipografia } from "./theme";
+import { cores, layout, tipografia, variaveisDoMundo } from "./theme";
 import type { PropsReel } from "./tipos";
 import { VideoRosto } from "./VideoRosto";
 
@@ -29,7 +29,7 @@ const Assinatura: React.FC<{ texto: string }> = ({ texto }) => (
       position: "absolute",
       left: layout.margem,
       top: layout.topoSeguro,
-      color: cores.creme60,
+      color: cores.tintaFraca,
       ...tipografia.assinatura,
     }}
   >
@@ -46,7 +46,11 @@ export const Reel: React.FC<PropsReel> = ({
   const { fps } = plano;
 
   return (
-    <AbsoluteFill style={{ backgroundColor: cores.navy }}>
+    // As variaveis do mundo nascem aqui, na raiz: todo `cores.*` abaixo é um
+    // `var()` que resolve contra elas. Trocar de mundo não toca em cena alguma.
+    <AbsoluteFill
+      style={{ ...variaveisDoMundo(plano.mundo), backgroundColor: cores.chao }}
+    >
       <FundoVivo arquivo={videoFundo} />
 
       <VideoRosto

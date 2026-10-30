@@ -21,9 +21,10 @@ export const Lista: React.FC<{
 
   const itens = cena.conteudo.itens.map((item, i) => ({
     ...item,
-    atraso: item._em != null
-      ? atrasoDe(item._em, cena.inicio, fps)
-      : ATRASO_ITEM_FRAMES * i,
+    atraso:
+      item._em != null
+        ? atrasoDe(item._em, cena.inicio, fps)
+        : ATRASO_ITEM_FRAMES * i,
   }));
 
   // O marcador em cobre acompanha o último item que entrou: assim só existe
@@ -46,7 +47,7 @@ export const Lista: React.FC<{
         }}
       >
         {cena.conteudo.titulo ? (
-          <div style={{ color: cores.creme60, ...tipografia.rotulo }}>
+          <div style={{ color: cores.tintaFraca, ...tipografia.rotulo }}>
             {cena.conteudo.titulo}
           </div>
         ) : null}
@@ -66,11 +67,13 @@ export const Lista: React.FC<{
                 width: 16,
                 height: 16,
                 borderRadius: raios.pilula,
-                backgroundColor: i === ativo ? cores.cobre : cores.creme60,
+                backgroundColor: i === ativo ? cores.acento : cores.tintaFraca,
                 flexShrink: 0,
               }}
             />
-            <div style={{ color: cores.creme, ...tipografia.item }}>{item.texto}</div>
+            <div style={{ color: cores.tinta, ...tipografia.item }}>
+              {item.texto}
+            </div>
           </div>
         ))}
       </Card>

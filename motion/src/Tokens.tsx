@@ -20,12 +20,14 @@ const Amostra: React.FC<{ nome: string; valor: string; escura?: boolean }> = ({
         backgroundColor: valor,
         borderRadius: raios.card,
         boxShadow: sombras.flutuante,
-        border: escura ? `1px solid ${cores.navySoft}` : "none",
+        border: escura ? `1px solid ${cores.reforco}` : "none",
       }}
     />
     <div>
-      <div style={{ color: cores.creme, ...tipografia.item }}>{nome}</div>
-      <div style={{ color: cores.creme60, ...tipografia.rotulo }}>{valor}</div>
+      <div style={{ color: cores.tinta, ...tipografia.item }}>{nome}</div>
+      <div style={{ color: cores.tintaFraca, ...tipografia.rotulo }}>
+        {valor}
+      </div>
     </div>
   </div>
 );
@@ -33,7 +35,7 @@ const Amostra: React.FC<{ nome: string; valor: string; escura?: boolean }> = ({
 export const Tokens: React.FC = () => (
   <AbsoluteFill
     style={{
-      backgroundColor: cores.navy,
+      backgroundColor: cores.chao,
       padding: layout.margem,
       paddingTop: layout.topoSeguro,
       display: "flex",
@@ -41,32 +43,36 @@ export const Tokens: React.FC = () => (
       gap: espaco.distante,
     }}
   >
-    <div style={{ color: cores.creme, ...tipografia.tituloCena }}>
+    <div style={{ color: cores.tinta, ...tipografia.tituloCena }}>
       Tokens dos reels
     </div>
 
-    <div style={{ display: "flex", flexDirection: "column", gap: espaco.proximo }}>
-      <Amostra nome="navy" valor={cores.navy} escura />
-      <Amostra nome="cobre" valor={cores.cobre} />
-      <Amostra nome="creme" valor={cores.creme} />
-      <Amostra nome="navySoft" valor={cores.navySoft} />
+    <div
+      style={{ display: "flex", flexDirection: "column", gap: espaco.proximo }}
+    >
+      <Amostra nome="chao" valor={cores.chao} escura />
+      <Amostra nome="cobre" valor={cores.acento} />
+      <Amostra nome="tinta" valor={cores.tinta} />
+      <Amostra nome="navySoft" valor={cores.reforco} />
     </div>
 
-    <div style={{ display: "flex", flexDirection: "column", gap: espaco.proximo }}>
-      <div style={{ color: cores.creme, ...tipografia.termo }}>
+    <div
+      style={{ display: "flex", flexDirection: "column", gap: espaco.proximo }}
+    >
+      <div style={{ color: cores.tinta, ...tipografia.termo }}>
         Fraunces 600, termo
       </div>
-      <div style={{ color: cores.creme, ...tipografia.corpo }}>
+      <div style={{ color: cores.tinta, ...tipografia.corpo }}>
         Hanken Grotesk 500, corpo com acentuacao: coacao, inducao, Sumula
       </div>
-      <div style={{ color: cores.creme60, ...tipografia.rotulo }}>
+      <div style={{ color: cores.tintaFraca, ...tipografia.rotulo }}>
         Rotulo de diagrama
       </div>
-      <div style={{ color: cores.cobre, ...tipografia.numero }}>331</div>
-      <div style={{ color: cores.creme, ...tipografia.referencia }}>
+      <div style={{ color: cores.acento, ...tipografia.numero }}>331</div>
+      <div style={{ color: cores.tinta, ...tipografia.referencia }}>
         Art. 7o, XIII
       </div>
-      <div style={{ color: cores.creme, ...tipografia.legenda }}>
+      <div style={{ color: cores.tinta, ...tipografia.legenda }}>
         Legenda em Hanken 700
       </div>
     </div>

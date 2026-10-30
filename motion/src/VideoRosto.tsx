@@ -34,7 +34,7 @@ export const VideoRosto: React.FC<{
           left: 0,
           width: faixa.largura,
           height: faixa.altura,
-          backgroundColor: cores.navySoft,
+          backgroundColor: cores.reforco,
         }}
       />
     );
@@ -56,7 +56,8 @@ export const VideoRosto: React.FC<{
   // ...mas antes garante que a cabeça caia depois do degradê. A dissolução no
   // alto da faixa come o que estiver debaixo dela: com o rosto alto no quadro,
   // o topo da cabeça desaparecia. `topo_cabeca` é medido por vídeo.
-  const topoCabeca = enquadramento.topo_cabeca ?? enquadramento.foco_rosto - 0.15;
+  const topoCabeca =
+    enquadramento.topo_cabeca ?? enquadramento.foco_rosto - 0.15;
   const fimDegrade = layout.video.degrade + layout.folgaCabeca;
   const alvoRosto = Math.max(
     layout.rosto - layout.video.topo,
@@ -67,7 +68,10 @@ export const VideoRosto: React.FC<{
     alvoRosto - enquadramento.foco_rosto * altura,
     faixa.altura - altura,
   );
-  const esquerda = limitar((faixa.largura - largura) / 2, faixa.largura - largura);
+  const esquerda = limitar(
+    (faixa.largura - largura) / 2,
+    faixa.largura - largura,
+  );
 
   // Sem isso o vídeo fica parado os 47 segundos inteiros. A skill
   // `reels-movimento` limita a um zoom a cada 8 s; quem espaça é o planejador.

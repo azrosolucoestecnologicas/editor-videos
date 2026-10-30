@@ -4,6 +4,8 @@
  * `reels-composicao` e o `CATALOGO` de `editor/plano.py`.
  */
 
+import type { Mundo } from "./theme";
+
 /** Campos com prefixo `_` são derivados: o planejador os recalcula a cada rodada. */
 type Gatilho = {
   readonly palavra_gatilho?: string | null;
@@ -13,7 +15,10 @@ type Gatilho = {
 
 export type ItemLista = Gatilho & { readonly texto: string };
 export type EtapaFluxo = Gatilho & { readonly rotulo: string };
-export type Coluna = { readonly titulo: string; readonly linhas: readonly string[] };
+export type Coluna = {
+  readonly titulo: string;
+  readonly linhas: readonly string[];
+};
 
 export type ConteudoPorTipo = {
   card_conceito: { readonly termo: string; readonly definicao: string };
@@ -46,7 +51,10 @@ type CenaBase = Gatilho & {
 
 /** União discriminada: cada `tipo` casa com o formato do seu `conteudo`. */
 export type Cena = {
-  [T in TipoCena]: CenaBase & { readonly tipo: T; readonly conteudo: ConteudoPorTipo[T] };
+  [T in TipoCena]: CenaBase & {
+    readonly tipo: T;
+    readonly conteudo: ConteudoPorTipo[T];
+  };
 }[TipoCena];
 
 export type Enquadramento = {
@@ -72,6 +80,11 @@ export type Plano = {
   readonly fonte: Fonte;
   readonly assinatura: string;
   readonly enquadramento: Enquadramento;
+  /**
+   * Em que mundo o reel acontece (`theme.ts`). Um reel usa um só, do começo
+   * ao fim. Ausente = `palco`, que é o padrão e o que todo plano antigo usa.
+   */
+  readonly mundo?: Mundo;
   readonly cenas: readonly Cena[];
 };
 

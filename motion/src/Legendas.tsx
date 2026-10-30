@@ -111,7 +111,7 @@ export const Legendas: React.FC<{ blocos: readonly BlocoLegenda[] }> = ({
           maxWidth: tokens.larguraMaxima,
           lineHeight: 1.1,
           ...tipografia.legenda,
-          WebkitTextStroke: `${tokens.contorno}px ${cores.navy}`,
+          WebkitTextStroke: `${tokens.contorno}px ${cores.contorno}`,
           paintOrder: "stroke fill",
         }}
       >

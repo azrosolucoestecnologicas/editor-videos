@@ -29,17 +29,19 @@ const Coluna: React.FC<{
       padding: espaco.proximo,
     }}
   >
-    <div style={{ display: "flex", flexDirection: "column", gap: espaco.proximo }}>
+    <div
+      style={{ display: "flex", flexDirection: "column", gap: espaco.proximo }}
+    >
       <div
         style={{
-          color: destacada ? cores.cobre : cores.creme60,
+          color: destacada ? cores.acento : cores.tintaFraca,
           ...tipografia.rotulo,
         }}
       >
         {coluna.titulo}
       </div>
       {coluna.linhas.map((linha) => (
-        <div key={linha} style={{ color: cores.creme, ...tipografia.item }}>
+        <div key={linha} style={{ color: cores.tinta, ...tipografia.item }}>
           {linha}
         </div>
       ))}
@@ -53,8 +55,14 @@ export const Comparacao: React.FC<{
 }> = ({ cena, duracaoFrames }) => (
   <AreaCena duracaoFrames={duracaoFrames}>
     {/* Entram na ordem de leitura: esquerda, depois direita. */}
-    <div style={{ display: "flex", gap: espaco.proximo, alignItems: "stretch" }}>
-      <Coluna coluna={cena.conteudo.esquerda} destacada={false} atrasoFrames={0} />
+    <div
+      style={{ display: "flex", gap: espaco.proximo, alignItems: "stretch" }}
+    >
+      <Coluna
+        coluna={cena.conteudo.esquerda}
+        destacada={false}
+        atrasoFrames={0}
+      />
       <Coluna
         coluna={cena.conteudo.direita}
         destacada

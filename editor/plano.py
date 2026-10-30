@@ -148,6 +148,13 @@ def _ver_citacao_legal(c):
     return erros
 
 
+# Os mesmos nomes de `mundos` em motion/src/theme.ts; `tests/test_catalogo.py`
+# compara as duas listas. Um reel usa um mundo do começo ao fim: a troca no meio
+# lê como outro vídeo, não como capítulo.
+MUNDOS = ("palco", "documento")
+MUNDO_PADRAO = "palco"
+
+
 # A mesma lista do mapa `ICONES` em motion/src/icones.ts. Está escrita duas
 # vezes porque os dois lados precisam dela sozinhos; `tests/test_catalogo.py`
 # compara as duas e falha se alguém mexer só numa.
@@ -481,6 +488,7 @@ def esqueleto(transcricao, video, duracao=None, assinatura="", gloss=None):
         "fonte": dimensoes(video),
         "assinatura": assinatura,
         "enquadramento": {"foco_rosto": 0.36, "zoom": 1.0, "origem": "padrao"},
+        "mundo": MUNDO_PADRAO,
         "cenas": cenas,
     }
 
@@ -623,7 +631,7 @@ def mesclar(antigo, novo, refazer=()):
     plano = dict(novo)
     plano["cenas"] = cenas
     # Campos de topo editáveis à mão sobrevivem ao recálculo.
-    for campo in ("assinatura", "enquadramento"):
+    for campo in ("assinatura", "enquadramento", "mundo"):
         if campo in antigo:
             plano[campo] = antigo[campo]
     return plano
@@ -638,6 +646,13 @@ def validar(plano, transcricao, legendas=None, gloss=None):
 
     if not cenas:
         return [("erro", "o plano não tem nenhuma cena")]
+
+    mundo = plano.get("mundo", MUNDO_PADRAO)
+    if mundo not in MUNDOS:
+        achados.append((
+            "erro",
+            f'mundo "{mundo}" não existe; use um de: {", ".join(MUNDOS)}',
+        ))
 
     # A palavra-gatilho é conferida contra a transcrição corrigida pelo
     # glossário, que é o texto que de fato aparece na tela.

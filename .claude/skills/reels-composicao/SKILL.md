@@ -28,12 +28,12 @@ ambiente em vez de morar numa caixa separada.
 | # | Camada | Faixa (px) | O que é |
 |---|---|---|---|
 | 1 | Fundo vivo | 0 a 1920 | o próprio vídeo, escala 2,2x, desfocado, escurecido a 0,45 |
-| 2 | Véu | 0 a 1010 | `navy` a 72%, para o texto ter contraste |
-| 3 | Grade | 0 a 1010 | linhas `navySoft` a 20%, espaçamento 72 px |
+| 2 | Véu | 0 a 1010 | `veu`, para o texto ter contraste |
+| 3 | Grade | 0 a 1010 | linhas `reforco` a 20%, espaçamento 72 px |
 | 4 | Vídeo nítido | 1010 a 1920 | você, reenquadrado no rosto, com degradê de 150 px no topo |
 | 5 | Cenas | 150 a 860 | os cards do `scene_plan.json` |
 | 6 | Legenda | centro em 1620 | sobre o vídeo, na zona segura inferior |
-| 7 | Assinatura | 120 | nome em `creme60`, 28 px, canto superior esquerdo |
+| 7 | Assinatura | 120 | nome em `tintaFraca`, 28 px, canto superior esquerdo |
 
 O degradê no topo da camada 4 é o que substitui a emenda: o vídeo nítido
 dissolve no desfocado em 150 px. **Nunca existe uma linha reta separando as

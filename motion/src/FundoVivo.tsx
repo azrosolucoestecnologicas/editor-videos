@@ -68,7 +68,7 @@ export const FundoVivo: React.FC<{ arquivo: string }> = ({ arquivo }) => {
   const altura = 1920 * escala;
 
   return (
-    <AbsoluteFill style={{ backgroundColor: cores.navy, overflow: "hidden" }}>
+    <AbsoluteFill style={{ backgroundColor: cores.chao, overflow: "hidden" }}>
       {arquivo ? (
         // O arquivo já vem desfocado e com 270px de largura (gerar_fundo, em
         // editor/plano.py, roda `scale=270:-2,gblur=sigma=6`). Aqui ele só é

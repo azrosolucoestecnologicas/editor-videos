@@ -24,7 +24,7 @@ export const Sintese: React.FC<{
       <Regua largura={140} />
       <div
         style={{
-          color: cores.creme,
+          color: cores.tinta,
           ...tipografia.tituloCena,
           maxWidth: 880,
           lineHeight: 1.15,

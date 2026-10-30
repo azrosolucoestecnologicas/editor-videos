@@ -27,12 +27,12 @@ export const CardConceito: React.FC<{
         }}
       >
         <Regua atrasoFrames={6} />
-        <div style={{ color: cores.creme, ...tipografia.termo }}>
+        <div style={{ color: cores.tinta, ...tipografia.termo }}>
           {cena.conteudo.termo}
         </div>
         <div
           style={{
-            color: cores.creme60,
+            color: cores.tintaFraca,
             ...tipografia.corpo,
             ...entradaSuave(frame, fps, 10),
           }}

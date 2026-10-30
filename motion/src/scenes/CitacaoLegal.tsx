@@ -30,14 +30,26 @@ export const CitacaoLegal: React.FC<{
           padding: espaco.distante,
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: espaco.proximo }}>
-          <div style={{ color: cores.navy, ...tipografia.referencia }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: espaco.proximo,
+          }}
+        >
+          <div
+            style={{ color: cores.tintaSuperficie, ...tipografia.referencia }}
+          >
             {referencia}
           </div>
           {trecho ? (
             <>
               <Regua atrasoFrames={12} largura={140} />
-              <div style={{ color: cores.navy, ...tipografia.corpo }}>{trecho}</div>
+              <div
+                style={{ color: cores.tintaSuperficie, ...tipografia.corpo }}
+              >
+                {trecho}
+              </div>
             </>
           ) : null}
         </div>

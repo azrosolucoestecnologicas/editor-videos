@@ -34,34 +34,110 @@ export const fontesProntas = Promise.all([
   mono.waitUntilDone(),
 ]);
 
-/** Paleta AR. Proporcao por cena: ~70% navy, ~25% creme, no maximo 5% cobre. */
-export const cores = {
-  /** Fundo do painel de animacao; texto principal sobre fundo claro. */
-  navy: "#0F2540",
-  /** Destaque. Sinal, nao decoracao: no maximo um elemento cobre por cena. */
-  cobre: "#B87333",
-  /** Fundo de cards; texto sobre navy. */
-  creme: "#F5EFE4",
-  /** Cards secundarios, grades, conectores inativos. */
-  navySoft: "#1C3A5E",
-  /** Texto de apoio e rotulos. */
-  creme60: "rgba(245,239,228,0.6)",
-  /** Veu sobre o fundo vivo, para o texto ter contraste. */
-  veu: "rgba(15,37,64,0.72)",
+/**
+ * Os mundos. Um reel usa um do comeco ao fim; a escolha vem do plano.
+ *
+ * Nao sao paletas diferentes — e a mesma paleta AR com papeis trocados. No
+ * mundo `palco` o navy e o chao e o creme e a tinta; no `documento` e o
+ * contrario, e o reel ganha cara de peca impressa sem sair da identidade.
+ * Um mundo novo nasce aqui e nenhuma cena muda, porque os componentes leem
+ * `cores`, que aponta para variaveis CSS, nao para estes valores.
+ */
+export const mundos = {
+  /** O palco: chao navy, luz de cobre. O reel de camera, com fundo vivo. */
+  palco: {
+    chao: "#0F2540",
+    tinta: "#F5EFE4",
+    tintaFraca: "rgba(245,239,228,0.6)",
+    acento: "#B87333",
+    acentoClaro: "#E8D5BC",
+    superficie: "#F5EFE4",
+    tintaSuperficie: "#0F2540",
+    reforco: "#1C3A5E",
+    veu: "rgba(15,37,64,0.72)",
+    vidro: "rgba(15,37,64,0.85)",
+    contorno: "#0F2540",
+  },
   /**
-   * Corpo de card translucido: deixa a luz do cenario atravessar sem perder o
-   * navy. Base navy, nao navySoft: sobre as partes claras do palco o navySoft
-   * a 55% resultava num cinza-barro que nao pertence a paleta.
+   * O documento: papel, tinta e selo. Para peca explicativa e juridica.
+   *
+   * Mesma familia de cor do palco, com os papeis invertidos — o creme vira
+   * chao e o navy vira tinta. O acento continua o mesmo cobre, porque e ele
+   * que diz "isto e um reel seu" nos dois mundos.
    */
-  vidro: "rgba(15,37,64,0.85)",
+  documento: {
+    // O chao e mais fundo que a superficie de proposito: creme sobre creme
+    // apaga o card, e e a diferenca de valor que faz o card existir.
+    chao: "#E7DAC6",
+    tinta: "#122538",
+    tintaFraca: "rgba(18,37,56,0.62)",
+    acento: "#B87333",
+    acentoClaro: "#8A5526",
+    superficie: "#FDFAF4",
+    tintaSuperficie: "#122538",
+    reforco: "#D8C8AE",
+    veu: "rgba(231,218,198,0.84)",
+    vidro: "rgba(253,250,244,0.94)",
+    contorno: "#122538",
+  },
 } as const;
+
+export type Mundo = keyof typeof mundos;
+export const MUNDO_PADRAO: Mundo = "palco";
+
+/**
+ * Os tokens como os componentes os usam: referencias, nao valores.
+ *
+ * Os nomes antigos (navy, creme, cobre) viraram papeis (chao, tinta, acento)
+ * porque num mundo claro "navy" seria o texto, e um token que mente sobre o
+ * que e atrapalha mais do que ajuda.
+ */
+export const cores = {
+  /** O fundo do mundo. */
+  chao: "var(--chao)",
+  /** Texto principal e tracos sobre o chao. */
+  tinta: "var(--tinta)",
+  /** Texto de apoio e rotulos. */
+  tintaFraca: "var(--tinta-fraca)",
+  /** Destaque. Sinal, nao decoracao: no maximo um elemento por cena. */
+  acento: "var(--acento)",
+  /** O claro do fio metalico; so dentro de `metal`. */
+  acentoClaro: "var(--acento-claro)",
+  /** Fundo do card preenchido. Claro nos dois mundos. */
+  superficie: "var(--superficie)",
+  /** Texto sobre o card preenchido — nao e a mesma coisa que `tinta`. */
+  tintaSuperficie: "var(--tinta-superficie)",
+  /** Faixa atras do video, conectores inativos, grades. */
+  reforco: "var(--reforco)",
+  /** Veu sobre o fundo vivo, para o texto ter contraste. */
+  veu: "var(--veu)",
+  /** Corpo de card translucido: deixa a luz do cenario atravessar. */
+  vidro: "var(--vidro)",
+  /**
+   * Contorno da legenda. Fica escuro nos dois mundos: ele corre sobre o
+   * video, nao sobre o chao, e e so ali que a legenda precisa de borda.
+   */
+  contorno: "var(--contorno)",
+} as const;
+
+/** As variaveis CSS de um mundo, para o estilo da raiz da composicao. */
+export const variaveisDoMundo = (nome: Mundo | undefined) => {
+  const mundo = mundos[nome ?? MUNDO_PADRAO] ?? mundos[MUNDO_PADRAO];
+  const estilo: Record<string, string> = {};
+  for (const [papel, valor] of Object.entries(mundo)) {
+    // chao -> --chao, tintaFraca -> --tinta-fraca
+    estilo[`--${papel.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)}`] =
+      valor;
+  }
+  return estilo;
+};
 
 /**
  * Acabamento metalico. O fio da borda tem 1,5 px: acima disso vira moldura de
  * convite de casamento (skill `reels-estilo`).
  */
 export const metal = {
-  borda: `linear-gradient(135deg, ${cores.cobre}, #E8D5BC, ${cores.cobre})`,
+  borda: `linear-gradient(135deg, ${cores.acento}, ${cores.acentoClaro}, ${cores.acento})`,
   face: "linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.12))",
   brilho:
     "linear-gradient(105deg, transparent 40%, rgba(245,239,228,0.22) 50%, transparent 60%)",
@@ -202,7 +278,7 @@ export const tipografia = {
 
 /** Grade sutil opcional atras das cenas. */
 export const grade = {
-  cor: cores.navySoft,
+  cor: cores.reforco,
   opacidade: 0.3,
   passo: 72,
 } as const;
@@ -218,12 +294,20 @@ export const icones = {
  * contorno navy e obrigatorio. Tres niveis de enfase, com cota (skill
  * `reels-legendas`): normal, chave (1 por bloco) e maxima (3 no reel inteiro).
  */
+/**
+ * A legenda e a unica coisa que NAO segue o mundo.
+ *
+ * Ela corre sobre o video, nao sobre o chao: num mundo claro, seguir `tinta`
+ * a deixaria navy sobre o terno escuro, ilegivel. Entao as cores dela sao
+ * fixas — creme sobre o video, contorno navy — e so o acento, que e o mesmo
+ * nos dois mundos, vem do token.
+ */
 export const legenda = {
-  corTexto: cores.creme,
-  corChave: cores.cobre,
+  corTexto: "#F5EFE4",
+  corChave: cores.acento,
   /** Nivel maximo: creme sobre pilula cobre. */
-  maximaFundo: cores.cobre,
-  maximaTexto: cores.creme,
+  maximaFundo: cores.acento,
+  maximaTexto: "#F5EFE4",
   maximaPadding: "8px 20px",
   contorno: 6,
   /** Pop da palavra no momento em que e falada. E pop, nao balanco. */

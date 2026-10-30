@@ -48,7 +48,7 @@ const Seta: React.FC<{ atrasoFrames: number; vertical: boolean }> = ({
         y1={vertical ? 0 : 12}
         x2={vertical ? 12 : comprimento - 10}
         y2={vertical ? comprimento - 10 : 12}
-        stroke={cores.creme60}
+        style={{ stroke: cores.tintaFraca }}
         strokeWidth={3}
         strokeLinecap="round"
         {...desenho(decorrido, comprimento)}
@@ -60,7 +60,7 @@ const Seta: React.FC<{ atrasoFrames: number; vertical: boolean }> = ({
             : `${comprimento - 14},6 ${comprimento - 2},12 ${comprimento - 14},18`
         }
         fill="none"
-        stroke={cores.creme60}
+        style={{ stroke: cores.tintaFraca }}
         strokeWidth={3}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -123,7 +123,7 @@ export const Fluxo: React.FC<{
                 <div
                   style={{
                     textAlign: "center",
-                    color: ultima ? cores.cobre : cores.creme,
+                    color: ultima ? cores.acento : cores.tinta,
                     ...tipografia.rotuloCaixa,
                   }}
                 >

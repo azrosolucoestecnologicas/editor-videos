@@ -22,13 +22,13 @@ export const IconeDestaque: React.FC<{
       <div style={entrada(frame, fps, 0)}>
         <Icone
           size={icones.tamanho}
-          color={cores.cobre}
+          color={cores.acento}
           strokeWidth={icones.strokeWidth}
         />
       </div>
       <div
         style={{
-          color: cores.creme,
+          color: cores.tinta,
           ...tipografia.termo,
           maxWidth: 820,
           ...entrada(frame, fps, 6),
