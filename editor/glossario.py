@@ -14,7 +14,7 @@ import json
 import re
 from pathlib import Path
 
-from .roteiro import normalizar
+from .texto_util import normalizar
 
 RAIZ = Path(__file__).resolve().parent.parent
 CAMINHO_PADRAO = RAIZ / "glossario.json"

@@ -4,9 +4,14 @@ Antes de criar ou alterar qualquer cena, legenda, corte ou animação dos reels,
 consulte as skills reels-estilo, reels-ritmo, reels-legendas, reels-movimento
 e reels-composicao (em `.claude/skills/`). Em conflito, reels-composicao decide layout e reels-ritmo decide tempo.
 
-- O editor em Python (`editar.py`, pasta `editor/`) deve continuar funcionando: não mude o comportamento dos comandos existentes.
+- O Remotion (`motion/`) é o único motor de render. O editor antigo em Pillow
+  (`render.py`, `compositor.py`, `roteiro.py`, `animacoes/` e os roteiros YAML) foi
+  removido; se precisar dele, está no commit `bed62b4`. Não reintroduza um segundo motor.
+- O Python só corta, planeja e chama o Remotion: nada de desenhar quadro a quadro de volta.
 - Tokens visuais ficam só em `motion/src/theme.ts` e presets de animação só em `motion/src/motion.ts`.
 - Correções de termos da transcrição ficam em `glossario.json` na raiz.
+- `motion-trial/` usa outro motor (motion-skills/GSAP, da skill `motion-director`) e é
+  para peças curtas avulsas. Não misture com o pipeline de reels.
 
 ## Fluxo atual
 

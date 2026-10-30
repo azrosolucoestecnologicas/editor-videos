@@ -3,11 +3,12 @@ __pycache__/
 .venv/
 entrada/*
 !entrada/.gitkeep
-saida/*
-!saida/.gitkeep
 modelos/
 output/*
 !output/.gitkeep
+
+# Peças avulsas feitas com a skill motion-director (outro motor, ver CLAUDE.md)
+motion-trial/
 
 # Gerado por exemplos/tipos_de_cena.py
 planos/catalogo_de_cenas.props.json

@@ -15,6 +15,8 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+from . import ffmpeg
+
 PADRAO = 0.36
 # Quanto o cabelo sobe acima da caixa do rosto, como fracao da altura dela.
 # O cascade acha a FACE (testa a queixo); o topo da cabeca fica acima disso.
@@ -38,7 +40,7 @@ def detectar(video, amostras=AMOSTRAS, padrao=PADRAO):
     except ImportError:
         return padrao, padrao - 0.15, 0, 0
 
-    duracao = _duracao(video)
+    duracao = ffmpeg.duracao(video, padrao=0.0)
     if not duracao:
         return padrao, padrao - 0.15, 0, 0
 
@@ -76,17 +78,6 @@ def detectar(video, amostras=AMOSTRAS, padrao=PADRAO):
         len(quadros),
     )
 
-
-def _duracao(video):
-    try:
-        saida = subprocess.run(
-            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
-             "-of", "csv=p=0", str(video)],
-            capture_output=True, text=True, check=True,
-        ).stdout.strip()
-        return float(saida)
-    except (subprocess.CalledProcessError, ValueError):
-        return 0.0
 
 
 def _extrair(video, duracao, amostras, pasta):

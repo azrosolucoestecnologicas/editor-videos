@@ -27,7 +27,7 @@ import unicodedata
 from pathlib import Path
 
 from . import glossario as mod_glossario
-from .roteiro import normalizar
+from .texto_util import normalizar
 
 RAIZ = Path(__file__).resolve().parent.parent
 PASTA_PLANOS = RAIZ / "planos"
