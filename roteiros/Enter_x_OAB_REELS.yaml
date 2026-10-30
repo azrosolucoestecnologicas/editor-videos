@@ -1,0 +1,368 @@
+# ENTER x OAB — versão reels final
+# Base: vídeo já limpo (sem duplicações, falas erradas e pausas longas)
+
+video: entrada/Enter x OAB/limpo.mp4
+transcricao: entrada/Enter x OAB/limpo.transcricao.json
+saida: saida/ENTER_OAB_REELS.mp4
+
+resolucao: [1080, 1920]
+fps: 30
+
+tema:
+  fundo: ["#0a0e27", "#1a1f3a"]
+  destaque: "#d4af37"
+  secundaria: "#c0c0c0"
+  texto: "#ffffff"
+
+legendas:
+  ativas: true
+  estilo: destaque
+  palavras_por_bloco: 3
+  tamanho: 68
+  maiusculas: true
+  posicao_dividido: 0.55
+  substituicoes:
+    inter: ENTER
+    enter: ENTER
+    ab: OAB
+    oab: OAB
+    constoria: CONSULTORIA   # o Whisper erra essa; no áudio está "consultoria"
+    depate: DEBATE
+    a jurídica: IA JURÍDICA
+    ia: IA
+    legaltech: LEGALTECH
+    legal tech: LEGAL TECH
+
+divisao:
+  proporcao: 0.46
+  animacao_em: cima
+  foco_rosto: 0.5
+  zoom_rosto: 1.08
+  transicao: 0.3
+
+eventos:
+  # ---------------- HOOK ----------------
+  - em: "0:00"
+    duracao: 2.2
+    animacao:
+      tipo: texto
+      texto: "STARTUP DE IA\nPROCESSADA PELA OAB"
+      subtitulo: "A disputa vai além da tecnologia"
+      emoji: "⚖️"
+      tamanho: 115
+
+  - quando: "E agora ela está sendo processada"
+    ate_quando: "além da inteligência artificial"
+    animacao:
+      tipo: imagem
+      arquivo: assets/fit_05_enter_departamentos_juridicos.png
+      titulo: "OAB x ENTER"
+
+  # ---------------- QUEM É A ENTER (foto real) ----------------
+  - quando: "A ENTER é uma legal tech brasileira"
+    ate_quando: "1,2 bilhões de dólares"
+    animacao:
+      tipo: imagem
+      arquivo: assets/fit_04_depoimentos_advogados.png
+      titulo: "UNICÓRNIO BRASILEIRO"
+
+  - quando: "primeiro unicórnio"
+    ate_quando: "Founders Fund"
+    animacao:
+      tipo: contador
+      titulo: "AVALIAÇÃO"
+      de: 0
+      ate: 1.2
+      casas: 1
+      sufixo: " BI USD"
+      legenda: "primeiro unicórnio de IA jurídica do país"
+
+  # ---------------- A PLATAFORMA E OS CLIENTES (fotos reais) ----------------
+  - quando: "Ela licencia uma plataforma"
+    ate_quando: "grandes litigantes"
+    animacao:
+      tipo: imagem
+      arquivo: assets/fit_01_logos_oab_enter.png
+      titulo: "A PLATAFORMA"
+
+  - quando: "como bancos, varejistas"
+    ate_quando: "companhias aereas"
+    animacao:
+      tipo: imagem
+      arquivo: assets/fit_03_enter_clientes.png
+      titulo: "QUEM USA"
+
+  - quando: "300 mil processos por ano"
+    duracao: 2.6
+    animacao:
+      tipo: contador
+      titulo: "VOLUME"
+      de: 0
+      ate: 300
+      sufixo: " MIL"
+      legenda: "processos por ano"
+
+  - quando: "A própria empresa descreve o produto"
+    duracao: 2.4
+    animacao:
+      tipo: texto
+      texto: "NAS PALAVRAS\nDA PRÓPRIA EMPRESA"
+      tamanho: 95
+
+  # ---------------- FLUXO DO PRODUTO ----------------
+  - quando: "Um agente que lê a inicial"
+    ate_quando: "a assinatura e o protocolo"
+    animacao:
+      tipo: passos
+      titulo: "COMO FUNCIONA"
+      numerada: true
+      itens:
+        - texto: "Lê a inicial e organiza provas"
+        - texto: "Propõe a tese"
+        - texto: "Escreve a minuta"
+        - texto: "Advogado revisa e assina"
+
+  # ---------------- ESCALA ----------------
+  - quando: "na Latam seus agentes sugerem"
+    ate_quando: "84 mil minutos por ano"
+    animacao:
+      tipo: comparacao
+      titulo: "ESCALA"
+      esquerda:
+        titulo: "70%"
+        itens: ["dos processos", "com minuta sugerida"]
+      direita:
+        titulo: "84 MIL"
+        itens: ["minutas por ano", "no Brasil"]
+
+  # ---------------- A AÇÃO ----------------
+  - quando: "a AB de São Paulo ajuizou"
+    ate_quando: "entrou ao lado dela"
+    animacao:
+      tipo: lista
+      titulo: "AÇÃO CIVIL PÚBLICA"
+      itens:
+        - texto: "7 de outubro de 2026"
+        - texto: "Justiça Federal"
+        - texto: "OAB-SP + OAB-RJ"
+
+  - quando: "A ordem não pede o fechamento"
+    ate_quando: "é mais sutil"
+    animacao:
+      tipo: comparacao
+      titulo: "O QUE A OAB PEDE"
+      esquerda:
+        titulo: "NÃO PEDE"
+        itens: ["Fechar a empresa", "Proibir IA"]
+      direita:
+        titulo: "PEDE"
+        itens: ["Rever o modelo", "de negócio"]
+
+  - quando: "troca a pergunta quem assina"
+    ate_quando: "quem faz a peça"
+    animacao:
+      tipo: comparacao
+      titulo: "A VIRADA DA AÇÃO"
+      esquerda:
+        titulo: "ANTES"
+        itens: ["Quem ASSINA", "a peça?"]
+      direita:
+        titulo: "AGORA"
+        itens: ["Quem FAZ", "a peça?"]
+
+  - quando: "Ação se apoia no trecho do Estatuto"
+    ate_quando: "consultoria e assessoria jurídica"
+    animacao:
+      tipo: digitando
+      titulo: "ESTATUTO DA ORDEM"
+      texto: "Reserva ao advogado a consultoria e a assessoria jurídica."
+
+  - quando: "o centro da briga é a estratégia"
+    ate_quando: "fase por fase, isso fica claro"
+    animacao:
+      tipo: texto
+      texto: "O CENTRO DA BRIGA"
+      subtitulo: "A estratégia e o modelo de negócio"
+      emoji: "🎯"
+      tamanho: 105
+
+  # ---------------- AS TRÊS FASES ----------------
+  - quando: "na fase diagnóstico"
+    ate_quando: "o uso da IA é bem vindo"
+    animacao:
+      tipo: lista
+      titulo: "FASE 1 · DIAGNÓSTICO"
+      subtitulo: "IA liberada"
+      itens:
+        - texto: "Ler a inicial"
+        - texto: "Organizar provas"
+        - texto: "Classificar o caso"
+
+  - quando: "Agora na fase de estratégia"
+    ate_quando: "mora a reserva legal"
+    animacao:
+      tipo: lista
+      titulo: "FASE 2 · ESTRATÉGIA"
+      subtitulo: "⚠️ ZONA RESERVADA"
+      cor_destaque: "#ef4444"
+      itens:
+        - texto: "Escolher a tese"
+        - texto: "Recorrer ou acordar"
+        - texto: "Ler o risco"
+
+  - quando: "Se o sistema que propõe a tese"
+    ate_quando: "já mudou de mãos"
+    animacao:
+      tipo: texto
+      texto: "A MÁQUINA PROPÕE.\nO ADVOGADO SÓ CONFIRMA?"
+      subtitulo: "A fase mudou de mãos"
+      tamanho: 100
+
+  - quando: "Agora a fase de postulação"
+    ate_quando: "assinatura digital de um advog"
+    animacao:
+      tipo: lista
+      titulo: "FASE 3 · POSTULAÇÃO"
+      subtitulo: "Só entra com assinatura"
+      itens:
+        - texto: "Peça protocolada"
+        - texto: "Assinatura digital"
+        - texto: "Responsabilidade do advogado"
+
+  - quando: "A Inter afirma que a decisão final"
+    ate_quando: "contratado pela empresa"
+    animacao:
+      tipo: digitando
+      titulo: "A DEFESA DA ENTER"
+      texto: "A decisão final é sempre do advogado contratado."
+
+  # ---------------- O QUE A OAB QUER PROVAR ----------------
+  - quando: "A OAB quer provar se essa revisão é real"
+    ate_quando: "auditoria periódica"
+    animacao:
+      tipo: lista
+      titulo: "A OAB EXIGE"
+      itens:
+        - texto: "Tempo real de leitura"
+        - texto: "Identificação do advogado"
+        - texto: "Auditoria periódica"
+
+  # ---------------- RELAÇÃO ECONÔMICA ----------------
+  - quando: "A OAB juntou um contrato"
+    ate_quando: "remuneração por resultado"
+    animacao:
+      tipo: lista
+      titulo: "O CONTRATO ANÔNIMO"
+      subtitulo: "ainda não verificado"
+      itens:
+        - texto: "Distribuição de processos"
+        - texto: "Repasse de 50% líquido"
+        - texto: "Remuneração por resultado"
+
+  - quando: "Se isso se confirmar"
+    ate_quando: "independência"
+    animacao:
+      tipo: comparacao
+      titulo: "SE CONFIRMADO"
+      esquerda:
+        titulo: "CAPTAÇÃO"
+        itens: ["de clientela"]
+      direita:
+        titulo: "INDEPENDÊNCIA"
+        itens: ["profissional"]
+
+  # ---------------- O QUE SE DELEGA ----------------
+  - quando: "a prática jurídica pode sim ser padronizada"
+    ate_quando: "a criação das estratégias"
+    animacao:
+      tipo: comparacao
+      titulo: "O LIMITE"
+      esquerda:
+        titulo: "DELEGA"
+        itens: ["Redigir", "Organizar", "Comparar decisões"]
+      direita:
+        titulo: "NÃO DELEGA"
+        itens: ["A tese", "O risco", "A estratégia"]
+
+  - quando: "A cointeligência entre a inteligência humana"
+    ate_quando: "a máquina amplia o potencial"
+    animacao:
+      tipo: texto
+      texto: "COINTELIGÊNCIA"
+      subtitulo: "O jurista decide. A máquina amplia."
+      emoji: "🤝"
+      tamanho: 110
+
+  - quando: "O risco desse modelo é o inverso"
+    ate_quando: "advogado que apenas assinou"
+    animacao:
+      tipo: passos
+      titulo: "O RISCO INVERTIDO"
+      numerada: true
+      itens:
+        - texto: "A empresa parametriza o sistema"
+        - texto: "A decisão nasce na máquina"
+        - texto: "O advogado só assina"
+        - texto: "A responsabilidade é dele"
+
+  - quando: "Responsabilidade sem decisão"
+    duracao: 2.6
+    layout: cheio
+    zoom:
+      fator: 1.15
+    animacao:
+      tipo: texto
+      texto: "RESPONSABILIDADE\nSEM DECISÃO"
+      subtitulo: "O cerne da ação da OAB"
+      emoji: "⚠️"
+      tamanho: 115
+
+  # ---------------- O OUTRO LADO (foto real dos depoimentos) ----------------
+  - quando: "Também argumentos fortes do outro lado"
+    ate_quando: "continuavam com advogados"
+    animacao:
+      tipo: imagem
+      arquivo: assets/fit_02_oab_enter_times_square.png
+      titulo: "O OUTRO LADO"
+
+  - quando: "Peça jurídica sempre foi feita a muitas mãos"
+    ate_quando: "contra uma única empresa"
+    animacao:
+      tipo: lista
+      titulo: "ARGUMENTOS DA DEFESA"
+      itens:
+        - texto: "Peça sempre foi a muitas mãos"
+        - texto: "Precedente de 2024 favorável"
+        - texto: "O debate é do Congresso"
+
+  # ---------------- A DECISÃO (foto real Times Square) ----------------
+  - quando: "a Justiça Federal negou a proibição"
+    ate_quando: "O mérito ainda vai ser julgado"
+    animacao:
+      tipo: lista
+      titulo: "DECISÃO · 21/OUT"
+      itens:
+        - texto: "Negou proibir contratos"
+        - texto: "Negou suspender publicidade"
+        - texto: "Só preservação, multa de R$ 50 mil"
+        - texto: "Mérito ainda será julgado"
+
+  # ---------------- FECHAMENTO ----------------
+  - quando: "quem que está decidindo de verdade"
+    ate_quando: "assinador de peças"
+    layout: cheio
+    zoom:
+      fator: 1.12
+    animacao:
+      tipo: texto
+      texto: "E NO SEU\nESCRITÓRIO?"
+      subtitulo: "Quem está decidindo de verdade?"
+      emoji: "🤔"
+      tamanho: 120
+
+  - quando: "Comenta aqui"
+    ate_quando: "acham desse caso"
+    animacao:
+      tipo: imagem
+      arquivo: assets/fit_05_enter_departamentos_juridicos.png
+      titulo: "COMENTA AQUI 👇"

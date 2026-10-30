@@ -1,0 +1,173 @@
+# Roteiro ENTER x OAB - Case jurídico com animações de processo
+video: entrada/Enter x OAB/D6EB16CD-BAC0-4026-B71D-E318BD41CF0E.mp4
+saida: saida/Enter_x_OAB_editado.mp4
+
+tema:
+  fundo: ["#0b1020", "#1c2541"]      # azul escuro (tema jurídico)
+  destaque: "#facc15"                 # amarelo para destaque
+  secundaria: "#38bdf8"               # ciano
+
+legendas:
+  ativas: true
+  estilo: destaque
+  palavras_por_bloco: 4
+  maiusculas: false
+  substituicoes:
+    enter: ENTER
+    oab: OAB
+    ia: IA
+    ação: AÇÃO
+
+divisao:
+  proporcao: 0.5
+  animacao_em: cima
+  foco_rosto: 0.35
+  transicao: 0.35
+
+eventos:
+  # ============================================================================
+  # ATO 1: CONTEXTO - A startup unicórnio brasileira
+  # ============================================================================
+  - quando: "startup brasileira de A jurídica"
+    ate_quando: "1,2 bilhões de dólares"
+    animacao:
+      tipo: texto
+      texto: "ENTER"
+      subtitulo: "Unicórnio de IA Jurídica 🦄"
+      emoji: "⚖️"
+      tamanho: 140
+      destacar: true
+
+  # ============================================================================
+  # ATO 2: DESCRIÇÃO - Como a ENTER trabalha (fluxo de processo)
+  # ============================================================================
+  - quando: "Um agente que lê a inicial"
+    ate_quando: "e o protocolo"
+    animacao:
+      tipo: passos
+      titulo: "FLUXO DE TRABALHO"
+      numerada: true
+      itens:
+        - texto: "Agente lê a inicial"
+          quando: "lê a inicial"
+        - texto: "Organiza as provas"
+          quando: "organiza as provas"
+        - texto: "Propõe a tese"
+          quando: "propõe a tese"
+        - texto: "Escreve a minuta"
+          quando: "escreve a minuta"
+        - texto: "Advogado revisa"
+          quando: "revisão"
+        - texto: "Advogado assina"
+          quando: "assinatura"
+
+  # Destaque: O que está sendo delegado
+  - quando: "Segundo a própria empresa"
+    ate_quando: "84 mil minutos"
+    animacao:
+      tipo: comparacao
+      titulo: "A DIMENSÃO DO PROBLEMA"
+      esquerda:
+        titulo: "LATAM"
+        itens: ["70% dos processos", "com sugestão de minuta"]
+      direita:
+        titulo: "BRASIL"
+        itens: ["~84 mil minutas", "por ano"]
+
+  # ============================================================================
+  # ATO 3: O CONFLITO - A ação da OAB
+  # ============================================================================
+  - quando: "A OAB de São Paulo ajuizou"
+    duracao: 3
+    animacao:
+      tipo: texto
+      texto: "AÇÃO CIVIL PÚBLICA"
+      subtitulo: "OAB vs ENTER"
+      emoji: "⚖️"
+      destacar: true
+
+  # Mudança de paradigma
+  - quando: "Ela troca a pergunta quem assina"
+    ate_quando: "quem faz a peça"
+    animacao:
+      tipo: comparacao
+      titulo: "A MUDANÇA FUNDAMENTAL"
+      esquerda:
+        titulo: "MODELO 1"
+        itens: ["Máquina faz", "Advogado assina"]
+      direita:
+        titulo: "MODELO 2"
+        itens: ["Quem de fato", "faz a peça?"]
+
+  # ============================================================================
+  # ATO 4: AS FASES DO OFÍCIO JURÍDICO
+  # ============================================================================
+  - quando: "Olhando o ofício do advogado, fase por fase"
+    ate_quando: "isso fica claro"
+    animacao:
+      tipo: texto
+      texto: "AS 3 FASES"
+      subtitulo: "Do trabalho jurídico"
+      emoji: "🔍"
+
+  # FASE 1: Diagnóstico
+  - quando: "Na fase diagnóstico"
+    ate_quando: "ninguém discute"
+    animacao:
+      tipo: texto
+      texto: "FASE 1: DIAGNÓSTICO"
+      subtitulo: "Ler, organizar, classificar"
+      tamanho: 100
+
+  # FASE 2: Estratégia (AQUI MORA A RESERVA LEGAL)
+  - quando: "na fase de estratégia"
+    ate_quando: "mora a reserva legal"
+    animacao:
+      tipo: texto
+      texto: "FASE 2: ESTRATÉGIA"
+      subtitulo: "⚠️ Escolher tese, decidir acordo, recurso"
+      tamanho: 100
+
+  # FASE 3: Postulação
+  - quando: "Agora na fase de postulação"
+    ate_quando: "com a assinatura digital"
+    animacao:
+      tipo: texto
+      texto: "FASE 3: POSTULAÇÃO"
+      subtitulo: "Peça vai ao juiz com assinatura do advogado"
+      tamanho: 100
+
+  # ============================================================================
+  # ATO 5: O CERNE DO CONFLITO
+  # ============================================================================
+  - quando: "Se o sistema que propõe a tese"
+    ate_quando: "de mãos"
+    animacao:
+      tipo: texto
+      texto: "O SISTEMA PROPÕE"
+      subtitulo: "Advogado apenas confirma"
+      tamanho: 110
+
+  - quando: "Responsabilidade sem decisão"
+    duracao: 2
+    animacao:
+      tipo: texto
+      texto: "RESPONSABILIDADE SEM DECISÃO"
+      subtitulo: "Peço central da ação da OAB"
+      emoji: "⚠️"
+      tamanho: 100
+
+  # ============================================================================
+  # ATO 6: ENCERRAMENTO - Pergunta final ao público
+  # ============================================================================
+  - quando: "quem que está decidindo de verdade?"
+    ate_quando: "assinador de peças"
+    layout: cheio
+    zoom:
+      fator: 1.15
+    animacao:
+      tipo: texto
+      texto: "E NO SEU ESCRITÓRIO?"
+      subtitulo: "Quem está decidindo de verdade?"
+      emoji: "🤔"
+      tamanho: 120
