@@ -8,8 +8,8 @@ import json
 import subprocess
 from pathlib import Path
 
-from . import transcricao
-from .roteiro import normalizar
+from . import ffmpeg, transcricao
+from .texto_util import normalizar
 
 MULETAS_PADRAO = ["hã", "ãh", "ahn", "hum", "hmm", "humm", "éé", "ééé", "eee", "aham"]
 
@@ -55,7 +55,7 @@ def cortar(video, pausa_max=0.35, margem=0.08, fps=30, muletas=None, destino=Non
     if not arq_trans.exists():
         transcricao.transcrever(video, modelo=modelo, destino=arq_trans)
     dados = transcricao.carregar(arq_trans)
-    duracao = _duracao(video)
+    duracao = ffmpeg.duracao(video)
 
     trechos, mantidas = planejar(dados["palavras"], duracao, pausa_max, margem, fps, muletas)
     if not trechos:
@@ -96,8 +96,3 @@ def cortar(video, pausa_max=0.35, margem=0.08, fps=30, muletas=None, destino=Non
     print(f"Transcrição ajustada: {transcricao.caminho_transcricao(destino)}")
     return destino
 
-
-def _duracao(video):
-    saida = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(video)],
-                           capture_output=True, text=True, check=True).stdout.strip()
-    return float(saida)

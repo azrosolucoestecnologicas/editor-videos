@@ -93,7 +93,12 @@ export const formato = {
  */
 export const layout = {
   /** O proprio video, ampliado e desfocado, atras de tudo. */
-  fundoVivo: { escala: 2.2, desfoque: 3, brilho: 0.45 },
+  /**
+   * Fundo desfocado. O desfoque em si nao mora aqui: quem o aplica e o
+   * `gblur=sigma=6` de `gerar_fundo`, em editor/plano.py, uma vez por video
+   * em vez de uma vez por frame. `brilho` vira a opacidade do veu escuro.
+   */
+  fundoVivo: { escala: 2.2, brilho: 0.45 },
   /** Veu + grade cobrem do topo ate o inicio do video nitido. */
   veu: { topo: 0, altura: 690 },
   /** Onde as cenas vivem. */

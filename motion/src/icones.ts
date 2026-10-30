@@ -62,6 +62,22 @@ export const ICONES = {
 
 export type NomeIcone = keyof typeof ICONES;
 
-/** Ícone pelo nome; cai no de alerta se o nome não estiver no mapa. */
-export const icone = (nome: string) =>
-  ICONES[nome as NomeIcone] ?? ICONES["alert-triangle"];
+export const NOMES_DE_ICONE = Object.keys(ICONES) as NomeIcone[];
+
+/**
+ * Ícone pelo nome.
+ *
+ * Falha em vez de cair num ícone qualquer: antes, um nome errado no
+ * scene_plan virava um triângulo de alerta publicado no reel, que ninguém
+ * percebia até alguém assistir. O plano é escrito à mão, então um nome fora
+ * do mapa é erro de digitação e tem que aparecer na hora do render.
+ */
+export const icone = (nome: string) => {
+  const achado = ICONES[nome as NomeIcone];
+  if (!achado) {
+    throw new Error(
+      `Ícone "${nome}" não existe. Os disponíveis são: ${NOMES_DE_ICONE.join(", ")}.`,
+    );
+  }
+  return achado;
+};

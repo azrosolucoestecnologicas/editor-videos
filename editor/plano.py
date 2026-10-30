@@ -27,7 +27,7 @@ import unicodedata
 from pathlib import Path
 
 from . import glossario as mod_glossario
-from .roteiro import normalizar
+from .texto_util import normalizar
 
 RAIZ = Path(__file__).resolve().parent.parent
 PASTA_PLANOS = RAIZ / "planos"
@@ -148,10 +148,29 @@ def _ver_citacao_legal(c):
     return erros
 
 
+# A mesma lista do mapa `ICONES` em motion/src/icones.ts. Está escrita duas
+# vezes porque os dois lados precisam dela sozinhos; `tests/test_catalogo.py`
+# compara as duas e falha se alguém mexer só numa.
+ICONES_DISPONIVEIS = frozenset({
+    "alert-triangle", "book-open", "brain", "calendar-days", "check-circle",
+    "clock", "file-search", "file-text", "file-warning", "gavel", "landmark",
+    "lightbulb", "lock", "message-circle", "scale", "search", "shield-check",
+    "target", "trending-up", "users", "x-circle", "zap",
+})
+
+
 def _ver_icone_destaque(c):
     erros = []
-    if not str(c.get("icone") or "").strip():
+    nome = str(c.get("icone") or "").strip()
+    if not nome:
         erros.append("falta o nome do ícone (lucide-react)")
+    elif nome not in ICONES_DISPONIVEIS:
+        # Pego aqui, no validar, e não no render: um nome errado fazia o
+        # Remotion publicar outro ícone sem reclamar.
+        erros.append(
+            f'o ícone "{nome}" não existe; use um de: '
+            f'{", ".join(sorted(ICONES_DISPONIVEIS))}'
+        )
     return erros + _limite(c, "texto", 4, "o texto")
 
 
@@ -471,7 +490,14 @@ def legendas_do_plano(transcricao, gloss=None):
     return blocos_legenda(gloss.aplicar(transcricao["palavras"]))
 
 
-CAMPOS_DO_HASH = ("tipo", "conteudo", "inicio", "fim", "palavra_gatilho", "ocorrencia")
+# Tudo que você pode escrever à mão no plano e esperar que sobreviva ao próximo
+# `editar.py plano`. `zoom` e `brilho` entram aqui porque o Remotion os consome
+# (scenes/base.tsx) e `validar` cobra cota deles como se fossem autorais — sem
+# isso, ligar um brilho à mão era desfeito na rodada seguinte, sem aviso.
+# O hash é recalculado depois de `_espacar_zooms`, então o zoom que o planejador
+# distribui sozinho é a linha de base, não uma edição sua.
+CAMPOS_DO_HASH = ("tipo", "conteudo", "inicio", "fim", "palavra_gatilho", "ocorrencia",
+                  "zoom", "brilho")
 
 
 def _sem_derivados(valor):
@@ -481,6 +507,15 @@ def _sem_derivados(valor):
     if isinstance(valor, list):
         return [_sem_derivados(v) for v in valor]
     return valor
+
+
+def _chave(cena):
+    """O que identifica uma cena entre duas rodadas do planejador.
+
+    É a fala que a cena comenta — a palavra-gatilho e qual ocorrência dela —,
+    não o id, que é apenas a posição na lista.
+    """
+    return (cena.get("palavra_gatilho"), cena.get("ocorrencia"))
 
 
 def _hash(cena):
@@ -532,18 +567,54 @@ def mesclar(antigo, novo, refazer=()):
         return novo
 
     refazer = set(refazer)
-    por_id = {c["id"]: c for c in antigo.get("cenas", [])}
+    antigas = antigo.get("cenas") or []
+    # Casa pela fala, não pela posição. O id (`c05`) é só uma contagem: corrigir
+    # uma palavra no glossário desloca todas as fronteiras, e casar por id faria
+    # o texto escrito para uma fala reaparecer colado a outra, sem aviso.
+    por_chave = {}
+    for c in antigas:
+        por_chave.setdefault(_chave(c), c)
+    por_id = {c["id"]: c for c in antigas}
+
+    # O casamento é em dois passos, e a ordem importa: se cada proposta
+    # tentasse a fala e logo o id, uma cena nova no começo faria a proposta de
+    # uma fala reivindicar, pela posição, a cena que você escreveu para outra.
+    # Toda fala que ainda existe casa primeiro; só o resto disputa por id.
+    casadas = {}
+    usadas = set()
+    for proposta in novo["cenas"]:
+        atual = por_chave.get(_chave(proposta))
+        if atual is not None and atual["id"] not in usadas:
+            casadas[proposta["id"]] = atual
+            usadas.add(atual["id"])
+
+    pela_posicao = set()
+    for proposta in novo["cenas"]:
+        if proposta["id"] in casadas:
+            continue
+        atual = por_id.get(proposta["id"])
+        if atual is not None and atual["id"] not in usadas:
+            casadas[proposta["id"]] = atual
+            usadas.add(atual["id"])
+            pela_posicao.add(proposta["id"])
+
     cenas = []
     for proposta in novo["cenas"]:
-        atual = por_id.get(proposta["id"])
-        if atual is None or proposta["id"] in refazer:
+        atual = casadas.get(proposta["id"])
+        if atual is None or refazer & {proposta["id"], atual["id"]}:
             cenas.append(proposta)
             continue
+
         tocada = atual.get("editado") or atual.get("_hash") != _hash(atual)
         if tocada:
             mantida = dict(atual)
+            mantida["id"] = proposta["id"]       # o id segue a posição nova
             mantida["editado"] = True
             mantida["_fala"] = proposta["_fala"]
+            if proposta["id"] in pela_posicao:
+                mantida["_gatilho_mudou"] = True
+            else:
+                mantida.pop("_gatilho_mudou", None)
             mantida["_hash"] = _hash(mantida)
             cenas.append(mantida)
         else:
@@ -620,6 +691,16 @@ def validar(plano, transcricao, legendas=None, gloss=None):
             nivel = "erro" if lacuna > LACUNA_MAXIMA else "aviso"
             achados.append((nivel, f"{ident}: {lacuna:.2f}s de tela sem cena antes dele"))
         anterior_fim = max(anterior_fim, fim)
+
+        # A cena foi escrita para uma fala que não está mais lá: o `mesclar` a
+        # reaproveitou pela posição para não jogar fora o seu texto, mas quem
+        # escreveu precisa conferir se ele ainda comenta o que está sendo dito.
+        if cena.get("_gatilho_mudou"):
+            achados.append((
+                "aviso",
+                f'{ident}: a fala-gatilho "{cena.get("palavra_gatilho")}" mudou desde que '
+                "você escreveu esta cena; confira se o conteúdo ainda casa com `_fala`",
+            ))
 
         # --- tipo e conteúdo ---
         tipo = cena.get("tipo")

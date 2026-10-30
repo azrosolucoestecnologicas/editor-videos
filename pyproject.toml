@@ -1,0 +1,4 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# -q porque a suíte é de guardião, não de relatório: o que importa é o que falha.
+addopts = "-q"

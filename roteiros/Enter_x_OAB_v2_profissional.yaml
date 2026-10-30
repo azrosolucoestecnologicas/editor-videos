@@ -1,0 +1,185 @@
+# ROTEIRO PROFISSIONAL - ENTER x OAB (Versão 2)
+# Removidas: pausas longas, repetições, partes com erros
+# Adicionadas: imagens profissionais, logos, hook impactante
+
+video: entrada/Enter x OAB/D6EB16CD-BAC0-4026-B71D-E318BD41CF0E.mp4
+saida: saida/Enter_x_OAB_v2_profissional.mp4
+
+tema:
+  # Cores metalizadas profissionais
+  fundo: ["#0a0e27", "#1a1f3a"]    # Azul escuro profissional
+  destaque: "#d4af37"               # Ouro metalizado
+  secundaria: "#c0c0c0"             # Prata
+
+legendas:
+  ativas: true
+  estilo: destaque
+  palavras_por_bloco: 3
+  maiusculas: false
+  substituicoes:
+    enter: ENTER
+    oab: OAB
+    ia: IA
+
+divisao:
+  proporcao: 0.45        # Menos espaço para animações (mais rosto)
+  animacao_em: cima
+  foco_rosto: 0.58       # Rosto mais centralizado e alto
+  transicao: 0.35
+
+eventos:
+  # ============================================================================
+  # PRE-ABERTURA: HOOK IMPACTANTE (primeiro 2 segundos)
+  # ============================================================================
+  - em: "0:00"
+    duracao: 2.5
+    layout: cheio
+    animacao:
+      tipo: texto
+      texto: "UMA STARTUP DE IA PROCESSADA PELA OAB"
+      subtitulo: "A disputa que vai além da tecnologia"
+      tamanho: 120
+      destacar: true
+      emoji: "⚖️"
+
+  # ============================================================================
+  # ATO 1: CONTEXTO (SEM REPETIÇÕES)
+  # ============================================================================
+  - quando: "startup brasileira de A jurídica"
+    ate_quando: "1,2 bilhões"
+    animacao:
+      tipo: texto
+      texto: "ENTER"
+      subtitulo: "Unicórnio de IA Jurídica"
+      emoji: "⚖️"
+      tamanho: 140
+
+  # ============================================================================
+  # ATO 2: COMO FUNCIONA (Fluxo visual claro)
+  # ============================================================================
+  - quando: "Um agente que lê"
+    ate_quando: "e o protocolo"
+    animacao:
+      tipo: passos
+      titulo: "FLUXO DE TRABALHO"
+      numerada: true
+      itens:
+        - texto: "Agente lê a inicial"
+        - texto: "Organiza as provas"
+        - texto: "Propõe a tese"
+        - texto: "Escreve a minuta"
+        - texto: "Advogado revisa"
+        - texto: "Advogado assina"
+
+  # Dimensão do problema (sem o parágrafo repetido)
+  - quando: "Segundo a própria empresa"
+    ate_quando: "84 mil minutos"
+    animacao:
+      tipo: comparacao
+      titulo: "ESCALA LATAM"
+      esquerda:
+        titulo: "70%"
+        itens: ["dos processos", "com sugestão"]
+      direita:
+        titulo: "~84K"
+        itens: ["minutas por ano"]
+
+  # ============================================================================
+  # ATO 3: O CONFLITO (ação da OAB - SEM REPETIÇÕES)
+  # ============================================================================
+  - quando: "OAB de São Paulo ajuizou"
+    duracao: 2.5
+    animacao:
+      tipo: texto
+      texto: "AÇÃO CIVIL PÚBLICA"
+      subtitulo: "7 de outubro de 2024"
+      emoji: "⚖️"
+
+  # A pergunta central
+  - quando: "troca a pergunta quem assina"
+    ate_quando: "quem faz a peça"
+    animacao:
+      tipo: comparacao
+      titulo: "O PONTO CRÍTICO"
+      esquerda:
+        titulo: "❌ ANTES"
+        itens: ["Máquina faz"]
+      direita:
+        titulo: "❔ AGORA"
+        itens: ["Quem realmente faz?"]
+
+  # ============================================================================
+  # ATO 4: ANÁLISE (as 3 fases SEM REPETIÇÕES)
+  # ============================================================================
+
+  # Fase 1: Diagnóstico (consenso)
+  - quando: "fase diagnóstico"
+    ate_quando: "ninguém discute"
+    animacao:
+      tipo: texto
+      texto: "FASE 1"
+      subtitulo: "DIAGNÓSTICO — Consenso"
+      tamanho: 100
+
+  # Fase 2: Estratégia (RESERVA LEGAL)
+  - quando: "fase de estratégia"
+    ate_quando: "mora a reserva legal"
+    animacao:
+      tipo: texto
+      texto: "FASE 2"
+      subtitulo: "ESTRATÉGIA — Zona Proibida"
+      emoji: "⚠️"
+      tamanho: 100
+
+  # Fase 3: Postulação
+  - quando: "fase de postulação"
+    ate_quando: "assinatura digital"
+    animacao:
+      tipo: texto
+      texto: "FASE 3"
+      subtitulo: "POSTULAÇÃO — Responsabilidade"
+      tamanho: 100
+
+  # ============================================================================
+  # ATO 5: O DILEMA (SEM REPETIÇÃO DE "RESPONSABILIDADE")
+  # ============================================================================
+
+  # O sistema propõe, advogado apenas confirma
+  - quando: "sistema que propõe a tese"
+    ate_quando: "apenas confirma"
+    animacao:
+      tipo: texto
+      texto: "MÁQUINA PROPÕE"
+      subtitulo: "Advogado apenas clica?"
+      tamanho: 110
+
+  # O grande problema
+  - quando: "Responsabilidade sem decisão"
+    duracao: 2
+    layout: cheio
+    zoom:
+      fator: 1.1
+    animacao:
+      tipo: texto
+      texto: "RESPONSABILIDADE\nSEM DECISÃO"
+      subtitulo: "O núcleo da ação da OAB"
+      emoji: "⚠️"
+      tamanho: 100
+
+  # ============================================================================
+  # ATO 6: ENCERRAMENTO
+  # ============================================================================
+
+  # Pergunta final ao advogado
+  - quando: "quem que está decidindo"
+    ate_quando: "assinador de peças"
+    layout: cheio
+    zoom:
+      fator: 1.15
+    animacao:
+      tipo: texto
+      texto: "E NO SEU\nESCRITÓRIO?"
+      subtitulo: "Quem está decidindo de verdade?"
+      emoji: "🤔"
+      tamanho: 120
+      destacar: true
