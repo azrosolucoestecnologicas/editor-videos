@@ -89,7 +89,20 @@ acrescentá-lo aqui primeiro.
 | `numero` | estatística, prazo, valor | 1 número + rótulo de até 6 palavras |
 | `citacao_legal` | artigo, súmula, tese | referência + trecho de até 20 palavras |
 | `icone_destaque` | ideia-chave sem estrutura | 1 ícone + até 4 palavras |
-| `sintese` | fechamento | 1 frase de até 10 palavras |
+| `documento` | cláusulas de um instrumento | título + 2 a 4 cláusulas de até 5 palavras |
+| `sintese` | fechamento | 1 frase de até 10 palavras, com `chave` opcional |
+
+`documento` não é uma `lista` com outro nome. A lista **enumera ideias**; o
+documento mostra **um papel que existe** e o que está escrito nele — escritura,
+contrato, procuração. Por isso ele tem selo, título em mono caixa-alta e card
+preenchido. Se a fala não se refere a um instrumento concreto, é `lista`.
+
+A cláusula que acabou de entrar fica no acento e as anteriores recuam para
+checada — um acento preenchido por instante, como manda `reels-estilo`.
+
+Em `sintese`, o campo `chave` sublinha **uma** palavra da frase no acento. Ela
+precisa aparecer na frase (o validador cobra): é justamente quando alguém
+reescreve a frase e esquece a chave que o sublinhado sumiria calado.
 | `cena_apoio` | **novo**: b-roll ilustrando a fala | 1 clipe + rótulo de até 5 palavras |
 
 ### `cena_apoio`

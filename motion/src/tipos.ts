@@ -15,6 +15,7 @@ type Gatilho = {
 
 export type ItemLista = Gatilho & { readonly texto: string };
 export type EtapaFluxo = Gatilho & { readonly rotulo: string };
+export type ClausulaDoc = Gatilho & { readonly texto: string };
 export type Coluna = {
   readonly titulo: string;
   readonly linhas: readonly string[];
@@ -28,6 +29,10 @@ export type ConteudoPorTipo = {
   numero: Gatilho & { readonly valor: string; readonly rotulo: string };
   citacao_legal: { readonly referencia: string; readonly trecho?: string };
   icone_destaque: { readonly icone: string; readonly texto: string };
+  documento: {
+    readonly titulo: string;
+    readonly clausulas: readonly ClausulaDoc[];
+  };
   sintese: { readonly frase: string; readonly chave?: string };
 };
 

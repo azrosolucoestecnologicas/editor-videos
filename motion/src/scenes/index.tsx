@@ -9,6 +9,7 @@
 import type { Cena } from "../tipos";
 import { CardConceito } from "./CardConceito";
 import { CitacaoLegal } from "./CitacaoLegal";
+import { Documento } from "./Documento";
 import { Comparacao } from "./Comparacao";
 import { Fluxo } from "./Fluxo";
 import { IconeDestaque } from "./IconeDestaque";
@@ -35,6 +36,8 @@ export const CenaDoPlano: React.FC<{ cena: Cena; duracaoFrames: number }> = ({
       return <CitacaoLegal cena={cena} duracaoFrames={duracaoFrames} />;
     case "icone_destaque":
       return <IconeDestaque cena={cena} duracaoFrames={duracaoFrames} />;
+    case "documento":
+      return <Documento cena={cena} duracaoFrames={duracaoFrames} />;
     case "sintese":
       return <Sintese cena={cena} duracaoFrames={duracaoFrames} />;
     default: {

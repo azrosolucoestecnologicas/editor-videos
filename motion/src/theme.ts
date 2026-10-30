@@ -276,6 +276,14 @@ export const tipografia = {
   assinatura: { fontFamily: fontes.corpo, fontWeight: 600, fontSize: 28 },
   /** Aviso fixo. Pequeno, mas nunca abaixo do piso de leitura do 9:16. */
   aviso: { fontFamily: fontes.corpo, fontWeight: 600, fontSize: 30 },
+  /** Nome do instrumento no cabecalho do `documento`. */
+  documentoTitulo: {
+    fontFamily: fontes.mono,
+    fontWeight: 600,
+    fontSize: 38,
+    letterSpacing: "0.14em",
+    textTransform: "uppercase" as const,
+  },
 } as const;
 
 /**
@@ -297,6 +305,22 @@ export const textoChave = {
   descida: 4,
   /** Frames de espera depois da entrada da frase. */
   atraso: 8,
+} as const;
+
+/**
+ * Cena `documento`: instrumento juridico com selo e clausulas.
+ *
+ * O selo nao e enfeite: e ele que diz "isto e um papel que existe", que e a
+ * diferenca entre esta cena e uma lista comum.
+ */
+export const documento = {
+  selo: 56,
+  marcador: 34,
+  padding: "10px 14px",
+  /** Frames ate o selo entrar, depois do cabecalho. */
+  atrasoSelo: 10,
+  /** Frames ate a primeira clausula, quando nao ha palavra-gatilho. */
+  atrasoPrimeira: 16,
 } as const;
 
 export const aviso = {

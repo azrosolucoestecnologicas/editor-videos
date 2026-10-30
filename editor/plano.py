@@ -181,6 +181,16 @@ def _ver_icone_destaque(c):
     return erros + _limite(c, "texto", 4, "o texto")
 
 
+def _ver_documento(c):
+    erros = _limite(c, "titulo", 3, "o título do documento")
+    clausulas = c.get("clausulas") or []
+    if not 2 <= len(clausulas) <= 4:
+        erros.append(f"documento com {len(clausulas)} cláusulas (a skill pede de 2 a 4)")
+    for i, clausula in enumerate(clausulas, start=1):
+        erros += _limite(clausula, "texto", 5, f"a cláusula {i}")
+    return erros
+
+
 def _ver_sintese(c):
     erros = _limite(c, "frase", 10, "a frase")
     chave = str(c.get("chave") or "").strip()
@@ -202,6 +212,7 @@ CATALOGO = {
     "numero": {"quando": "estatística, prazo, valor", "verificar": _ver_numero},
     "citacao_legal": {"quando": "artigo, súmula, tese", "verificar": _ver_citacao_legal},
     "icone_destaque": {"quando": "ideia-chave sem estrutura", "verificar": _ver_icone_destaque},
+    "documento": {"quando": "cláusulas de um instrumento", "verificar": _ver_documento},
     "sintese": {"quando": "fechamento", "verificar": _ver_sintese},
 }
 
@@ -212,6 +223,8 @@ def textos_da_cena(cena):
     tipo = cena.get("tipo")
     if tipo == "card_conceito":
         return [c.get("termo"), c.get("definicao")]
+    if tipo == "documento":
+        return [c.get("titulo")] + [x.get("texto") for x in c.get("clausulas") or []]
     if tipo == "lista":
         return [c.get("titulo")] + [i.get("texto") for i in c.get("itens") or []]
     if tipo == "comparacao":
