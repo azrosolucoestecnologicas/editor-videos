@@ -182,7 +182,16 @@ def _ver_icone_destaque(c):
 
 
 def _ver_sintese(c):
-    return _limite(c, "frase", 10, "a frase")
+    erros = _limite(c, "frase", 10, "a frase")
+    chave = str(c.get("chave") or "").strip()
+    if chave:
+        # O sublinhado some sem avisar se a palavra não estiver na frase — e
+        # some justamente quando alguém reescreve a frase e esquece a chave.
+        if chave.lower() not in str(c.get("frase") or "").lower():
+            erros.append(f'a palavra-chave "{chave}" não aparece na frase')
+        elif len(_palavras(chave)) > 2:
+            erros.append("a palavra-chave tem mais de 2 palavras; sublinhe o que carrega o ponto")
+    return erros
 
 
 CATALOGO = {
@@ -489,6 +498,7 @@ def esqueleto(transcricao, video, duracao=None, assinatura="", gloss=None):
         "assinatura": assinatura,
         "enquadramento": {"foco_rosto": 0.36, "zoom": 1.0, "origem": "padrao"},
         "mundo": MUNDO_PADRAO,
+        "aviso": "",
         "cenas": cenas,
     }
 
@@ -631,7 +641,7 @@ def mesclar(antigo, novo, refazer=()):
     plano = dict(novo)
     plano["cenas"] = cenas
     # Campos de topo editáveis à mão sobrevivem ao recálculo.
-    for campo in ("assinatura", "enquadramento", "mundo"):
+    for campo in ("assinatura", "enquadramento", "mundo", "aviso"):
         if campo in antigo:
             plano[campo] = antigo[campo]
     return plano

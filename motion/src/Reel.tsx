@@ -12,23 +12,73 @@
  * próxima entra.
  */
 
+import { Info } from "lucide-react";
 import { AbsoluteFill, Sequence } from "remotion";
 
 import { FundoVivo } from "./FundoVivo";
 import { Legendas } from "./Legendas";
 import { ANTECIPACAO_FRAMES, duracoes } from "./motion";
 import { CenaDoPlano } from "./scenes";
-import { cores, layout, tipografia, variaveisDoMundo } from "./theme";
+import {
+  aviso,
+  cores,
+  layout,
+  raios,
+  tipografia,
+  variaveisDoMundo,
+} from "./theme";
 import type { PropsReel } from "./tipos";
 import { VideoRosto } from "./VideoRosto";
 
+/**
+ * Aviso fixo no topo, para o reel inteiro.
+ *
+ * Não é cena e não entra nem sai: fica os 100% do tempo, porque um aviso que
+ * aparece só num trecho não avisa quem assistiu o resto. É o que separa
+ * informar de parecer dar consultoria, então ele vem antes do conteúdo na
+ * ordem de leitura e fica acima de tudo na pilha.
+ */
+const Aviso: React.FC<{ texto: string }> = ({ texto }) => (
+  <div
+    style={{
+      position: "absolute",
+      top: layout.topoSeguro,
+      left: 0,
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
+      zIndex: 10,
+    }}
+  >
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: aviso.espacoIcone,
+        maxWidth: aviso.larguraMaxima,
+        padding: aviso.padding,
+        borderRadius: raios.pilula,
+        backgroundColor: cores.superficie,
+        color: cores.tintaSuperficie,
+        ...tipografia.aviso,
+      }}
+    >
+      <Info size={aviso.tamanhoIcone} strokeWidth={2.2} aria-hidden />
+      <span>{texto}</span>
+    </div>
+  </div>
+);
+
 /** Assinatura discreta, na zona segura do topo. */
-const Assinatura: React.FC<{ texto: string }> = ({ texto }) => (
+const Assinatura: React.FC<{ texto: string; desce: number }> = ({
+  texto,
+  desce,
+}) => (
   <div
     style={{
       position: "absolute",
       left: layout.margem,
-      top: layout.topoSeguro,
+      top: layout.topoSeguro + desce,
       color: cores.tintaFraca,
       ...tipografia.assinatura,
     }}
@@ -62,7 +112,14 @@ export const Reel: React.FC<PropsReel> = ({
           .map((c) => ({ inicio: c.inicio, fim: c.fim }))}
       />
 
-      {plano.assinatura ? <Assinatura texto={plano.assinatura} /> : null}
+      {plano.aviso ? <Aviso texto={plano.aviso} /> : null}
+
+      {plano.assinatura ? (
+        <Assinatura
+          texto={plano.assinatura}
+          desce={plano.aviso ? aviso.alturaOcupada : 0}
+        />
+      ) : null}
 
       {plano.cenas.map((cena) => {
         // O olho chega antes do ouvido: a cena entra alguns frames antes da

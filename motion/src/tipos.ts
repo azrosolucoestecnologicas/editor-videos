@@ -28,7 +28,7 @@ export type ConteudoPorTipo = {
   numero: Gatilho & { readonly valor: string; readonly rotulo: string };
   citacao_legal: { readonly referencia: string; readonly trecho?: string };
   icone_destaque: { readonly icone: string; readonly texto: string };
-  sintese: { readonly frase: string };
+  sintese: { readonly frase: string; readonly chave?: string };
 };
 
 export type TipoCena = keyof ConteudoPorTipo;
@@ -85,6 +85,11 @@ export type Plano = {
    * ao fim. Ausente = `palco`, que é o padrão e o que todo plano antigo usa.
    */
   readonly mundo?: Mundo;
+  /**
+   * Aviso fixo no topo, o reel inteiro. Vazio ou ausente = sem aviso.
+   * Ex.: "Conteúdo informativo · não é consultoria jurídica".
+   */
+  readonly aviso?: string;
   readonly cenas: readonly Cena[];
 };
 

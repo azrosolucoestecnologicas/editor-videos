@@ -17,7 +17,7 @@ import {
   profundidade,
   saida,
 } from "../motion";
-import { cores, espaco, metal, raios, layout } from "../theme";
+import { cores, espaco, layout, metal, raios, textoChave } from "../theme";
 
 /** Largura útil, já descontadas as margens laterais. */
 export const LARGURA_UTIL = 1080 - layout.margem * 2;
@@ -148,6 +148,68 @@ export const Card: React.FC<{
 
       <div style={{ position: "relative" }}>{children}</div>
     </div>
+  );
+};
+
+/**
+ * Uma frase com uma palavra sublinhada no acento.
+ *
+ * O traço é desenhado da esquerda para a direita depois que a frase assenta,
+ * e é o que diz qual palavra carrega o ponto. Vale a regra do acento: se duas
+ * palavras estão sublinhadas, nenhuma está.
+ *
+ * A `chave` é casada contra o texto, não é um índice: o plano escreve a
+ * palavra, e se ela mudar na revisão o sublinhado acompanha. Palavra que não
+ * aparece na frase simplesmente não sublinha nada — não quebra a cena.
+ */
+export const FraseComChave: React.FC<{
+  frase: string;
+  chave?: string | null;
+  atrasoFrames?: number;
+}> = ({ frase, chave, atrasoFrames = 0 }) => {
+  const frame = useCurrentFrame();
+  const alvo = (chave ?? "").trim();
+
+  if (!alvo) return <>{frase}</>;
+
+  // Divide preservando o separador, para a frase sair igual à escrita.
+  const partes = frase.split(
+    new RegExp(`(${alvo.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "i"),
+  );
+
+  return (
+    <>
+      {partes.map((parte, i) =>
+        parte.toLowerCase() === alvo.toLowerCase() ? (
+          <span key={i} style={{ position: "relative", whiteSpace: "nowrap" }}>
+            {parte}
+            <svg
+              width="100%"
+              height={textoChave.espessura * 2}
+              style={{
+                position: "absolute",
+                left: 0,
+                bottom: -textoChave.descida,
+                overflow: "visible",
+              }}
+            >
+              <line
+                x1={0}
+                y1={textoChave.espessura}
+                x2="100%"
+                y2={textoChave.espessura}
+                style={{ stroke: cores.acento }}
+                strokeWidth={textoChave.espessura}
+                strokeLinecap="round"
+                {...desenho(frame - atrasoFrames - textoChave.atraso, 400)}
+              />
+            </svg>
+          </span>
+        ) : (
+          parte
+        ),
+      )}
+    </>
   );
 };
 

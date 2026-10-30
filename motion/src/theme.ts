@@ -274,6 +274,38 @@ export const tipografia = {
   // encostam na borda do vídeo.
   legenda: { fontFamily: fontes.corpo, fontWeight: 700, fontSize: 54 },
   assinatura: { fontFamily: fontes.corpo, fontWeight: 600, fontSize: 28 },
+  /** Aviso fixo. Pequeno, mas nunca abaixo do piso de leitura do 9:16. */
+  aviso: { fontFamily: fontes.corpo, fontWeight: 600, fontSize: 30 },
+} as const;
+
+/**
+ * Aviso fixo no topo (`aviso` no plano).
+ *
+ * Para conteudo juridico ele nao e enfeite: e o que separa informar de
+ * parecer dar consultoria. Fica o reel inteiro, acima de tudo, e empurra a
+ * assinatura para baixo em vez de disputar o mesmo canto.
+ */
+/**
+ * Sublinhado da palavra-chave de um titulo.
+ *
+ * Entra depois da frase assentar: sublinhar enquanto o texto ainda se move
+ * faz o traco parecer parte da entrada, e nao a enfase que ele e.
+ */
+export const textoChave = {
+  espessura: 6,
+  /** Quanto o traco fica abaixo da linha de base. */
+  descida: 4,
+  /** Frames de espera depois da entrada da frase. */
+  atraso: 8,
+} as const;
+
+export const aviso = {
+  padding: "10px 24px",
+  espacoIcone: 10,
+  tamanhoIcone: 26,
+  larguraMaxima: 860,
+  /** Quanto a assinatura desce quando ha aviso. */
+  alturaOcupada: 76,
 } as const;
 
 /** Grade sutil opcional atras das cenas. */

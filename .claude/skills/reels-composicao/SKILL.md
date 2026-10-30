@@ -34,6 +34,17 @@ ambiente em vez de morar numa caixa separada.
 | 5 | Cenas | 150 a 860 | os cards do `scene_plan.json` |
 | 6 | Legenda | centro em 1620 | sobre o vídeo, na zona segura inferior |
 | 7 | Assinatura | 120 | nome em `tintaFraca`, 28 px, canto superior esquerdo |
+| 8 | Aviso | 120 | pílula fixa, centralizada, acima de tudo (ver abaixo) |
+
+## O aviso fixo
+
+O campo `aviso` do plano põe uma pílula no topo pelo **reel inteiro** — não é
+cena, não entra nem sai. Um aviso que aparece só num trecho não avisa quem
+assistiu o resto.
+
+Para conteúdo jurídico ele não é enfeite: é o que separa informar de parecer
+dar consultoria. Texto curto, numa linha: *"Conteúdo informativo · não é
+consultoria jurídica"*. Quando há aviso, a assinatura desce sozinha.
 
 O degradê no topo da camada 4 é o que substitui a emenda: o vídeo nítido
 dissolve no desfocado em 150 px. **Nunca existe uma linha reta separando as

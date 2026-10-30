@@ -10,7 +10,7 @@ import { useCurrentFrame, useVideoConfig } from "remotion";
 import { entradaSuave } from "../motion";
 import { cores, tipografia } from "../theme";
 import type { Cena } from "../tipos";
-import { AreaCena, Regua } from "./base";
+import { AreaCena, FraseComChave, Regua } from "./base";
 
 export const Sintese: React.FC<{
   cena: Extract<Cena, { tipo: "sintese" }>;
@@ -31,7 +31,11 @@ export const Sintese: React.FC<{
           ...entradaSuave(frame, fps, 2),
         }}
       >
-        {cena.conteudo.frase}
+        <FraseComChave
+          frase={cena.conteudo.frase}
+          chave={cena.conteudo.chave}
+          atrasoFrames={2}
+        />
       </div>
     </AreaCena>
   );
